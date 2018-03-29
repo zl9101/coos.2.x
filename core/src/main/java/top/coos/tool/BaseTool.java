@@ -8,7 +8,7 @@ public class BaseTool extends Coos {
 
 	public void a() {
 
-		StackTraceElement element = getParentStackTrace();
+		StackTraceElement element = StackTraceTool.getParent();
 		System.out.println(element.getClassName());
 		System.out.println(element.getFileName());
 		System.out.println(element.getLineNumber());

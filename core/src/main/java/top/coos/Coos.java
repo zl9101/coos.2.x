@@ -17,22 +17,6 @@ public class Coos implements Serializable, Cloneable {
 		return null;
 	}
 
-	protected StackTraceElement getStackTrace() {
-
-		StackTraceElement[] stacks = new Throwable().getStackTrace();
-		return stacks[1];
-	}
-
-	protected StackTraceElement getParentStackTrace() {
-
-		StackTraceElement[] stacks = new Throwable().getStackTrace();
-		return stacks[2];
-	}
-
-	protected StackTraceElement getFristStackTrace() {
-
-		StackTraceElement[] elements = new Throwable().getStackTrace();
-		return elements[elements.length - 1];
-	}
+	
 
 }
