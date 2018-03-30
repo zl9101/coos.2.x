@@ -24,6 +24,8 @@ import top.coos.util.StrUtil;
  * <li><code>java.math.BigDecimal</code></li>
  * <li><code>java.math.BigInteger</code></li>
  * </ul>
+ * 
+
  *
  */
 public class NumberConverter extends AbstractConverter<Number> {
@@ -31,24 +33,20 @@ public class NumberConverter extends AbstractConverter<Number> {
 	private Class<? extends Number> targetType;
 
 	public NumberConverter() {
-
 		this.targetType = Number.class;
 	}
 
 	/**
 	 * 构造<br>
 	 * 
-	 * @param clazz
-	 *            需要转换的数字类型，默认 {@link Number}
+	 * @param clazz 需要转换的数字类型，默认 {@link Number}
 	 */
 	public NumberConverter(Class<? extends Number> clazz) {
-
 		this.targetType = (null == clazz) ? Number.class : clazz;
 	}
 
 	@Override
 	protected Number convertInternal(Object value) {
-
 		if (Byte.class == this.targetType) {
 			if (value instanceof Number) {
 				return Byte.valueOf(((Number) value).byteValue());
@@ -136,9 +134,9 @@ public class NumberConverter extends AbstractConverter<Number> {
 
 		} else if (BigInteger.class == this.targetType) {
 			toBigInteger(value);
-		} else if (Number.class == this.targetType) {
+		}else if(Number.class == this.targetType){
 			if (value instanceof Number) {
-				return (Number) value;
+				return (Number)value;
 			}
 			final String valueStr = convertToStr(value);
 			if (StrUtil.isBlank(valueStr)) {
@@ -159,12 +157,10 @@ public class NumberConverter extends AbstractConverter<Number> {
 	 * 如果给定的值为空，或者转换失败，返回默认值<br>
 	 * 转换失败不会报错
 	 * 
-	 * @param value
-	 *            被转换的值
+	 * @param value 被转换的值
 	 * @return 结果
 	 */
 	private BigDecimal toBigDecimal(Object value) {
-
 		if (value instanceof Long) {
 			return new BigDecimal((Long) value);
 		} else if (value instanceof Integer) {
@@ -173,7 +169,7 @@ public class NumberConverter extends AbstractConverter<Number> {
 			return new BigDecimal((BigInteger) value);
 		}
 
-		// 对于Double类型，先要转换为String，避免精度问题
+		//对于Double类型，先要转换为String，避免精度问题
 		final String valueStr = convertToStr(value);
 		if (StrUtil.isBlank(valueStr)) {
 			return null;
@@ -186,12 +182,10 @@ public class NumberConverter extends AbstractConverter<Number> {
 	 * 如果给定的值为空，或者转换失败，返回默认值<br>
 	 * 转换失败不会报错
 	 * 
-	 * @param value
-	 *            被转换的值
+	 * @param value 被转换的值
 	 * @return 结果
 	 */
 	private BigInteger toBigInteger(Object value) {
-
 		if (value instanceof Long) {
 			return BigInteger.valueOf((Long) value);
 		}
@@ -204,7 +198,6 @@ public class NumberConverter extends AbstractConverter<Number> {
 
 	@Override
 	protected String convertToStr(Object value) {
-
 		final String valueStr = super.convertToStr(value);
 		return (null == valueStr) ? null : valueStr.trim();
 	}
@@ -212,7 +205,6 @@ public class NumberConverter extends AbstractConverter<Number> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public Class<Number> getTargetType() {
-
 		return (Class<Number>) this.targetType;
 	}
 }

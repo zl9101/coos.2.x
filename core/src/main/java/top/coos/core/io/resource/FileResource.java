@@ -8,7 +8,7 @@ import top.coos.util.URLUtil;
 /**
  * 文件资源访问对象
  * 
- 
+
  *
  */
 public class FileResource extends UrlResource{

@@ -10,44 +10,38 @@ import top.coos.util.ObjectUtil;
  * Bean属性排序器<br>
  * 支持读取Bean多层次下的属性
  * 
- * @param <T>
- *            被比较的Bean
+
+ *
+ * @param <T> 被比较的Bean
  */
 public class PropertyComparator<T> implements Comparator<T>, Serializable {
-
 	private static final long serialVersionUID = 9157326766723846313L;
-
+	
 	private final String property;
 	private final boolean isNullGreater;
-
+	
 	/**
 	 * 构造
 	 * 
-	 * @param property
-	 *            属性名
+	 * @param property 属性名
 	 */
 	public PropertyComparator(String property) {
-
 		this(property, true);
 	}
 
 	/**
 	 * 构造
 	 * 
-	 * @param property
-	 *            属性名
-	 * @param isNullGreater
-	 *            null值是否排在后（从小到大排序）
+	 * @param property 属性名
+	 * @param isNullGreater null值是否排在后（从小到大排序）
 	 */
 	public PropertyComparator(String property, boolean isNullGreater) {
-
 		this.property = property;
 		this.isNullGreater = isNullGreater;
 	}
 
 	@Override
 	public int compare(T o1, T o2) {
-
 		if (o1 == o2) {
 			return 0;
 		} else if (null == o1) {// null 排在后面
@@ -70,10 +64,9 @@ public class PropertyComparator<T> implements Comparator<T>, Serializable {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private int compare(T o1, T o2, Comparable fieldValue1, Comparable fieldValue2) {
-
 		int result = ObjectUtil.compare(fieldValue1, fieldValue2, isNullGreater);
-		if (0 == result && ObjectUtil.notEqual(o1, o2)) {
-			// 避免TreeSet / TreeMap 过滤掉排序字段相同但是对象不相同的情况
+		if(0 == result && ObjectUtil.notEqual(o1, o2)){
+			//避免TreeSet / TreeMap 过滤掉排序字段相同但是对象不相同的情况
 			return 1;
 		}
 		return result;

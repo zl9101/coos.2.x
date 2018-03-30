@@ -32,6 +32,8 @@ import top.coos.util.StrUtil;
  * ['person']['friends'][5]['name']
  * </pre>
  * 
+
+ * @since 4.0.6
  */
 public class BeanPath {
 
@@ -60,35 +62,29 @@ public class BeanPath {
 	 * ['person']['friends'][5]['name']
 	 * </pre>
 	 * 
-	 * @param expression
-	 *            表达式
+	 * @param expression 表达式
 	 * @return {@link BeanPath}
 	 */
 	public static BeanPath create(String expression) {
-
 		return new BeanPath(expression);
 	}
 
 	/**
 	 * 构造
 	 * 
-	 * @param expression
-	 *            表达式
+	 * @param expression 表达式
 	 */
 	public BeanPath(String expression) {
-
 		init(expression);
 	}
 
 	/**
 	 * 获取Bean中对应表达式的值
 	 * 
-	 * @param bean
-	 *            Bean对象或Map或List等
+	 * @param bean Bean对象或Map或List等
 	 * @return 值，如果对应值不存在，则返回null
 	 */
 	public Object get(Object bean) {
-
 		return get(this.patternParts, bean, false);
 	}
 
@@ -102,33 +98,25 @@ public class BeanPath {
 	 * 2. 如果为数组，不能超过其长度
 	 * </pre>
 	 * 
-	 * @param bean
-	 *            Bean、Map或List
-	 * @param value
-	 *            值
+	 * @param bean Bean、Map或List
+	 * @param value 值
 	 */
 	public void set(Object bean, Object value) {
-
 		final List<String> localPatternParts = this.patternParts;
 		final Object subBean = get(localPatternParts, bean, true);
 		BeanUtil.setFieldValue(subBean, localPatternParts.get(localPatternParts.size() - 1), value);
 	}
 
-	// -------------------------------------------------------------------------------------------------------------------------------------
-	// Private method start
+	// ------------------------------------------------------------------------------------------------------------------------------------- Private method start
 	/**
 	 * 获取Bean中对应表达式的值
 	 * 
-	 * @param patternParts
-	 *            表达式分段列表
-	 * @param bean
-	 *            Bean对象或Map或List等
-	 * @param ignoreLast
-	 *            是否忽略最后一个值，忽略最后一个值则用于set，否则用于read
+	 * @param patternParts 表达式分段列表
+	 * @param bean Bean对象或Map或List等
+	 * @param ignoreLast 是否忽略最后一个值，忽略最后一个值则用于set，否则用于read
 	 * @return 值，如果对应值不存在，则返回null
 	 */
 	private Object get(List<String> patternParts, Object bean, boolean ignoreLast) {
-
 		int length = patternParts.size();
 		if (ignoreLast) {
 			length--;
@@ -154,7 +142,6 @@ public class BeanPath {
 
 	@SuppressWarnings("unchecked")
 	private static Object getFieldValue(Object bean, String expression) {
-
 		if (StrUtil.isBlank(expression)) {
 			return null;
 		}
@@ -204,11 +191,9 @@ public class BeanPath {
 	/**
 	 * 初始化
 	 * 
-	 * @param expression
-	 *            表达式
+	 * @param expression 表达式
 	 */
 	private void init(String expression) {
-
 		List<String> localPatternParts = new ArrayList<>();
 		int length = expression.length();
 
@@ -228,8 +213,7 @@ public class BeanPath {
 				if (CharUtil.BRACKET_END == c) {
 					// 中括号（数字下标）结束
 					if (false == isNumStart) {
-						throw new IllegalArgumentException(StrUtil.format(
-								"Bad expression '{}':{}, we find ']' but no '[' !", expression, i));
+						throw new IllegalArgumentException(StrUtil.format("Bad expression '{}':{}, we find ']' but no '[' !", expression, i));
 					}
 					isNumStart = false;
 					// 中括号结束加入下标
@@ -240,8 +224,7 @@ public class BeanPath {
 				} else {
 					if (isNumStart) {
 						// 非结束中括号情况下发现起始中括号报错（中括号未关闭）
-						throw new IllegalArgumentException(StrUtil.format(
-								"Bad expression '{}':{}, we find '[' but no ']' !", expression, i));
+						throw new IllegalArgumentException(StrUtil.format("Bad expression '{}':{}, we find '[' but no ']' !", expression, i));
 					} else if (CharUtil.BRACKET_START == c) {
 						// 数字下标开始
 						isNumStart = true;
@@ -260,8 +243,7 @@ public class BeanPath {
 
 		// 末尾边界符检查
 		if (isNumStart) {
-			throw new IllegalArgumentException(StrUtil.format("Bad expression '{}':{}, we find '[' but no ']' !",
-					expression, length - 1));
+			throw new IllegalArgumentException(StrUtil.format("Bad expression '{}':{}, we find '[' but no ']' !", expression, length - 1));
 		} else {
 			if (builder.length() > 0) {
 				localPatternParts.add(unWrapIfPossible(builder));
@@ -275,17 +257,14 @@ public class BeanPath {
 	/**
 	 * 对于非表达式去除单引号
 	 * 
-	 * @param expression
-	 *            表达式
+	 * @param expression 表达式
 	 * @return 表达式
 	 */
 	private static String unWrapIfPossible(CharSequence expression) {
-
 		if (StrUtil.containsAny(expression, " = ", " > ", " < ", " like ", ",")) {
 			return expression.toString();
 		}
 		return StrUtil.unWrap(expression, '\'');
 	}
-	// -------------------------------------------------------------------------------------------------------------------------------------
-	// Private method end
+	// ------------------------------------------------------------------------------------------------------------------------------------- Private method end
 }

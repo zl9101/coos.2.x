@@ -9,7 +9,7 @@ import top.coos.util.NetUtil;
  * 用于生成本地可用（未被占用）的端口号<br>
  * 注意：多线程甚至单线程访问时可能会返回同一端口（例如获取了端口但是没有使用）
  * 
- 
+
  * @since 4.0.3
  *
  */
@@ -24,7 +24,6 @@ public class LocalPortGenerater {
 	 * @param beginPort
 	 */
 	public LocalPortGenerater(int beginPort) {
-
 		alternativePort = new AtomicInteger(beginPort);
 	}
 
@@ -34,7 +33,6 @@ public class LocalPortGenerater {
 	 * @return 未被使用的本地端口
 	 */
 	public int generate() {
-
 		int validPort = alternativePort.get();
 		// 获取可用端口
 		while (false == NetUtil.isUsableLocalPort(validPort)) {

@@ -26,6 +26,8 @@ import top.coos.util.TypeUtil;
  * 4. Setter忽略参数值与字段值不匹配的情况，因此有多个参数类型的重载时，会调用首次匹配的
  * </pre>
  * 
+
+ * @since 3.1.2
  */
 public class BeanDesc {
 
@@ -37,11 +39,9 @@ public class BeanDesc {
 	/**
 	 * 构造
 	 * 
-	 * @param beanClass
-	 *            Bean类
+	 * @param beanClass Bean类
 	 */
 	public BeanDesc(Class<?> beanClass) {
-
 		Assert.notNull(beanClass);
 		this.beanClass = beanClass;
 		init();
@@ -53,7 +53,6 @@ public class BeanDesc {
 	 * @return Bean的类名
 	 */
 	public String getName() {
-
 		return this.beanClass.getName();
 	}
 
@@ -63,19 +62,16 @@ public class BeanDesc {
 	 * @return Bean的类名
 	 */
 	public String getSimpleName() {
-
 		return this.beanClass.getSimpleName();
 	}
 
 	/**
 	 * 获取字段名-字段属性Map
 	 * 
-	 * @param ignoreCase
-	 *            是否忽略大小写，true为忽略，false不忽略
+	 * @param ignoreCase 是否忽略大小写，true为忽略，false不忽略
 	 * @return 字段名-字段属性Map
 	 */
 	public Map<String, PropDesc> getPropMap(boolean ignoreCase) {
-
 		return ignoreCase ? new CaseInsensitiveMap<>(1, this.propMap) : this.propMap;
 	}
 
@@ -85,31 +81,26 @@ public class BeanDesc {
 	 * @return {@link PropDesc} 列表
 	 */
 	public Collection<PropDesc> getProps() {
-
 		return this.propMap.values();
 	}
 
 	/**
 	 * 获取属性，如果不存在返回null
 	 * 
-	 * @param fieldName
-	 *            字段名
+	 * @param fieldName 字段名
 	 * @return {@link PropDesc}
 	 */
 	public PropDesc getProp(String fieldName) {
-
 		return this.propMap.get(fieldName);
 	}
 
 	/**
 	 * 获得字段名对应的字段对象，如果不存在返回null
 	 * 
-	 * @param fieldName
-	 *            字段名
+	 * @param fieldName 字段名
 	 * @return 字段值
 	 */
 	public Field getField(String fieldName) {
-
 		final PropDesc desc = this.propMap.get(fieldName);
 		return null == desc ? null : desc.getField();
 	}
@@ -117,12 +108,10 @@ public class BeanDesc {
 	/**
 	 * 获取Getter方法，如果不存在返回null
 	 * 
-	 * @param fieldName
-	 *            字段名
+	 * @param fieldName 字段名
 	 * @return Getter方法
 	 */
 	public Method getGetter(String fieldName) {
-
 		final PropDesc desc = this.propMap.get(fieldName);
 		return null == desc ? null : desc.getGetter();
 	}
@@ -130,18 +119,15 @@ public class BeanDesc {
 	/**
 	 * 获取Setter方法，如果不存在返回null
 	 * 
-	 * @param fieldName
-	 *            字段名
+	 * @param fieldName 字段名
 	 * @return Setter方法
 	 */
 	public Method getSetter(String fieldName) {
-
 		final PropDesc desc = this.propMap.get(fieldName);
 		return null == desc ? null : desc.getSetter();
 	}
-
-	// ------------------------------------------------------------------------------------------------------
-	// Private method start
+	
+	// ------------------------------------------------------------------------------------------------------ Private method start
 	/**
 	 * 初始化<br>
 	 * 只有与属性关联的相关Getter和Setter方法才会被读取，无关的getXXX和setXXX都被忽略
@@ -149,10 +135,9 @@ public class BeanDesc {
 	 * @return this
 	 */
 	private BeanDesc init() {
-
 		for (Field field : ReflectUtil.getFields(this.beanClass)) {
-			if (false == ModifierUtil.isStatic(field)) {
-				// 只针对非static属性
+			if(false == ModifierUtil.isStatic(field)) {
+				//只针对非static属性
 				this.propMap.put(field.getName(), createProp(field));
 			}
 		}
@@ -170,13 +155,11 @@ public class BeanDesc {
 	 * 4. Setter忽略参数值与字段值不匹配的情况，因此有多个参数类型的重载时，会调用首次匹配的
 	 * </pre>
 	 * 
-	 * @param field
-	 *            字段
+	 * @param field 字段
 	 * @return {@link PropDesc}
 	 * @since 4.0.2
 	 */
 	private PropDesc createProp(Field field) {
-
 		final String fieldName = field.getName();
 		final Class<?> fieldType = field.getType();
 		final boolean isBooeanField = (fieldType == Boolean.class || fieldType == boolean.class);
@@ -225,16 +208,12 @@ public class BeanDesc {
 	 * name     -》 getName
 	 * </pre>
 	 * 
-	 * @param methodName
-	 *            方法名
-	 * @param fieldName
-	 *            字段名
-	 * @param isBooeanField
-	 *            是否为Boolean类型字段
+	 * @param methodName 方法名
+	 * @param fieldName 字段名
+	 * @param isBooeanField 是否为Boolean类型字段
 	 * @return 是否匹配
 	 */
 	private boolean isMatchGetter(String methodName, String fieldName, boolean isBooeanField) {
-
 		// 全部转为小写，忽略大小写比较
 		methodName = methodName.toLowerCase();
 		fieldName = fieldName.toLowerCase();
@@ -243,8 +222,8 @@ public class BeanDesc {
 			// 非标准Getter方法
 			return false;
 		}
-		if ("getclass".equals(methodName)) {
-			// 跳过getClass方法
+		if("getclass".equals(methodName)) {
+			//跳过getClass方法
 			return false;
 		}
 
@@ -253,10 +232,8 @@ public class BeanDesc {
 			if (fieldName.startsWith("is")) {
 				// 字段已经是is开头
 				if (methodName.equals(fieldName) // isName -》 isName
-						|| methodName.equals("get" + fieldName)// isName -》
-																// getIsName
-						|| methodName.equals("is" + fieldName)// isName -》
-																// isIsName
+						|| methodName.equals("get" + fieldName)// isName -》 getIsName
+						|| methodName.equals("is" + fieldName)// isName -》 isIsName
 				) {
 					return true;
 				}
@@ -281,16 +258,12 @@ public class BeanDesc {
 	 * name     -》 setName
 	 * </pre>
 	 * 
-	 * @param methodName
-	 *            方法名
-	 * @param fieldName
-	 *            字段名
-	 * @param isBooeanField
-	 *            是否为Boolean类型字段
+	 * @param methodName 方法名
+	 * @param fieldName 字段名
+	 * @param isBooeanField 是否为Boolean类型字段
 	 * @return 是否匹配
 	 */
 	private boolean isMatchSetter(String methodName, String fieldName, boolean isBooeanField) {
-
 		// 全部转为小写，忽略大小写比较
 		methodName = methodName.toLowerCase();
 		fieldName = fieldName.toLowerCase();
@@ -303,11 +276,8 @@ public class BeanDesc {
 		// 针对Boolean类型特殊检查
 		if (isBooeanField && fieldName.startsWith("is")) {
 			// 字段是is开头
-			if (methodName.equals("set" + StrUtil.removePrefix(fieldName, "is"))// isName
-																				// -》
-																				// setName
-					|| methodName.equals("set" + fieldName)// isName -》
-															// setIsName
+			if (methodName.equals("set" + StrUtil.removePrefix(fieldName, "is"))// isName -》 setName
+					|| methodName.equals("set" + fieldName)// isName -》 setIsName
 			) {
 				return true;
 			}
@@ -316,12 +286,13 @@ public class BeanDesc {
 		// 包括boolean的任何类型只有一种匹配情况：name -》 setName
 		return methodName.equals("set" + fieldName);
 	}
-
-	// ------------------------------------------------------------------------------------------------------
-	// Private method end
+	// ------------------------------------------------------------------------------------------------------ Private method end
 
 	/**
 	 * 属性描述
+	 * 
+	
+	 *
 	 */
 	public static class PropDesc {
 
@@ -336,15 +307,11 @@ public class BeanDesc {
 		 * 构造<br>
 		 * Getter和Setter方法设置为默认可访问
 		 * 
-		 * @param field
-		 *            字段
-		 * @param getter
-		 *            get方法
-		 * @param setter
-		 *            set方法
+		 * @param field 字段
+		 * @param getter get方法
+		 * @param setter set方法
 		 */
 		public PropDesc(Field field, Method getter, Method setter) {
-
 			this.field = field;
 			this.getter = ClassUtil.setAccessible(getter);
 			this.setter = ClassUtil.setAccessible(setter);
@@ -356,7 +323,6 @@ public class BeanDesc {
 		 * @return 字段名
 		 */
 		public String getFieldName() {
-
 			return null == this.field ? null : this.field.getName();
 		}
 
@@ -366,7 +332,6 @@ public class BeanDesc {
 		 * @return 字段
 		 */
 		public Field getField() {
-
 			return this.field;
 		}
 
@@ -377,7 +342,6 @@ public class BeanDesc {
 		 * @return 字段类型
 		 */
 		public Type getFieldType() {
-
 			if (null != this.field) {
 				return TypeUtil.getType(this.field);
 			}
@@ -391,7 +355,6 @@ public class BeanDesc {
 		 * @return 字段类型
 		 */
 		public Class<?> getFieldClass() {
-
 			if (null != this.field) {
 				return TypeUtil.getClass(this.field);
 			}
@@ -404,7 +367,6 @@ public class BeanDesc {
 		 * @return Getter方法
 		 */
 		public Method getGetter() {
-
 			return this.getter;
 		}
 
@@ -414,63 +376,53 @@ public class BeanDesc {
 		 * @return {@link Method}Setter 方法对象
 		 */
 		public Method getSetter() {
-
 			return this.setter;
 		}
-
+		
 		/**
 		 * 获取字段值<br>
 		 * 首先调用字段对应的Getter方法获取值，如果Getter方法不存在，则判断字段如果为public，则直接获取字段值
 		 * 
-		 * @param bean
-		 *            Bean对象
+		 * @param bean Bean对象
 		 * @return 字段值
 		 * @since 4.0.5
 		 */
 		public Object getValue(Object bean) {
-
-			if (null != this.getter) {
+			if(null != this.getter) {
 				return ReflectUtil.invoke(bean, this.getter);
-			} else if (ModifierUtil.isPublic(this.field)) {
+			} else if(ModifierUtil.isPublic(this.field)) {
 				return ReflectUtil.getFieldValue(bean, this.field);
 			}
 			return null;
 		}
-
+		
 		/**
 		 * 设置Bean的字段值<br>
 		 * 首先调用字段对应的Setter方法，如果Setter方法不存在，则判断字段如果为public，则直接赋值字段值
 		 * 
-		 * @param bean
-		 *            Bean对象
-		 * @param value
-		 *            值
+		 * @param bean Bean对象
+		 * @param value 值
 		 * @return this
 		 * @since 4.0.5
 		 */
 		public PropDesc setValue(Object bean, Object value) {
-
-			if (null != this.setter) {
+			if(null != this.setter) {
 				ReflectUtil.invoke(bean, this.setter, value);
-			} else if (ModifierUtil.isPublic(this.field)) {
+			} else if(ModifierUtil.isPublic(this.field)) {
 				ReflectUtil.setFieldValue(bean, this.field, value);
 			}
 			return this;
 		}
-
-		// ------------------------------------------------------------------------------------
-		// Private method start
+		
+		//------------------------------------------------------------------------------------ Private method start
 		/**
 		 * 通过Getter和Setter方法中找到属性类型
 		 * 
-		 * @param getter
-		 *            Getter方法
-		 * @param setter
-		 *            Setter方法
+		 * @param getter Getter方法
+		 * @param setter Setter方法
 		 * @return {@link Type}
 		 */
 		private Type findPropType(Method getter, Method setter) {
-
 			Type type = null;
 			if (null != getter) {
 				type = TypeUtil.getReturnType(getter);
@@ -484,14 +436,11 @@ public class BeanDesc {
 		/**
 		 * 通过Getter和Setter方法中找到属性类型
 		 * 
-		 * @param getter
-		 *            Getter方法
-		 * @param setter
-		 *            Setter方法
+		 * @param getter Getter方法
+		 * @param setter Setter方法
 		 * @return {@link Type}
 		 */
 		private Class<?> findPropClass(Method getter, Method setter) {
-
 			Class<?> type = null;
 			if (null != getter) {
 				type = TypeUtil.getReturnClass(getter);
@@ -501,7 +450,6 @@ public class BeanDesc {
 			}
 			return type;
 		}
-		// ------------------------------------------------------------------------------------
-		// Private method end
+		//------------------------------------------------------------------------------------ Private method end
 	}
 }

@@ -6,6 +6,8 @@ import top.coos.util.StrUtil;
  * 将浮点数类型的number转换成英语的表达方式 <br>
  * 参考博客：http://blog.csdn.net/eric_sunah/article/details/8713226
  * 
+
+ * @since 3.0.9
  * @see <a href=
  *      "http://blog.csdn.net/eric_sunah/article/details/8713226">http://blog.csdn.net/eric_sunah/article/details/8713226</a>
  */
@@ -27,7 +29,6 @@ public class NumberWordFormater {
 	 * @return 英文表达式
 	 */
 	public static String format(Object x) {
-
 		if (x != null) {
 			return format(x.toString());
 		} else {
@@ -43,7 +44,6 @@ public class NumberWordFormater {
 	 * @return 英文表达式
 	 */
 	private static String format(String x) {
-
 		int z = x.indexOf("."); // 取小数点位置
 		String lstr = "", rstr = "";
 		if (z > -1) { // 看是否有小数，如果有，则分别取左边和右边
@@ -90,28 +90,23 @@ public class NumberWordFormater {
 	}
 
 	private static String parseFirst(String s) {
-
 		return NUMBER[Integer.parseInt(s.substring(s.length() - 1))];
 	}
 
 	private static String parseTeen(String s) {
-
 		return NUMBER_TEEN[Integer.parseInt(s) - 10];
 	}
 
 	private static String parseTen(String s) {
-
 		return NUMBER_TEN[Integer.parseInt(s.substring(0, 1)) - 1];
 	}
 
 	private static String parseMore(String s) {
-
 		return NUMBER_MORE[Integer.parseInt(s)];
 	}
 
 	// 两位
 	private static String transTwo(String s) {
-
 		String value = "";
 		// 判断位数
 		if (s.length() > 2) {
@@ -135,7 +130,6 @@ public class NumberWordFormater {
 	// 制作叁位的数
 	// s.length = 3
 	private static String transThree(String s) {
-
 		String value = "";
 		if (s.startsWith("0")) {// 是否小於100
 			value = transTwo(s.substring(1));

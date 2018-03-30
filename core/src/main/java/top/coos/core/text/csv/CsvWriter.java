@@ -21,7 +21,7 @@ import top.coos.util.ObjectUtil;
 /**
  * CSV数据写出器
  *
- 
+
  * @since 4.0.5
  */
 public final class CsvWriter implements Closeable, Flushable {

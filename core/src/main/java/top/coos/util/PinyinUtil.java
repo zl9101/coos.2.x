@@ -5,24 +5,21 @@ import top.coos.core.text.StrBuilder;
 /**
  * 拼音工具类
  * 
- 
+
  * @since 4.0.7
  */
 public class PinyinUtil {
 
 	/**
 	 * 获取所给中文的每个汉字首字母组成首字母字符串
-	 * 
-	 * @param chinese
-	 *            汉字字符串
+	 * @param chinese 汉字字符串
 	 * @return 首字母字符串
 	 */
 	public static String getAllFirstLetter(String chinese) {
-
 		if (StrUtil.isBlank(chinese)) {
 			return StrUtil.EMPTY;
 		}
-
+		
 		int len = chinese.length();
 		final StrBuilder strBuilder = new StrBuilder(len);
 		for (int i = 0; i < len; i++) {
@@ -38,12 +35,10 @@ public class PinyinUtil {
 	 * 如果传入为字母，返回其小写形式<br>
 	 * 感谢【帝都】宁静 提供方法
 	 * 
-	 * @param ch
-	 *            汉字
+	 * @param ch 汉字
 	 * @return 首字母，小写
 	 */
 	public static char getFirstLetter(char ch) {
-
 		if (ch >= 'a' && ch <= 'z') {
 			return ch;
 		}

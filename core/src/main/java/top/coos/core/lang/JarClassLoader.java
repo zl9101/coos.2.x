@@ -9,16 +9,16 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
 
+import top.coos.core.exceptions.UtilException;
 import top.coos.core.io.FileUtil;
 import top.coos.core.io.IoUtil;
-import top.coos.exceptions.UtilException;
 import top.coos.util.ClassUtil;
 import top.coos.util.ReflectUtil;
 
 /**
  * 外部Jar的类加载器
  * 
- 
+
  *
  */
 public class JarClassLoader extends URLClassLoader {
@@ -26,12 +26,10 @@ public class JarClassLoader extends URLClassLoader {
 	/**
 	 * 加载Jar到ClassPath
 	 * 
-	 * @param jarFile
-	 *            jar文件或所在目录
+	 * @param jarFile jar文件或所在目录
 	 * @return JarClassLoader
 	 */
 	public static JarClassLoader loadJar(File jarFile) {
-
 		final JarClassLoader loader = new JarClassLoader();
 		try {
 			loader.addJar(jarFile);
@@ -44,15 +42,11 @@ public class JarClassLoader extends URLClassLoader {
 	/**
 	 * 加载Jar文件到指定loader中
 	 * 
-	 * @param loader
-	 *            {@link URLClassLoader}
-	 * @param jarFile
-	 *            被加载的jar
-	 * @throws UtilException
-	 *             IO异常包装和执行异常
+	 * @param loader {@link URLClassLoader}
+	 * @param jarFile 被加载的jar
+	 * @throws UtilException IO异常包装和执行异常
 	 */
 	public static void loadJar(URLClassLoader loader, File jarFile) throws UtilException {
-
 		try {
 			final Method method = ClassUtil.getDeclaredMethod(URLClassLoader.class, "addURL", URL.class);
 			if (null != method) {
@@ -70,50 +64,40 @@ public class JarClassLoader extends URLClassLoader {
 	/**
 	 * 加载Jar文件到System ClassLoader中
 	 * 
-	 * @param jarFile
-	 *            被加载的jar
+	 * @param jarFile 被加载的jar
 	 * @return System ClassLoader
 	 */
 	public static URLClassLoader loadJarToSystemClassLoader(File jarFile) {
-
 		URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
 		loadJar(urlClassLoader, jarFile);
 		return urlClassLoader;
 	}
 
-	// -------------------------------------------------------------------
-	// Constructor start
+	// ------------------------------------------------------------------- Constructor start
 	/**
 	 * 构造
 	 */
 	public JarClassLoader() {
-
 		this(new URL[] {});
 	}
 
 	/**
 	 * 构造
 	 * 
-	 * @param urls
-	 *            被加载的URL
+	 * @param urls 被加载的URL
 	 */
 	public JarClassLoader(URL[] urls) {
-
 		super(urls, ClassUtil.getClassLoader());
 	}
-
-	// -------------------------------------------------------------------
-	// Constructor end
+	// ------------------------------------------------------------------- Constructor end
 
 	/**
 	 * 加载Jar文件，或者加载目录
 	 * 
-	 * @param jarFile
-	 *            jar文件或者jar文件所在目录
+	 * @param jarFile jar文件或者jar文件所在目录
 	 * @return this
 	 */
 	public JarClassLoader addJar(File jarFile) {
-
 		final List<File> jars = loopJar(jarFile);
 		try {
 			for (File jar : jars) {
@@ -127,26 +111,21 @@ public class JarClassLoader extends URLClassLoader {
 
 	@Override
 	public void addURL(URL url) {
-
 		super.addURL(url);
 	}
 
-	// -------------------------------------------------------------------
-	// Private method start
+	// ------------------------------------------------------------------- Private method start
 	/**
 	 * 递归获得Jar文件
 	 * 
-	 * @param file
-	 *            jar文件或者包含jar文件的目录
+	 * @param file jar文件或者包含jar文件的目录
 	 * @return jar文件列表
 	 */
 	private static List<File> loopJar(File file) {
-
 		return FileUtil.loopFiles(file, new FileFilter() {
 
 			@Override
 			public boolean accept(File file) {
-
 				final String path = file.getPath();
 				if (path != null && path.toLowerCase().endsWith(".jar")) {
 					return true;
@@ -155,6 +134,5 @@ public class JarClassLoader extends URLClassLoader {
 			}
 		});
 	}
-	// -------------------------------------------------------------------
-	// Private method end
+	// ------------------------------------------------------------------- Private method end
 }

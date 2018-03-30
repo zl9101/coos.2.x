@@ -14,7 +14,7 @@ import top.coos.util.URLUtil;
 
 /**
  * URL资源访问类
- 
+
  *
  */
 public class UrlResource implements Resource{

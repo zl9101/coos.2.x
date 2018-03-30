@@ -5,7 +5,7 @@ import java.nio.file.WatchEvent;
 
 /**
  * 观察者（监视器）
- 
+
  */
 public interface Watcher {
 	/**

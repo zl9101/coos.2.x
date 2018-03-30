@@ -19,6 +19,8 @@ import java.util.Calendar;
  * @see Calendar#NOVEMBER
  * @see Calendar#DECEMBER
  * @see Calendar#UNDECIMBER
+ * 
+
  *
  */
 public enum Month {
@@ -54,12 +56,10 @@ public enum Month {
 	private int value;
 
 	private Month(int value) {
-
 		this.value = value;
 	}
 
 	public int getValue() {
-
 		return this.value;
 	}
 
@@ -80,41 +80,39 @@ public enum Month {
 	 * @see Calendar#DECEMBER
 	 * @see Calendar#UNDECIMBER
 	 * 
-	 * @param calendarMonthIntValue
-	 *            Calendar中关于Month的int值
+	 * @param calendarMonthIntValue Calendar中关于Month的int值
 	 * @return {@link Month}
 	 */
 	public static Month of(int calendarMonthIntValue) {
-
 		switch (calendarMonthIntValue) {
-		case Calendar.JANUARY:
-			return JANUARY;
-		case Calendar.FEBRUARY:
-			return FEBRUARY;
-		case Calendar.MARCH:
-			return MARCH;
-		case Calendar.APRIL:
-			return APRIL;
-		case Calendar.MAY:
-			return MAY;
-		case Calendar.JUNE:
-			return JUNE;
-		case Calendar.JULY:
-			return JULY;
-		case Calendar.AUGUST:
-			return AUGUST;
-		case Calendar.SEPTEMBER:
-			return SEPTEMBER;
-		case Calendar.OCTOBER:
-			return OCTOBER;
-		case Calendar.NOVEMBER:
-			return NOVEMBER;
-		case Calendar.DECEMBER:
-			return DECEMBER;
-		case Calendar.UNDECIMBER:
-			return UNDECIMBER;
-		default:
-			return null;
+			case Calendar.JANUARY:
+				return JANUARY;
+			case Calendar.FEBRUARY:
+				return FEBRUARY;
+			case Calendar.MARCH:
+				return MARCH;
+			case Calendar.APRIL:
+				return APRIL;
+			case Calendar.MAY:
+				return MAY;
+			case Calendar.JUNE:
+				return JUNE;
+			case Calendar.JULY:
+				return JULY;
+			case Calendar.AUGUST:
+				return AUGUST;
+			case Calendar.SEPTEMBER:
+				return SEPTEMBER;
+			case Calendar.OCTOBER:
+				return OCTOBER;
+			case Calendar.NOVEMBER:
+				return NOVEMBER;
+			case Calendar.DECEMBER:
+				return DECEMBER;
+			case Calendar.UNDECIMBER:
+				return UNDECIMBER;
+			default:
+				return null;
 		}
 	}
 }

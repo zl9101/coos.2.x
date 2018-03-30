@@ -1,11 +1,11 @@
 package top.coos.core.io.watch;
 
-import top.coos.exceptions.ExceptionUtil;
+import top.coos.core.exceptions.ExceptionUtil;
 import top.coos.util.StrUtil;
 
 /**
  * 监听异常
- 
+
  *
  */
 public class WatchException extends RuntimeException {

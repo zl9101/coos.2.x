@@ -17,7 +17,7 @@ import top.coos.core.date.SystemClock;
  * 
  * 参考：http://www.cnblogs.com/relucent/p/4955340.html
  * 
- 
+
  * @since 3.0.1
  */
 public class Snowflake {
@@ -38,39 +38,28 @@ public class Snowflake {
 	private long sequence = 0L;
 	private long lastTimestamp = -1L;
 	private boolean useSystemClock;
-
+	
 	/**
 	 * 构造
-	 * 
-	 * @param workerId
-	 *            终端ID
-	 * @param datacenterId
-	 *            数据中心ID
+	 * @param workerId 终端ID
+	 * @param datacenterId 数据中心ID
 	 */
 	public Snowflake(long workerId, long datacenterId) {
-
 		this(workerId, datacenterId, false);
 	}
 
 	/**
 	 * 构造
-	 * 
-	 * @param workerId
-	 *            终端ID
-	 * @param datacenterId
-	 *            数据中心ID
-	 * @param isUseSystemClock
-	 *            是否使用{@link SystemClock} 获取当前时间戳
+	 * @param workerId 终端ID
+	 * @param datacenterId 数据中心ID
+	 * @param isUseSystemClock 是否使用{@link SystemClock} 获取当前时间戳
 	 */
 	public Snowflake(long workerId, long datacenterId, boolean isUseSystemClock) {
-
 		if (workerId > maxWorkerId || workerId < 0) {
-			throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0",
-					maxWorkerId));
+			throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
 		}
 		if (datacenterId > maxDatacenterId || datacenterId < 0) {
-			throw new IllegalArgumentException(String.format("datacenter Id can't be greater than %d or less than 0",
-					maxDatacenterId));
+			throw new IllegalArgumentException(String.format("datacenter Id can't be greater than %d or less than 0", maxDatacenterId));
 		}
 		this.workerId = workerId;
 		this.datacenterId = datacenterId;
@@ -79,15 +68,12 @@ public class Snowflake {
 
 	/**
 	 * 下一个ID
-	 * 
 	 * @return ID
 	 */
 	public synchronized long nextId() {
-
 		long timestamp = useSystemClock ? SystemClock.now() : System.currentTimeMillis();
 		if (timestamp < lastTimestamp) {
-			throw new RuntimeException(String.format("Clock moved backwards.  Refusing to generate id for %d milliseconds",
-					lastTimestamp - timestamp));
+			throw new RuntimeException(String.format("Clock moved backwards.  Refusing to generate id for %d milliseconds", lastTimestamp - timestamp));
 		}
 		if (lastTimestamp == timestamp) {
 			sequence = (sequence + 1) & sequenceMask;
@@ -100,12 +86,10 @@ public class Snowflake {
 
 		lastTimestamp = timestamp;
 
-		return ((timestamp - twepoch) << timestampLeftShift) | (datacenterId << datacenterIdShift)
-				| (workerId << workerIdShift) | sequence;
+		return ((timestamp - twepoch) << timestampLeftShift) | (datacenterId << datacenterIdShift) | (workerId << workerIdShift) | sequence;
 	}
 
 	private long tilNextMillis(long lastTimestamp) {
-
 		long timestamp = useSystemClock ? SystemClock.now() : System.currentTimeMillis();
 		while (timestamp <= lastTimestamp) {
 			timestamp = useSystemClock ? SystemClock.now() : System.currentTimeMillis();

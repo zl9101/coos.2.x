@@ -20,7 +20,7 @@ import top.coos.core.lang.Validator;
  * 正则相关工具类<br>
  * 常用正则请见 {@link Validator}
  * 
- 
+
  */
 public class ReUtil {
 
@@ -30,52 +30,41 @@ public class ReUtil {
 	public final static String RE_CHINESES = RE_CHINESE + "+";
 
 	/** 正则中需要被转义的关键字 */
-	public final static Set<Character> RE_KEYS = CollectionUtil.newHashSet(new Character[] { '$', '(', ')', '*', '+', '.',
-			'[', ']', '?', '\\', '^', '{', '}', '|' });
+	public final static Set<Character> RE_KEYS = CollectionUtil.newHashSet(new Character[] { '$', '(', ')', '*', '+', '.', '[', ']', '?', '\\', '^', '{', '}', '|' });
 
 	/**
 	 * 获得匹配的字符串，获得正则中分组0的内容
 	 * 
-	 * @param regex
-	 *            匹配的正则
-	 * @param content
-	 *            被匹配的内容
+	 * @param regex 匹配的正则
+	 * @param content 被匹配的内容
 	 * @return 匹配后得到的字符串，未匹配返回null
 	 * @since 3.1.2
 	 */
 	public static String getGroup0(String regex, String content) {
-
 		return get(regex, content, 0);
 	}
 
 	/**
 	 * 获得匹配的字符串，获得正则中分组1的内容
 	 * 
-	 * @param regex
-	 *            匹配的正则
-	 * @param content
-	 *            被匹配的内容
+	 * @param regex 匹配的正则
+	 * @param content 被匹配的内容
 	 * @return 匹配后得到的字符串，未匹配返回null
 	 * @since 3.1.2
 	 */
 	public static String getGroup1(String regex, String content) {
-
 		return get(regex, content, 1);
 	}
 
 	/**
 	 * 获得匹配的字符串
 	 * 
-	 * @param regex
-	 *            匹配的正则
-	 * @param content
-	 *            被匹配的内容
-	 * @param groupIndex
-	 *            匹配正则的分组序号
+	 * @param regex 匹配的正则
+	 * @param content 被匹配的内容
+	 * @param groupIndex 匹配正则的分组序号
 	 * @return 匹配后得到的字符串，未匹配返回null
 	 */
 	public static String get(String regex, String content, int groupIndex) {
-
 		if (null == content || null == regex) {
 			return null;
 		}
@@ -88,46 +77,36 @@ public class ReUtil {
 	/**
 	 * 获得匹配的字符串，，获得正则中分组0的内容
 	 * 
-	 * @param pattern
-	 *            编译后的正则模式
-	 * @param content
-	 *            被匹配的内容
+	 * @param pattern 编译后的正则模式
+	 * @param content 被匹配的内容
 	 * @return 匹配后得到的字符串，未匹配返回null
 	 * @since 3.1.2
 	 */
 	public static String getGroup0(Pattern pattern, String content) {
-
 		return get(pattern, content, 0);
 	}
 
 	/**
 	 * 获得匹配的字符串，，获得正则中分组1的内容
 	 * 
-	 * @param pattern
-	 *            编译后的正则模式
-	 * @param content
-	 *            被匹配的内容
+	 * @param pattern 编译后的正则模式
+	 * @param content 被匹配的内容
 	 * @return 匹配后得到的字符串，未匹配返回null
 	 * @since 3.1.2
 	 */
 	public static String getGroup1(Pattern pattern, String content) {
-
 		return get(pattern, content, 1);
 	}
 
 	/**
 	 * 获得匹配的字符串
 	 * 
-	 * @param pattern
-	 *            编译后的正则模式
-	 * @param content
-	 *            被匹配的内容
-	 * @param groupIndex
-	 *            匹配正则的分组序号
+	 * @param pattern 编译后的正则模式
+	 * @param content 被匹配的内容
+	 * @param groupIndex 匹配正则的分组序号
 	 * @return 匹配后得到的字符串，未匹配返回null
 	 */
 	public static String get(Pattern pattern, String content, int groupIndex) {
-
 		if (null == content || null == pattern) {
 			return null;
 		}
@@ -142,15 +121,12 @@ public class ReUtil {
 	/**
 	 * 获得匹配的字符串匹配到的所有分组
 	 * 
-	 * @param pattern
-	 *            编译后的正则模式
-	 * @param content
-	 *            被匹配的内容
+	 * @param pattern 编译后的正则模式
+	 * @param content 被匹配的内容
 	 * @return 匹配后得到的字符串数组，按照分组顺序依次列出，未匹配到返回空列表，任何一个参数为null返回null
 	 * @since 3.1.0
 	 */
 	public static List<String> getAllGroups(Pattern pattern, String content) {
-
 		if (null == content || null == pattern) {
 			return null;
 		}
@@ -171,26 +147,20 @@ public class ReUtil {
 	 * 例如：<br>
 	 * content 2013年5月 pattern (.*?)年(.*?)月 template： $1-$2 return 2013-5
 	 * 
-	 * @param pattern
-	 *            匹配正则
-	 * @param content
-	 *            被匹配的内容
-	 * @param template
-	 *            生成内容模板，变量 $1 表示group1的内容，以此类推
+	 * @param pattern 匹配正则
+	 * @param content 被匹配的内容
+	 * @param template 生成内容模板，变量 $1 表示group1的内容，以此类推
 	 * @return 新字符串
 	 */
 	public static String extractMulti(Pattern pattern, String content, String template) {
-
 		if (null == content || null == pattern || null == template) {
 			return null;
 		}
 
-		// 提取模板中的编号
+		//提取模板中的编号
 		final TreeSet<Integer> varNums = new TreeSet<>(new Comparator<Integer>() {
-
 			@Override
 			public int compare(Integer o1, Integer o2) {
-
 				return ObjectUtil.compare(o2, o1);
 			}
 		});
@@ -215,16 +185,12 @@ public class ReUtil {
 	 * 例如：<br>
 	 * content 2013年5月 pattern (.*?)年(.*?)月 template： $1-$2 return 2013-5
 	 * 
-	 * @param regex
-	 *            匹配正则字符串
-	 * @param content
-	 *            被匹配的内容
-	 * @param template
-	 *            生成内容模板，变量 $1 表示group1的内容，以此类推
+	 * @param regex 匹配正则字符串
+	 * @param content 被匹配的内容
+	 * @param template 生成内容模板，变量 $1 表示group1的内容，以此类推
 	 * @return 按照template拼接后的字符串
 	 */
 	public static String extractMulti(String regex, String content, String template) {
-
 		if (null == content || null == regex || null == template) {
 			return null;
 		}
@@ -240,16 +206,12 @@ public class ReUtil {
 	 * 例如：<br>
 	 * content 2013年5月 pattern (.*?)年(.*?)月 template： $1-$2 return 2013-5
 	 * 
-	 * @param pattern
-	 *            匹配正则
-	 * @param contentHolder
-	 *            被匹配的内容的Holder，value为内容正文，经过这个方法的原文将被去掉匹配之前的内容
-	 * @param template
-	 *            生成内容模板，变量 $1 表示group1的内容，以此类推
+	 * @param pattern 匹配正则
+	 * @param contentHolder 被匹配的内容的Holder，value为内容正文，经过这个方法的原文将被去掉匹配之前的内容
+	 * @param template 生成内容模板，变量 $1 表示group1的内容，以此类推
 	 * @return 新字符串
 	 */
 	public static String extractMultiAndDelPre(Pattern pattern, Holder<String> contentHolder, String template) {
-
 		if (null == contentHolder || null == pattern || null == template) {
 			return null;
 		}
@@ -274,16 +236,12 @@ public class ReUtil {
 	 * 例如：<br>
 	 * content 2013年5月 pattern (.*?)年(.*?)月 template： $1-$2 return 2013-5
 	 * 
-	 * @param regex
-	 *            匹配正则字符串
-	 * @param contentHolder
-	 *            被匹配的内容的Holder，value为内容正文，经过这个方法的原文将被去掉匹配之前的内容
-	 * @param template
-	 *            生成内容模板，变量 $1 表示group1的内容，以此类推
+	 * @param regex 匹配正则字符串
+	 * @param contentHolder 被匹配的内容的Holder，value为内容正文，经过这个方法的原文将被去掉匹配之前的内容
+	 * @param template 生成内容模板，变量 $1 表示group1的内容，以此类推
 	 * @return 按照template拼接后的字符串
 	 */
 	public static String extractMultiAndDelPre(String regex, Holder<String> contentHolder, String template) {
-
 		if (null == contentHolder || null == regex || null == template) {
 			return null;
 		}
@@ -296,14 +254,11 @@ public class ReUtil {
 	/**
 	 * 删除匹配的第一个内容
 	 * 
-	 * @param regex
-	 *            正则
-	 * @param content
-	 *            被匹配的内容
+	 * @param regex 正则
+	 * @param content 被匹配的内容
 	 * @return 删除后剩余的内容
 	 */
 	public static String delFirst(String regex, String content) {
-
 		if (StrUtil.hasBlank(regex, content)) {
 			return content;
 		}
@@ -316,14 +271,11 @@ public class ReUtil {
 	/**
 	 * 删除匹配的第一个内容
 	 * 
-	 * @param pattern
-	 *            正则
-	 * @param content
-	 *            被匹配的内容
+	 * @param pattern 正则
+	 * @param content 被匹配的内容
 	 * @return 删除后剩余的内容
 	 */
 	public static String delFirst(Pattern pattern, String content) {
-
 		if (null == pattern || StrUtil.isBlank(content)) {
 			return content;
 		}
@@ -334,14 +286,11 @@ public class ReUtil {
 	/**
 	 * 删除匹配的全部内容
 	 * 
-	 * @param regex
-	 *            正则
-	 * @param content
-	 *            被匹配的内容
+	 * @param regex 正则
+	 * @param content 被匹配的内容
 	 * @return 删除后剩余的内容
 	 */
 	public static String delAll(String regex, String content) {
-
 		if (StrUtil.hasBlank(regex, content)) {
 			return content;
 		}
@@ -354,14 +303,11 @@ public class ReUtil {
 	/**
 	 * 删除匹配的全部内容
 	 * 
-	 * @param pattern
-	 *            正则
-	 * @param content
-	 *            被匹配的内容
+	 * @param pattern 正则
+	 * @param content 被匹配的内容
 	 * @return 删除后剩余的内容
 	 */
 	public static String delAll(Pattern pattern, String content) {
-
 		if (null == pattern || StrUtil.isBlank(content)) {
 			return content;
 		}
@@ -372,14 +318,11 @@ public class ReUtil {
 	/**
 	 * 删除正则匹配到的内容之前的字符 如果没有找到，则返回原文
 	 * 
-	 * @param regex
-	 *            定位正则
-	 * @param content
-	 *            被查找的内容
+	 * @param regex 定位正则
+	 * @param content 被查找的内容
 	 * @return 删除前缀后的新内容
 	 */
 	public static String delPre(String regex, String content) {
-
 		if (null == content || null == regex) {
 			return content;
 		}
@@ -396,67 +339,51 @@ public class ReUtil {
 	/**
 	 * 取得内容中匹配的所有结果，获得匹配的所有结果中正则对应分组0的内容
 	 * 
-	 * @param regex
-	 *            正则
-	 * @param content
-	 *            被查找的内容
+	 * @param regex 正则
+	 * @param content 被查找的内容
 	 * @return 结果列表
 	 * @since 3.1.2
 	 */
 	public static List<String> findAllGroup0(String regex, String content) {
-
 		return findAll(regex, content, 0);
 	}
 
 	/**
 	 * 取得内容中匹配的所有结果，获得匹配的所有结果中正则对应分组1的内容
 	 * 
-	 * @param regex
-	 *            正则
-	 * @param content
-	 *            被查找的内容
+	 * @param regex 正则
+	 * @param content 被查找的内容
 	 * @return 结果列表
 	 * @since 3.1.2
 	 */
 	public static List<String> findAllGroup1(String regex, String content) {
-
 		return findAll(regex, content, 1);
 	}
 
 	/**
 	 * 取得内容中匹配的所有结果
 	 * 
-	 * @param regex
-	 *            正则
-	 * @param content
-	 *            被查找的内容
-	 * @param group
-	 *            正则的分组
+	 * @param regex 正则
+	 * @param content 被查找的内容
+	 * @param group 正则的分组
 	 * @return 结果列表
 	 * @since 3.0.6
 	 */
 	public static List<String> findAll(String regex, String content, int group) {
-
 		return findAll(regex, content, group, new ArrayList<String>());
 	}
 
 	/**
 	 * 取得内容中匹配的所有结果
 	 * 
-	 * @param <T>
-	 *            集合类型
-	 * @param regex
-	 *            正则
-	 * @param content
-	 *            被查找的内容
-	 * @param group
-	 *            正则的分组
-	 * @param collection
-	 *            返回的集合类型
+	 * @param <T> 集合类型
+	 * @param regex 正则
+	 * @param content 被查找的内容
+	 * @param group 正则的分组
+	 * @param collection 返回的集合类型
 	 * @return 结果集
 	 */
 	public static <T extends Collection<String>> T findAll(String regex, String content, int group, T collection) {
-
 		if (null == regex) {
 			return null;
 		}
@@ -468,67 +395,51 @@ public class ReUtil {
 	/**
 	 * 取得内容中匹配的所有结果，获得匹配的所有结果中正则对应分组0的内容
 	 * 
-	 * @param pattern
-	 *            编译后的正则模式
-	 * @param content
-	 *            被查找的内容
+	 * @param pattern 编译后的正则模式
+	 * @param content 被查找的内容
 	 * @return 结果列表
 	 * @since 3.1.2
 	 */
 	public static List<String> findAllGroup0(Pattern pattern, String content) {
-
 		return findAll(pattern, content, 0);
 	}
 
 	/**
 	 * 取得内容中匹配的所有结果，获得匹配的所有结果中正则对应分组1的内容
 	 * 
-	 * @param pattern
-	 *            编译后的正则模式
-	 * @param content
-	 *            被查找的内容
+	 * @param pattern 编译后的正则模式
+	 * @param content 被查找的内容
 	 * @return 结果列表
 	 * @since 3.1.2
 	 */
 	public static List<String> findAllGroup1(Pattern pattern, String content) {
-
 		return findAll(pattern, content, 1);
 	}
 
 	/**
 	 * 取得内容中匹配的所有结果
 	 * 
-	 * @param pattern
-	 *            编译后的正则模式
-	 * @param content
-	 *            被查找的内容
-	 * @param group
-	 *            正则的分组
+	 * @param pattern 编译后的正则模式
+	 * @param content 被查找的内容
+	 * @param group 正则的分组
 	 * @return 结果列表
 	 * @since 3.0.6
 	 */
 	public static List<String> findAll(Pattern pattern, String content, int group) {
-
 		return findAll(pattern, content, group, new ArrayList<String>());
 	}
 
 	/**
 	 * 取得内容中匹配的所有结果
 	 * 
-	 * @param <T>
-	 *            集合类型
-	 * @param pattern
-	 *            编译后的正则模式
-	 * @param content
-	 *            被查找的内容
-	 * @param group
-	 *            正则的分组
-	 * @param collection
-	 *            返回的集合类型
+	 * @param <T> 集合类型
+	 * @param pattern 编译后的正则模式
+	 * @param content 被查找的内容
+	 * @param group 正则的分组
+	 * @param collection 返回的集合类型
 	 * @return 结果集
 	 */
 	public static <T extends Collection<String>> T findAll(Pattern pattern, String content, int group, T collection) {
-
 		if (null == pattern || null == content) {
 			return null;
 		}
@@ -547,14 +458,11 @@ public class ReUtil {
 	/**
 	 * 计算指定字符串中，匹配pattern的个数
 	 * 
-	 * @param regex
-	 *            正则表达式
-	 * @param content
-	 *            被查找的内容
+	 * @param regex 正则表达式
+	 * @param content 被查找的内容
 	 * @return 匹配个数
 	 */
 	public static int count(String regex, String content) {
-
 		if (null == regex || null == content) {
 			return 0;
 		}
@@ -567,14 +475,11 @@ public class ReUtil {
 	/**
 	 * 计算指定字符串中，匹配pattern的个数
 	 * 
-	 * @param pattern
-	 *            编译后的正则模式
-	 * @param content
-	 *            被查找的内容
+	 * @param pattern 编译后的正则模式
+	 * @param content 被查找的内容
 	 * @return 匹配个数
 	 */
 	public static int count(Pattern pattern, String content) {
-
 		if (null == pattern || null == content) {
 			return 0;
 		}
@@ -591,15 +496,12 @@ public class ReUtil {
 	/**
 	 * 指定内容中是否有表达式匹配的内容
 	 * 
-	 * @param regex
-	 *            正则表达式
-	 * @param content
-	 *            被查找的内容
+	 * @param regex 正则表达式
+	 * @param content 被查找的内容
 	 * @return 指定内容中是否有表达式匹配的内容
 	 * @since 3.3.1
 	 */
 	public static boolean contains(String regex, String content) {
-
 		if (null == regex || null == content) {
 			return false;
 		}
@@ -611,15 +513,12 @@ public class ReUtil {
 	/**
 	 * 指定内容中是否有表达式匹配的内容
 	 * 
-	 * @param pattern
-	 *            编译后的正则模式
-	 * @param content
-	 *            被查找的内容
+	 * @param pattern 编译后的正则模式
+	 * @param content 被查找的内容
 	 * @return 指定内容中是否有表达式匹配的内容
 	 * @since 3.3.1
 	 */
 	public static boolean contains(Pattern pattern, String content) {
-
 		if (null == pattern || null == content) {
 			return false;
 		}
@@ -629,26 +528,21 @@ public class ReUtil {
 	/**
 	 * 从字符串中获得第一个整数
 	 * 
-	 * @param StringWithNumber
-	 *            带数字的字符串
+	 * @param StringWithNumber 带数字的字符串
 	 * @return 整数
 	 */
 	public static Integer getFirstNumber(String StringWithNumber) {
-
 		return Convert.toInt(get(PatternPool.NUMBERS, StringWithNumber, 0), null);
 	}
 
 	/**
 	 * 给定内容是否匹配正则
 	 * 
-	 * @param regex
-	 *            正则
-	 * @param content
-	 *            内容
+	 * @param regex 正则
+	 * @param content 内容
 	 * @return 正则为null或者""则不检查，返回true，内容为null返回false
 	 */
 	public static boolean isMatch(String regex, String content) {
-
 		if (content == null) {
 			// 提供null的字符串为不匹配
 			return false;
@@ -667,14 +561,11 @@ public class ReUtil {
 	/**
 	 * 给定内容是否匹配正则
 	 * 
-	 * @param pattern
-	 *            模式
-	 * @param content
-	 *            内容
+	 * @param pattern 模式
+	 * @param content 内容
 	 * @return 正则为null或者""则不检查，返回true，内容为null返回false
 	 */
 	public static boolean isMatch(Pattern pattern, String content) {
-
 		if (content == null || pattern == null) {
 			// 提供null的字符串为不匹配
 			return false;
@@ -686,16 +577,12 @@ public class ReUtil {
 	 * 正则替换指定值<br>
 	 * 通过正则查找到字符串，然后把匹配到的字符串加入到replacementTemplate中，$1表示分组1的字符串
 	 * 
-	 * @param content
-	 *            文本
-	 * @param regex
-	 *            正则
-	 * @param replacementTemplate
-	 *            替换的文本模板，可以使用$1类似的变量提取正则匹配出的内容
+	 * @param content 文本
+	 * @param regex 正则
+	 * @param replacementTemplate 替换的文本模板，可以使用$1类似的变量提取正则匹配出的内容
 	 * @return 处理后的文本
 	 */
 	public static String replaceAll(String content, String regex, String replacementTemplate) {
-
 		final Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
 		return replaceAll(content, pattern, replacementTemplate);
 	}
@@ -704,17 +591,13 @@ public class ReUtil {
 	 * 正则替换指定值<br>
 	 * 通过正则查找到字符串，然后把匹配到的字符串加入到replacementTemplate中，$1表示分组1的字符串
 	 * 
-	 * @param content
-	 *            文本
-	 * @param pattern
-	 *            {@link Pattern}
-	 * @param replacementTemplate
-	 *            替换的文本模板，可以使用$1类似的变量提取正则匹配出的内容
+	 * @param content 文本
+	 * @param pattern {@link Pattern}
+	 * @param replacementTemplate 替换的文本模板，可以使用$1类似的变量提取正则匹配出的内容
 	 * @return 处理后的文本
 	 * @since 3.0.4
 	 */
 	public static String replaceAll(String content, Pattern pattern, String replacementTemplate) {
-
 		if (StrUtil.isEmpty(content)) {
 			return content;
 		}
@@ -742,12 +625,10 @@ public class ReUtil {
 	/**
 	 * 转义字符，将正则的关键字转义
 	 * 
-	 * @param c
-	 *            字符
+	 * @param c 字符
 	 * @return 转义后的文本
 	 */
 	public static String escape(char c) {
-
 		final StringBuilder builder = new StringBuilder();
 		if (RE_KEYS.contains(c)) {
 			builder.append('\\');
@@ -759,12 +640,10 @@ public class ReUtil {
 	/**
 	 * 转义字符串，将正则的关键字转义
 	 * 
-	 * @param content
-	 *            文本
+	 * @param content 文本
 	 * @return 转义后的文本
 	 */
 	public static String escape(String content) {
-
 		if (StrUtil.isBlank(content)) {
 			return content;
 		}

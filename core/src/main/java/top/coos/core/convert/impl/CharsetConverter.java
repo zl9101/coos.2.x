@@ -7,14 +7,13 @@ import top.coos.util.CharsetUtil;
 
 /**
  * 编码对象转换器
- * 
+
  *
  */
-public class CharsetConverter extends AbstractConverter<Charset> {
+public class CharsetConverter extends AbstractConverter<Charset>{
 
 	@Override
 	protected Charset convertInternal(Object value) {
-
 		return CharsetUtil.charset(convertToStr(value));
 	}
 

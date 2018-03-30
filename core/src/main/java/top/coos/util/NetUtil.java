@@ -18,30 +18,27 @@ import java.util.Enumeration;
 import java.util.LinkedHashSet;
 
 import top.coos.core.collection.CollectionUtil;
+import top.coos.core.exceptions.UtilException;
 import top.coos.core.io.IORuntimeException;
 import top.coos.core.io.IoUtil;
 import top.coos.core.lang.Validator;
-import top.coos.exceptions.UtilException;
 
 /**
  * 网络相关工具
  * 
- 
+
  *
  */
 public class NetUtil {
-
 	public final static String LOCAL_IP = "127.0.0.1";
 
 	/**
 	 * 根据long值获取ip v4地址
 	 * 
-	 * @param longIP
-	 *            IP的long表示形式
+	 * @param longIP IP的long表示形式
 	 * @return IP V4 地址
 	 */
 	public static String longToIpv4(long longIP) {
-
 		final StringBuilder sb = new StringBuilder();
 		// 直接右移24位
 		sb.append(String.valueOf(longIP >>> 24));
@@ -58,12 +55,10 @@ public class NetUtil {
 	/**
 	 * 根据ip地址计算出long型的数据
 	 * 
-	 * @param strIP
-	 *            IP V4 地址
+	 * @param strIP IP V4 地址
 	 * @return long值
 	 */
 	public static long ipv4ToLong(String strIP) {
-
 		if (Validator.isIpv4(strIP)) {
 			long[] ip = new long[4];
 			// 先找到IP地址字符串中.的位置
@@ -83,12 +78,10 @@ public class NetUtil {
 	/**
 	 * 检测本地端口可用性
 	 * 
-	 * @param port
-	 *            被检测的端口
+	 * @param port 被检测的端口
 	 * @return 是否可用
 	 */
 	public static boolean isUsableLocalPort(int port) {
-
 		if (false == isValidPort(port)) {
 			// 给定的IP未在指定端口范围中
 			return false;
@@ -105,27 +98,22 @@ public class NetUtil {
 	/**
 	 * 是否为有效的端口
 	 * 
-	 * @param port
-	 *            端口号
+	 * @param port 端口号
 	 * @return 是否有效
 	 */
 	public static boolean isValidPort(int port) {
-
 		// 有效端口是0～65535
 		return port >= 0 && port <= 0xFFFF;
 	}
 
 	/**
 	 * 判定是否为内网IP<br>
-	 * 私有IP：A类 10.0.0.0-10.255.255.255 B类 172.16.0.0-172.31.255.255 C类
-	 * 192.168.0.0-192.168.255.255 当然，还有127这个网段是环回地址
+	 * 私有IP：A类 10.0.0.0-10.255.255.255 B类 172.16.0.0-172.31.255.255 C类 192.168.0.0-192.168.255.255 当然，还有127这个网段是环回地址
 	 * 
-	 * @param ipAddress
-	 *            IP地址
+	 * @param ipAddress IP地址
 	 * @return 是否为内网IP
 	 */
 	public static boolean isInnerIP(String ipAddress) {
-
 		boolean isInnerIp = false;
 		long ipNum = NetUtil.ipv4ToLong(ipAddress);
 
@@ -138,22 +126,18 @@ public class NetUtil {
 		long cBegin = NetUtil.ipv4ToLong("192.168.0.0");
 		long cEnd = NetUtil.ipv4ToLong("192.168.255.255");
 
-		isInnerIp = isInner(ipNum, aBegin, aEnd) || isInner(ipNum, bBegin, bEnd) || isInner(ipNum, cBegin, cEnd)
-				|| ipAddress.equals(LOCAL_IP);
+		isInnerIp = isInner(ipNum, aBegin, aEnd) || isInner(ipNum, bBegin, bEnd) || isInner(ipNum, cBegin, cEnd) || ipAddress.equals(LOCAL_IP);
 		return isInnerIp;
 	}
 
 	/**
 	 * 相对URL转换为绝对URL
 	 * 
-	 * @param absoluteBasePath
-	 *            基准路径，绝对
-	 * @param relativePath
-	 *            相对路径
+	 * @param absoluteBasePath 基准路径，绝对
+	 * @param relativePath 相对路径
 	 * @return 绝对URL
 	 */
 	public static String toAbsoluteUrl(String absoluteBasePath, String relativePath) {
-
 		try {
 			URL absoluteUrl = new URL(absoluteBasePath);
 			return new URL(absoluteUrl, relativePath).toString();
@@ -165,24 +149,20 @@ public class NetUtil {
 	/**
 	 * 隐藏掉IP地址的最后一部分为 * 代替
 	 * 
-	 * @param ip
-	 *            IP地址
+	 * @param ip IP地址
 	 * @return 隐藏部分后的IP
 	 */
 	public static String hideIpPart(String ip) {
-
 		return new StringBuffer(ip.length()).append(ip.substring(0, ip.lastIndexOf(".") + 1)).append("*").toString();
 	}
 
 	/**
 	 * 隐藏掉IP地址的最后一部分为 * 代替
 	 * 
-	 * @param ip
-	 *            IP地址
+	 * @param ip IP地址
 	 * @return 隐藏部分后的IP
 	 */
 	public static String hideIpPart(long ip) {
-
 		return hideIpPart(longToIpv4(ip));
 	}
 
@@ -191,14 +171,11 @@ public class NetUtil {
 	 * 当host中包含端口时（用“：”隔开），使用host中的端口，否则使用默认端口<br>
 	 * 给定host为空时使用本地host（127.0.0.1）
 	 * 
-	 * @param host
-	 *            Host
-	 * @param defaultPort
-	 *            默认端口
+	 * @param host Host
+	 * @param defaultPort 默认端口
 	 * @return InetSocketAddress
 	 */
 	public static InetSocketAddress buildInetSocketAddress(String host, int defaultPort) {
-
 		if (StrUtil.isBlank(host)) {
 			host = LOCAL_IP;
 		}
@@ -221,12 +198,10 @@ public class NetUtil {
 	/**
 	 * 通过域名得到IP
 	 * 
-	 * @param hostName
-	 *            HOST
+	 * @param hostName HOST
 	 * @return ip address or hostName if UnknownHostException
 	 */
 	public static String getIpByHost(String hostName) {
-
 		try {
 			return InetAddress.getByName(hostName).getHostAddress();
 		} catch (UnknownHostException e) {
@@ -241,7 +216,6 @@ public class NetUtil {
 	 * @since 3.0.1
 	 */
 	public static Collection<NetworkInterface> getNetworkInterfaces() {
-
 		Enumeration<NetworkInterface> networkInterfaces = null;
 		try {
 			networkInterfaces = NetworkInterface.getNetworkInterfaces();
@@ -259,7 +233,6 @@ public class NetUtil {
 	 * @return IP地址列表 {@link LinkedHashSet}
 	 */
 	public static LinkedHashSet<String> localIpv4s() {
-
 		Enumeration<NetworkInterface> networkInterfaces = null;
 		try {
 			networkInterfaces = NetworkInterface.getNetworkInterfaces();
@@ -292,14 +265,12 @@ public class NetUtil {
 	 * 如果获取失败调用 {@link InetAddress#getLocalHost()}方法获取。<br>
 	 * 此方法不会抛出异常，获取失败将返回<code>null</code><br>
 	 * 
-	 * 参考：http://stackoverflow.com/questions/9481865/getting-the-ip-address-of-
-	 * the-current-machine-using-java
+	 * 参考：http://stackoverflow.com/questions/9481865/getting-the-ip-address-of-the-current-machine-using-java
 	 * 
 	 * @return 本机网卡IP地址，获取失败返回<code>null</code>
 	 * @since 3.0.7
 	 */
 	public static String getLocalhostStr() {
-
 		InetAddress localhost = getLocalhost();
 		if (null != localhost) {
 			return localhost.getHostAddress();
@@ -312,14 +283,12 @@ public class NetUtil {
 	 * 如果获取失败调用 {@link InetAddress#getLocalHost()}方法获取。<br>
 	 * 此方法不会抛出异常，获取失败将返回<code>null</code><br>
 	 * 
-	 * 参考：http://stackoverflow.com/questions/9481865/getting-the-ip-address-of-
-	 * the-current-machine-using-java
+	 * 参考：http://stackoverflow.com/questions/9481865/getting-the-ip-address-of-the-current-machine-using-java
 	 * 
 	 * @return 本机网卡IP地址，获取失败返回<code>null</code>
 	 * @since 3.0.1
 	 */
 	public static InetAddress getLocalhost() {
-
 		InetAddress candidateAddress = null;
 		NetworkInterface iface;
 		InetAddress inetAddr;
@@ -359,33 +328,27 @@ public class NetUtil {
 	 * @return 本机MAC地址
 	 */
 	public static String getLocalMacAddress() {
-
 		return getMacAddress(getLocalhost());
 	}
 
 	/**
 	 * 获得指定地址信息中的MAC地址，使用分隔符“-”
 	 * 
-	 * @param inetAddress
-	 *            {@link InetAddress}
+	 * @param inetAddress {@link InetAddress}
 	 * @return MAC地址，用-分隔
 	 */
 	public static String getMacAddress(InetAddress inetAddress) {
-
 		return getMacAddress(inetAddress, "-");
 	}
 
 	/**
 	 * 获得指定地址信息中的MAC地址
 	 * 
-	 * @param inetAddress
-	 *            {@link InetAddress}
-	 * @param separator
-	 *            分隔符，推荐使用“-”或者“:”
+	 * @param inetAddress {@link InetAddress}
+	 * @param separator 分隔符，推荐使用“-”或者“:”
 	 * @return MAC地址，用-分隔
 	 */
 	public static String getMacAddress(InetAddress inetAddress, String separator) {
-
 		if (null == inetAddress) {
 			return null;
 		}
@@ -415,15 +378,12 @@ public class NetUtil {
 	/**
 	 * 创建 {@link InetSocketAddress}
 	 * 
-	 * @param host
-	 *            域名或IP地址
-	 * @param port
-	 *            端口
+	 * @param host 域名或IP地址
+	 * @param port 端口
 	 * @return {@link InetSocketAddress}
 	 * @since 3.3.0
 	 */
 	public static InetSocketAddress createAddress(String host, int port) {
-
 		return new InetSocketAddress(host, port);
 	}
 
@@ -431,20 +391,14 @@ public class NetUtil {
 	 * 
 	 * 简易的使用Socket发送数据
 	 * 
-	 * @param host
-	 *            Server主机
-	 * @param port
-	 *            Server端口
-	 * @param isBlock
-	 *            是否阻塞方式
-	 * @param data
-	 *            需要发送的数据
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @param host Server主机
+	 * @param port Server端口
+	 * @param isBlock 是否阻塞方式
+	 * @param data 需要发送的数据
+	 * @throws IORuntimeException IO异常
 	 * @since 3.3.0
 	 */
 	public static void netCat(String host, int port, boolean isBlock, ByteBuffer data) throws IORuntimeException {
-
 		try (SocketChannel channel = SocketChannel.open(createAddress(host, port))) {
 			channel.configureBlocking(isBlock);
 			channel.write(data);
@@ -457,18 +411,13 @@ public class NetUtil {
 	 * 
 	 * 使用普通Socket发送数据
 	 * 
-	 * @param host
-	 *            Server主机
-	 * @param port
-	 *            Server端口
-	 * @param data
-	 *            数据
-	 * @throws IOException
-	 *             IO异常
+	 * @param host Server主机
+	 * @param port Server端口
+	 * @param data 数据
+	 * @throws IOException IO异常
 	 * @since 3.3.0
 	 */
 	public static void netCat(String host, int port, byte[] data) throws IORuntimeException {
-
 		OutputStream out = null;
 		try (Socket socket = new Socket(host, port)) {
 			out = socket.getOutputStream();
@@ -485,44 +434,33 @@ public class NetUtil {
 	 * 是否在CIDR规则配置范围内<br>
 	 * 方法来自：【成都】小邓
 	 * 
-	 * @param ip
-	 *            需要验证的IP
-	 * @param cidr
-	 *            CIDR规则
+	 * @param ip 需要验证的IP
+	 * @param cidr CIDR规则
 	 * @return 是否在范围内
 	 * @since 4.0.6
 	 */
 	public static boolean isInRange(String ip, String cidr) {
-
 		String[] ips = StrUtil.splitToArray(ip, '.');
-		int ipAddr = (Integer.parseInt(ips[0]) << 24) | (Integer.parseInt(ips[1]) << 16) | (Integer.parseInt(ips[2]) << 8)
-				| Integer.parseInt(ips[3]);
+		int ipAddr = (Integer.parseInt(ips[0]) << 24) | (Integer.parseInt(ips[1]) << 16) | (Integer.parseInt(ips[2]) << 8) | Integer.parseInt(ips[3]);
 		int type = Integer.parseInt(cidr.replaceAll(".*/", ""));
 		int mask = 0xFFFFFFFF << (32 - type);
 		String cidrIp = cidr.replaceAll("/.*", "");
 		String[] cidrIps = cidrIp.split("\\.");
-		int cidrIpAddr = (Integer.parseInt(cidrIps[0]) << 24) | (Integer.parseInt(cidrIps[1]) << 16)
-				| (Integer.parseInt(cidrIps[2]) << 8) | Integer.parseInt(cidrIps[3]);
+		int cidrIpAddr = (Integer.parseInt(cidrIps[0]) << 24) | (Integer.parseInt(cidrIps[1]) << 16) | (Integer.parseInt(cidrIps[2]) << 8) | Integer.parseInt(cidrIps[3]);
 		return (ipAddr & mask) == (cidrIpAddr & mask);
 	}
 
-	// -----------------------------------------------------------------------------------------
-	// Private method start
+	// ----------------------------------------------------------------------------------------- Private method start
 	/**
 	 * 指定IP的long是否在指定范围内
 	 * 
-	 * @param userIp
-	 *            用户IP
-	 * @param begin
-	 *            开始IP
-	 * @param end
-	 *            结束IP
+	 * @param userIp 用户IP
+	 * @param begin 开始IP
+	 * @param end 结束IP
 	 * @return 是否在范围内
 	 */
 	private static boolean isInner(long userIp, long begin, long end) {
-
 		return (userIp >= begin) && (userIp <= end);
 	}
-	// -----------------------------------------------------------------------------------------
-	// Private method end
+	// ----------------------------------------------------------------------------------------- Private method end
 }

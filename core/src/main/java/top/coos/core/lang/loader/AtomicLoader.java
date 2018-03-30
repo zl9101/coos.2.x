@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * 
  * 当对象未被创建，对象的初始化操作在多线程情况下可能会被调用多次（多次创建对象），但是总是返回同一对象
  * 
- 
+
  *
  * @param <T> 被加载对象类型
  */

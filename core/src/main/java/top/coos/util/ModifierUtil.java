@@ -8,7 +8,7 @@ import java.lang.reflect.Modifier;
 /**
  * 修饰符工具类
  * 
- 
+
  * @since 4.0.5
  */
 public class ModifierUtil {
@@ -16,7 +16,7 @@ public class ModifierUtil {
 	/**
 	 * 修饰符枚举
 	 * 
-	 
+	
 	 * @since 4.0.5
 	 */
 	public static enum ModifierType {
@@ -41,10 +41,7 @@ public class ModifierUtil {
 
 		/** abstract，将一个类声明为抽象类，没有实现的方法，需要子类提供方法实现。 */
 		ABSTRACT(Modifier.ABSTRACT),
-		/**
-		 * strictfp，一旦使用了关键字strictfp来声明某个类、接口或者方法时，那么在这个关键字所声明的范围内所有浮点运算都是精确的，
-		 * 符合IEEE-754规范的。
-		 */
+		/** strictfp，一旦使用了关键字strictfp来声明某个类、接口或者方法时，那么在这个关键字所声明的范围内所有浮点运算都是精确的，符合IEEE-754规范的。 */
 		STRICT(Modifier.STRICT);
 
 		/** 修饰符枚举对应的int修饰符值 */
@@ -52,22 +49,17 @@ public class ModifierUtil {
 
 		/**
 		 * 构造
-		 * 
-		 * @param modifier
-		 *            修饰符int表示，见{@link Modifier}
+		 * @param modifier 修饰符int表示，见{@link Modifier}
 		 */
 		private ModifierType(int modifier) {
-
 			this.value = modifier;
 		}
 
 		/**
 		 * 获取修饰符枚举对应的int修饰符值，值见{@link Modifier}
-		 * 
 		 * @return 修饰符枚举对应的int修饰符值
 		 */
 		public int getValue() {
-
 			return this.value;
 		}
 	}
@@ -75,14 +67,11 @@ public class ModifierUtil {
 	/**
 	 * 是否同时存在一个或多个修饰符（可能有多个修饰符，如果有指定的修饰符则返回true）
 	 * 
-	 * @param clazz
-	 *            类
-	 * @param modifierTypes
-	 *            修饰符枚举
+	 * @param clazz 类
+	 * @param modifierTypes 修饰符枚举
 	 * @return 是否有指定修饰符，如果有返回true，否则false，如果提供参数为null返回false
 	 */
 	public static boolean hasModifier(Class<?> clazz, ModifierType... modifierTypes) {
-
 		if (null == clazz || ArrayUtil.isEmpty(modifierTypes)) {
 			return false;
 		}
@@ -92,14 +81,11 @@ public class ModifierUtil {
 	/**
 	 * 是否同时存在一个或多个修饰符（可能有多个修饰符，如果有指定的修饰符则返回true）
 	 * 
-	 * @param constructor
-	 *            构造方法
-	 * @param modifierTypes
-	 *            修饰符枚举
+	 * @param constructor 构造方法
+	 * @param modifierTypes 修饰符枚举
 	 * @return 是否有指定修饰符，如果有返回true，否则false，如果提供参数为null返回false
 	 */
 	public static boolean hasModifier(Constructor<?> constructor, ModifierType... modifierTypes) {
-
 		if (null == constructor || ArrayUtil.isEmpty(modifierTypes)) {
 			return false;
 		}
@@ -109,141 +95,116 @@ public class ModifierUtil {
 	/**
 	 * 是否同时存在一个或多个修饰符（可能有多个修饰符，如果有指定的修饰符则返回true）
 	 * 
-	 * @param method
-	 *            方法
-	 * @param modifierTypes
-	 *            修饰符枚举
+	 * @param method 方法
+	 * @param modifierTypes 修饰符枚举
 	 * @return 是否有指定修饰符，如果有返回true，否则false，如果提供参数为null返回false
 	 */
 	public static boolean hasModifier(Method method, ModifierType... modifierTypes) {
-
 		if (null == method || ArrayUtil.isEmpty(modifierTypes)) {
 			return false;
 		}
 		return 0 != (method.getModifiers() & modifiersToInt(modifierTypes));
 	}
-
+	
 	/**
 	 * 是否同时存在一个或多个修饰符（可能有多个修饰符，如果有指定的修饰符则返回true）
 	 * 
-	 * @param field
-	 *            字段
-	 * @param modifierTypes
-	 *            修饰符枚举
+	 * @param field 字段
+	 * @param modifierTypes 修饰符枚举
 	 * @return 是否有指定修饰符，如果有返回true，否则false，如果提供参数为null返回false
 	 */
 	public static boolean hasModifier(Field field, ModifierType... modifierTypes) {
-
 		if (null == field || ArrayUtil.isEmpty(modifierTypes)) {
 			return false;
 		}
 		return 0 != (field.getModifiers() & modifiersToInt(modifierTypes));
 	}
-
+	
 	/**
 	 * 是否是Public字段
 	 * 
-	 * @param field
-	 *            字段
+	 * @param field 字段
 	 * @return 是否是Public
 	 */
 	public static boolean isPublic(Field field) {
-
 		return hasModifier(field, ModifierType.PUBLIC);
 	}
 
 	/**
 	 * 是否是Public方法
 	 * 
-	 * @param method
-	 *            方法
+	 * @param method 方法
 	 * @return 是否是Public
 	 */
 	public static boolean isPublic(Method method) {
-
 		return hasModifier(method, ModifierType.PUBLIC);
 	}
 
 	/**
 	 * 是否是Public类
 	 * 
-	 * @param clazz
-	 *            类
+	 * @param clazz 类
 	 * @return 是否是Public
 	 */
 	public static boolean isPublic(Class<?> clazz) {
-
 		return hasModifier(clazz, ModifierType.PUBLIC);
 	}
 
 	/**
 	 * 是否是Public构造
 	 * 
-	 * @param constructor
-	 *            构造
+	 * @param constructor 构造
 	 * @return 是否是Public
 	 */
 	public static boolean isPublic(Constructor<?> constructor) {
-
 		return hasModifier(constructor, ModifierType.PUBLIC);
 	}
-
+	
 	/**
 	 * 是否是static字段
 	 * 
-	 * @param field
-	 *            字段
+	 * @param field 字段
 	 * @return 是否是static
 	 * @since 4.0.8
 	 */
 	public static boolean isStatic(Field field) {
-
 		return hasModifier(field, ModifierType.STATIC);
 	}
 
 	/**
 	 * 是否是static方法
 	 * 
-	 * @param method
-	 *            方法
+	 * @param method 方法
 	 * @return 是否是static
 	 * @since 4.0.8
 	 */
 	public static boolean isStatic(Method method) {
-
 		return hasModifier(method, ModifierType.STATIC);
 	}
 
 	/**
 	 * 是否是static类
 	 * 
-	 * @param clazz
-	 *            类
+	 * @param clazz 类
 	 * @return 是否是static
 	 * @since 4.0.8
 	 */
 	public static boolean isStatic(Class<?> clazz) {
-
 		return hasModifier(clazz, ModifierType.STATIC);
 	}
-
-	// --------------------------------------------------------------------------------------------------------
-	// Private method start
+	
+	//-------------------------------------------------------------------------------------------------------- Private method start
 	/**
 	 * 多个修饰符做“与”操作，表示同时存在多个修饰符
-	 * 
-	 * @param modifierTypes
-	 *            修饰符列表，元素不能为空
+	 * @param modifierTypes 修饰符列表，元素不能为空
 	 * @return “与”之后的修饰符
 	 */
 	private static int modifiersToInt(ModifierType... modifierTypes) {
-
 		int modifier = modifierTypes[0].getValue();
-		for (int i = 1; i < modifierTypes.length; i++) {
+		for(int i = 1; i < modifierTypes.length; i++) {
 			modifier &= modifierTypes[i].getValue();
 		}
 		return modifier;
 	}
-	// --------------------------------------------------------------------------------------------------------
-	// Private method end
+	//-------------------------------------------------------------------------------------------------------- Private method end
 }

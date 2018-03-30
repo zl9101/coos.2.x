@@ -24,7 +24,7 @@ import top.coos.util.StrUtil;
  * 
  * 参考：http://blog.csdn.net/qxc1281/article/details/54021882
  * 
- 
+
  * @since 4.0.0
  *
  */
@@ -38,12 +38,10 @@ public class ObjectId {
 	/**
 	 * 给定的字符串是否为有效的ObjectId
 	 * 
-	 * @param s
-	 *            字符串
+	 * @param s 字符串
 	 * @return 是否为有效的ObjectId
 	 */
 	public static boolean isValid(String s) {
-
 		if (s == null) {
 			return false;
 		}
@@ -75,7 +73,6 @@ public class ObjectId {
 	 * @return objectId
 	 */
 	public static String next() {
-
 		return next(false);
 	}
 
@@ -85,7 +82,6 @@ public class ObjectId {
 	 * @return objectId
 	 */
 	public static String next(boolean withHyphen) {
-
 		ByteBuffer bb = ByteBuffer.wrap(new byte[12]);
 		bb.putInt((int) DateUtil.currentSeconds());// 4位
 		bb.putInt(machine);// 4位
@@ -109,15 +105,13 @@ public class ObjectId {
 		return buf.toString();
 	}
 
-	// -----------------------------------------------------------------------------------------
-	// Private method start
+	// ----------------------------------------------------------------------------------------- Private method start
 	/**
 	 * 获取机器码片段
 	 * 
 	 * @return 机器码片段
 	 */
 	private static int getMachinePiece() {
-
 		// 机器码
 		int machinePiece;
 		try {
@@ -145,7 +139,6 @@ public class ObjectId {
 	 * @return 进程码片段
 	 */
 	private static int getProcessPiece() {
-
 		// 进程码
 		// 因为静态变量类加载可能相同,所以要获取进程ID + 加载对象的ID值
 		final int processPiece;
@@ -171,6 +164,5 @@ public class ObjectId {
 
 		return processPiece;
 	}
-	// -----------------------------------------------------------------------------------------
-	// Private method end
+	// ----------------------------------------------------------------------------------------- Private method end
 }

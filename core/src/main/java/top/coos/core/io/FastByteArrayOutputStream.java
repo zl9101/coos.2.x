@@ -15,36 +15,31 @@ import top.coos.util.CharsetUtil;
  * <p>
  * 这种设计避免重新分配内存块而是分配新增的缓冲区，缓冲区不会被GC，数据也不会被拷贝到其他缓冲区。
  *
- 
+
  */
 public class FastByteArrayOutputStream extends OutputStream {
 
 	private final FastByteBuffer buffer;
 
 	public FastByteArrayOutputStream() {
-
 		this(1024);
 	}
 
 	public FastByteArrayOutputStream(int size) {
-
 		buffer = new FastByteBuffer(size);
 	}
 
 	@Override
 	public void write(byte[] b, int off, int len) {
-
 		buffer.append(b, off, len);
 	}
 
 	@Override
 	public void write(int b) {
-
 		buffer.append((byte) b);
 	}
 
 	public int size() {
-
 		return buffer.size();
 	}
 
@@ -53,25 +48,19 @@ public class FastByteArrayOutputStream extends OutputStream {
 	 */
 	@Override
 	public void close() {
-
 		// nop
 	}
 
 	public void reset() {
-
 		buffer.reset();
 	}
 
 	/**
 	 * 写出
-	 * 
-	 * @param out
-	 *            输出流
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @param out 输出流
+	 * @throws IORuntimeException IO异常
 	 */
 	public void writeTo(OutputStream out) throws IORuntimeException {
-
 		final int index = buffer.index();
 		byte[] buf;
 		try {
@@ -85,43 +74,35 @@ public class FastByteArrayOutputStream extends OutputStream {
 		}
 	}
 
+	
 	/**
 	 * 转为Byte数组
-	 * 
 	 * @return Byte数组
 	 */
 	public byte[] toByteArray() {
-
 		return buffer.toArray();
 	}
 
 	@Override
 	public String toString() {
-
 		return new String(toByteArray());
 	}
 
 	/**
 	 * 转为字符串
-	 * 
-	 * @param charsetName
-	 *            编码
+	 * @param charsetName 编码
 	 * @return 字符串
 	 */
 	public String toString(String charsetName) {
-
 		return toString(CharsetUtil.charset(charsetName));
 	}
-
+	
 	/**
 	 * 转为字符串
-	 * 
-	 * @param charset
-	 *            编码
+	 * @param charset 编码
 	 * @return 字符串
 	 */
 	public String toString(Charset charset) {
-
 		return new String(toByteArray(), charset);
 	}
 

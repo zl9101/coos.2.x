@@ -6,7 +6,7 @@ import top.coos.core.text.ASCIIStrCache;
  * 字符工具类<br>
  * 部分工具来自于Apache Commons系列
  * 
- 
+
  * @since 4.0.1
  */
 public class CharUtil {
@@ -41,12 +41,10 @@ public class CharUtil {
 	 *   CharUtil.isAscii('&copy;') = false
 	 * </pre>
 	 * 
-	 * @param ch
-	 *            被检查的字符处
+	 * @param ch 被检查的字符处
 	 * @return true表示为ASCII字符，ASCII字符位于0~127之间
 	 */
 	public static boolean isAscii(char ch) {
-
 		return ch < 128;
 	}
 
@@ -62,12 +60,10 @@ public class CharUtil {
 	 *   CharUtil.isAsciiPrintable('&copy;') = false
 	 * </pre>
 	 * 
-	 * @param ch
-	 *            被检查的字符处
+	 * @param ch 被检查的字符处
 	 * @return true表示为ASCII可见字符，可见字符位于32~126之间
 	 */
 	public static boolean isAsciiPrintable(char ch) {
-
 		return ch >= 32 && ch < 127;
 	}
 
@@ -83,12 +79,10 @@ public class CharUtil {
 	 *   CharUtil.isAsciiControl('&copy;') = false
 	 * </pre>
 	 * 
-	 * @param ch
-	 *            被检查的字符
+	 * @param ch 被检查的字符
 	 * @return true表示为控制符，控制符位于0~31和127
 	 */
 	public static boolean isAsciiControl(final char ch) {
-
 		return ch < 32 || ch == 127;
 	}
 
@@ -105,12 +99,10 @@ public class CharUtil {
 	 *   CharUtil.isLetter('&copy;') = false
 	 * </pre>
 	 * 
-	 * @param ch
-	 *            被检查的字符
+	 * @param ch 被检查的字符
 	 * @return true表示为字母（包括大写字母和小写字母）字母包括A~Z和a~z
 	 */
 	public static boolean isLetter(char ch) {
-
 		return isLetterUpper(ch) || isLetterLower(ch);
 	}
 
@@ -128,12 +120,10 @@ public class CharUtil {
 	 *   CharUtil.isLetterUpper('&copy;') = false
 	 * </pre>
 	 * 
-	 * @param ch
-	 *            被检查的字符
+	 * @param ch 被检查的字符
 	 * @return true表示为大写字母，大写字母包括A~Z
 	 */
 	public static boolean isLetterUpper(final char ch) {
-
 		return ch >= 'A' && ch <= 'Z';
 	}
 
@@ -151,12 +141,10 @@ public class CharUtil {
 	 *   CharUtil.isLetterLower('&copy;') = false
 	 * </pre>
 	 * 
-	 * @param ch
-	 *            被检查的字符
+	 * @param ch 被检查的字符
 	 * @return true表示为小写字母，小写字母指a~z
 	 */
 	public static boolean isLetterLower(final char ch) {
-
 		return ch >= 'a' && ch <= 'z';
 	}
 
@@ -174,12 +162,10 @@ public class CharUtil {
 	 *   CharUtil.isNumber('&copy;') = false
 	 * </pre>
 	 * 
-	 * @param ch
-	 *            被检查的字符
+	 * @param ch 被检查的字符
 	 * @return true表示为数字字符，数字字符指0~9
 	 */
 	public static boolean isNumber(final char ch) {
-
 		return ch >= '0' && ch <= '9';
 	}
 
@@ -195,12 +181,10 @@ public class CharUtil {
 	 *   CharUtil.isLetterOrNumber('&copy;') = false
 	 * </pre>
 	 * 
-	 * @param ch
-	 *            被检查的字符
+	 * @param ch 被检查的字符
 	 * @return true表示为字符或数字，包括A~Z、a~z、0~9
 	 */
 	public static boolean isLetterOrNumber(final char ch) {
-
 		return isLetter(ch) || isNumber(ch);
 	}
 
@@ -208,13 +192,11 @@ public class CharUtil {
 	 * 字符转为字符串<br>
 	 * 如果为ASCII字符，使用缓存
 	 * 
-	 * @param c
-	 *            字符
+	 * @param c 字符
 	 * @return 字符串
 	 * @see ASCIIStrCache#toString(char)
 	 */
 	public static String toString(char c) {
-
 		return ASCIIStrCache.toString(c);
 	}
 
@@ -226,12 +208,10 @@ public class CharUtil {
 	 * char.class
 	 * </pre>
 	 * 
-	 * @param clazz
-	 *            被检查的类
+	 * @param clazz 被检查的类
 	 * @return true表示为字符类
 	 */
 	public static boolean isCharClass(Class<?> clazz) {
-
 		return clazz == Character.class || clazz == char.class;
 	}
 
@@ -243,12 +223,10 @@ public class CharUtil {
 	 * char.class
 	 * </pre>
 	 * 
-	 * @param value
-	 *            被检查的对象
+	 * @param value 被检查的对象
 	 * @return true表示为字符类
 	 */
 	public static boolean isChar(Object value) {
-
 		return value instanceof Character || value.getClass() == char.class;
 	}
 
@@ -256,13 +234,11 @@ public class CharUtil {
 	 * 判断是否为emoji表情符<br>
 	 * 参考：http://blog.csdn.net/a445020593/article/details/56667654
 	 * 
-	 * @param c
-	 *            字符
+	 * @param c 字符
 	 * @return 是否为emoji
 	 * @since 4.0.8
 	 */
 	public static boolean isEmoji(char c) {
-
 		return (c == 0x0) || //
 				(c == 0x9) || //
 				(c == 0xA) || //
@@ -275,17 +251,13 @@ public class CharUtil {
 	/**
 	 * 比较两个字符是否相同
 	 * 
-	 * @param c1
-	 *            字符1
-	 * @param c2
-	 *            字符2
-	 * @param ignoreCase
-	 *            是否忽略大小写
+	 * @param c1 字符1
+	 * @param c2 字符2
+	 * @param ignoreCase 是否忽略大小写
 	 * @return 是否相同
 	 * @since 4.0.3
 	 */
 	public static boolean equals(char c1, char c2, boolean ignoreCase) {
-
 		if (ignoreCase) {
 			return Character.toLowerCase(c1) == Character.toLowerCase(c2);
 		}

@@ -9,6 +9,8 @@ import top.coos.util.StrUtil;
 
 /**
  * 日期转换器
+ * 
+
  *
  */
 public class CalendarConverter extends AbstractConverter<Calendar> {
@@ -22,33 +24,29 @@ public class CalendarConverter extends AbstractConverter<Calendar> {
 	 * @return 设置日期格式
 	 */
 	public String getFormat() {
-
 		return format;
 	}
 
 	/**
 	 * 设置日期格式
 	 * 
-	 * @param format
-	 *            日期格式
+	 * @param format 日期格式
 	 */
 	public void setFormat(String format) {
-
 		this.format = format;
 	}
 
 	@Override
 	protected Calendar convertInternal(Object value) {
-
 		// Handle Date
 		if (value instanceof Date) {
-			return DateUtil.calendar((Date) value);
+			return DateUtil.calendar((Date)value);
 		}
 
 		// Handle Long
 		if (value instanceof Long) {
-			// 此处使用自动拆装箱
-			return DateUtil.calendar((Long) value);
+			//此处使用自动拆装箱
+			return DateUtil.calendar((Long)value);
 		}
 
 		final String valueStr = convertToStr(value);

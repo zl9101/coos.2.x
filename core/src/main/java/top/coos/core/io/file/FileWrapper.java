@@ -10,7 +10,7 @@ import top.coos.util.CharsetUtil;
 /**
  * 文件包装器，扩展文件对象
  * 
- 
+
  *
  */
 public class FileWrapper {

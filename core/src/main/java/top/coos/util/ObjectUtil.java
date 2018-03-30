@@ -11,14 +11,14 @@ import java.util.Iterator;
 import java.util.Map;
 
 import top.coos.core.bean.BeanUtil;
+import top.coos.core.exceptions.UtilException;
 import top.coos.core.io.FastByteArrayOutputStream;
 import top.coos.core.io.IoUtil;
-import top.coos.exceptions.UtilException;
 
 /**
  * 一些通用的函数
  * 
- 
+
  *
  */
 public class ObjectUtil {
@@ -32,30 +32,24 @@ public class ObjectUtil {
 	 * </ol>
 	 * 1. obj1 == null &amp;&amp; obj2 == null 2. obj1.equals(obj2)
 	 * 
-	 * @param obj1
-	 *            对象1
-	 * @param obj2
-	 *            对象2
+	 * @param obj1 对象1
+	 * @param obj2 对象2
 	 * @return 是否相等
 	 */
 	public static boolean equal(Object obj1, Object obj2) {
-
-		// return (obj1 != null) ? (obj1.equals(obj2)) : (obj2 == null);
+//		return (obj1 != null) ? (obj1.equals(obj2)) : (obj2 == null);
 		return (obj1 == obj2) || (obj1 != null && obj1.equals(obj2));
 	}
 
 	/**
 	 * 比较两个对象是否不相等。<br>
 	 * 
-	 * @param obj1
-	 *            对象1
-	 * @param obj2
-	 *            对象2
+	 * @param obj1 对象1
+	 * @param obj2 对象2
 	 * @return 是否不等
 	 * @since 3.0.7
 	 */
 	public static boolean notEqual(Object obj1, Object obj2) {
-
 		return false == equal(obj1, obj2);
 	}
 
@@ -70,12 +64,10 @@ public class ObjectUtil {
 	 * <li>Array</li>
 	 * </ul>
 	 * 
-	 * @param obj
-	 *            被计算长度的对象
+	 * @param obj 被计算长度的对象
 	 * @return 长度
 	 */
 	public static int length(Object obj) {
-
 		if (obj == null) {
 			return 0;
 		}
@@ -126,14 +118,11 @@ public class ObjectUtil {
 	 * <li>Array</li>
 	 * </ul>
 	 * 
-	 * @param obj
-	 *            对象
-	 * @param element
-	 *            元素
+	 * @param obj 对象
+	 * @param element 元素
 	 * @return 是否包含
 	 */
 	public static boolean contains(Object obj, Object element) {
-
 		if (obj == null) {
 			return false;
 		}
@@ -185,30 +174,25 @@ public class ObjectUtil {
 	/**
 	 * 检查对象是否为null<br>
 	 * 判断标准为：
-	 * 
 	 * <pre>
 	 * 1. == null
 	 * 2. equals(null)
 	 * </pre>
 	 * 
-	 * @param obj
-	 *            对象
+	 * @param obj 对象
 	 * @return 是否为null
 	 */
 	public static boolean isNull(Object obj) {
-
 		return null == obj || obj.equals(null);
 	}
 
 	/**
 	 * 检查对象是否不为null
 	 * 
-	 * @param obj
-	 *            对象
+	 * @param obj 对象
 	 * @return 是否为null
 	 */
 	public static boolean isNotNull(Object obj) {
-
 		return null != obj && false == obj.equals(null);
 	}
 
@@ -223,17 +207,13 @@ public class ObjectUtil {
 	 * ObjectUtil.defaultIfNull(Boolean.TRUE, *) = Boolean.TRUE
 	 * </pre>
 	 *
-	 * @param <T>
-	 *            对象类型
-	 * @param object
-	 *            被检查对象，可能为{@code null}
-	 * @param defaultValue
-	 *            被检查对象为{@code null}返回的默认值，可以为{@code null}
+	 * @param <T> 对象类型
+	 * @param object 被检查对象，可能为{@code null}
+	 * @param defaultValue 被检查对象为{@code null}返回的默认值，可以为{@code null}
 	 * @return 被检查对象为{@code null}返回默认值，否则返回原值
 	 * @since 3.0.7
 	 */
 	public static <T> T defaultIfNull(final T object, final T defaultValue) {
-
 		return (null != object) ? object : defaultValue;
 	}
 
@@ -243,14 +223,11 @@ public class ObjectUtil {
 	 * 如果实现Serializable接口，执行深度克隆<br>
 	 * 否则返回<code>null</code>
 	 * 
-	 * @param <T>
-	 *            对象类型
-	 * @param obj
-	 *            被克隆对象
+	 * @param <T> 对象类型
+	 * @param obj 被克隆对象
 	 * @return 克隆后的对象
 	 */
 	public static <T> T clone(T obj) {
-
 		T result = ArrayUtil.clone(obj);
 		if (null == result) {
 			if (obj instanceof Cloneable) {
@@ -265,14 +242,11 @@ public class ObjectUtil {
 	/**
 	 * 返回克隆后的对象，如果克隆失败，返回原对象
 	 * 
-	 * @param <T>
-	 *            对象类型
-	 * @param obj
-	 *            对象
+	 * @param <T> 对象类型
+	 * @param obj 对象
 	 * @return 克隆后或原对象
 	 */
 	public static <T> T cloneIfPossible(final T obj) {
-
 		T clone = null;
 		try {
 			clone = clone(obj);
@@ -286,17 +260,13 @@ public class ObjectUtil {
 	 * 序列化后拷贝流的方式克隆<br>
 	 * 对象必须实现Serializable接口
 	 * 
-	 * @param <T>
-	 *            对象类型
-	 * @param obj
-	 *            被克隆对象
+	 * @param <T> 对象类型
+	 * @param obj 被克隆对象
 	 * @return 克隆后的对象
-	 * @throws UtilException
-	 *             IO异常和ClassNotFoundException封装
+	 * @throws UtilException IO异常和ClassNotFoundException封装
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T cloneByStream(T obj) {
-
 		if (null == obj || false == (obj instanceof Serializable)) {
 			return null;
 		}
@@ -319,14 +289,11 @@ public class ObjectUtil {
 	 * 序列化<br>
 	 * 对象必须实现Serializable接口
 	 * 
-	 * @param <T>
-	 *            对象类型
-	 * @param obj
-	 *            要被序列化的对象
+	 * @param <T> 对象类型
+	 * @param obj 要被序列化的对象
 	 * @return 序列化后的字节码
 	 */
 	public static <T> byte[] serialize(T obj) {
-
 		if (null == obj || false == (obj instanceof Serializable)) {
 			return null;
 		}
@@ -349,15 +316,12 @@ public class ObjectUtil {
 	 * 反序列化<br>
 	 * 对象必须实现Serializable接口
 	 * 
-	 * @param <T>
-	 *            对象类型
-	 * @param bytes
-	 *            反序列化的字节码
+	 * @param <T> 对象类型
+	 * @param bytes 反序列化的字节码
 	 * @return 反序列化后的对象
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T unserialize(byte[] bytes) {
-
 		ObjectInputStream ois = null;
 		try {
 			ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
@@ -372,12 +336,10 @@ public class ObjectUtil {
 	 * 是否为基本类型，包括包装类型和非包装类型
 	 * 
 	 * @see ClassUtil#isBasicType(Class)
-	 * @param object
-	 *            被检查对象
+	 * @param object 被检查对象
 	 * @return 是否为基本类型
 	 */
 	public static boolean isBasicType(Object object) {
-
 		return ClassUtil.isBasicType(object.getClass());
 	}
 
@@ -386,12 +348,10 @@ public class ObjectUtil {
 	 * 检查Double和Float是否为无限大，或者Not a Number<br>
 	 * 非数字类型和Null将返回true
 	 * 
-	 * @param obj
-	 *            被检查类型
+	 * @param obj 被检查类型
 	 * @return 检查结果，非数字类型和Null将返回true
 	 */
 	public static boolean isValidIfNumber(Object obj) {
-
 		if (obj != null && obj instanceof Number) {
 			if (obj instanceof Double) {
 				if (((Double) obj).isInfinite() || ((Double) obj).isNaN()) {
@@ -409,38 +369,29 @@ public class ObjectUtil {
 	/**
 	 * {@code null}安全的对象比较，{@code null}对象排在末尾
 	 * 
-	 * @param <T>
-	 *            被比较对象类型
-	 * @param c1
-	 *            对象1，可以为{@code null}
-	 * @param c2
-	 *            对象2，可以为{@code null}
+	 * @param <T> 被比较对象类型
+	 * @param c1 对象1，可以为{@code null}
+	 * @param c2 对象2，可以为{@code null}
 	 * @return 比较结果，如果c1 &lt; c2，返回数小于0，c1==c2返回0，c1 &gt; c2 大于0
 	 * @since 3.0.7
 	 * @see java.util.Comparator#compare(Object, Object)
 	 */
 	public static <T extends Comparable<? super T>> int compare(T c1, T c2) {
-
 		return compare(c1, c2, false);
 	}
 
 	/**
 	 * {@code null}安全的对象比较
 	 * 
-	 * @param <T>
-	 *            被比较对象类型
-	 * @param c1
-	 *            对象1，可以为{@code null}
-	 * @param c2
-	 *            对象2，可以为{@code null}
-	 * @param nullGreater
-	 *            当被比较对象为null时是否排在前面
+	 * @param <T> 被比较对象类型
+	 * @param c1 对象1，可以为{@code null}
+	 * @param c2 对象2，可以为{@code null}
+	 * @param nullGreater 当被比较对象为null时是否排在前面
 	 * @return 比较结果，如果c1 &lt; c2，返回数小于0，c1==c2返回0，c1 &gt; c2 大于0
 	 * @since 3.0.7
 	 * @see java.util.Comparator#compare(Object, Object)
 	 */
 	public static <T extends Comparable<? super T>> int compare(T c1, T c2, boolean nullGreater) {
-
 		if (c1 == c2) {
 			return 0;
 		} else if (c1 == null) {
@@ -454,48 +405,41 @@ public class ObjectUtil {
 	/**
 	 * 获得给定类的第一个泛型参数
 	 * 
-	 * @param obj
-	 *            被检查的对象
+	 * @param obj 被检查的对象
 	 * @return {@link Class}
 	 * @since 3.0.8
 	 */
 	public static Class<?> getTypeArgument(Object obj) {
-
 		return getTypeArgument(obj, 0);
 	}
 
 	/**
 	 * 获得给定类的第一个泛型参数
 	 * 
-	 * @param obj
-	 *            被检查的对象
-	 * @param index
-	 *            泛型类型的索引号，既第几个泛型类型
+	 * @param obj 被检查的对象
+	 * @param index 泛型类型的索引号，既第几个泛型类型
 	 * @return {@link Class}
 	 * @since 3.0.8
 	 */
 	public static Class<?> getTypeArgument(Object obj, int index) {
-
 		return ClassUtil.getTypeArgument(obj.getClass(), index);
 	}
 
 	/**
 	 * 将Object转为String
 	 * 
-	 * @param obj
-	 *            Bean对象
+	 * @param obj Bean对象
 	 * @return Bean所有字段转为Map后的字符串
 	 * @since 3.2.0
 	 */
 	public static String toString(Object obj) {
-
-		if (null == obj) {
+		if(null == obj) {
 			return "null";
 		}
-		if (obj instanceof Map) {
-			return ((Map<?, ?>) obj).toString();
+		if(obj instanceof Map) {
+			return ((Map<?, ?>)obj).toString();
 		}
-
+		
 		return BeanUtil.beanToMap(obj).toString();
 	}
 }

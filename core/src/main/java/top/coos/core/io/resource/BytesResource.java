@@ -15,7 +15,7 @@ import top.coos.util.StrUtil;
  * 基于byte[]的资源获取器<br>
  * 注意：此对象中getUrl方法始终返回null
  * 
- 
+
  * @since 4.0.9
  */
 public class BytesResource implements Resource {

@@ -4,7 +4,7 @@ package top.coos.core.io;
  * 代码移植自<a href="https://github.com/biezhi/blade">blade</a><br>
  * 快速缓冲，将数据存放在缓冲集中，取代以往的单一数组
  *
- 
+
  * @since 1.0
  */
 public class FastByteBuffer {
@@ -40,23 +40,19 @@ public class FastByteBuffer {
 	private final int minChunkLen;
 
 	public FastByteBuffer() {
-
 		this.minChunkLen = 1024;
 	}
 
 	public FastByteBuffer(int size) {
-
 		this.minChunkLen = Math.abs(size);
 	}
 
 	/**
 	 * 分配下一个缓冲区，不会小于1024
 	 * 
-	 * @param newSize
-	 *            理想缓冲区字节数
+	 * @param newSize 理想缓冲区字节数
 	 */
 	private void needNewBuffer(int newSize) {
-
 		int delta = newSize - size;
 		int newBufferSize = Math.max(minChunkLen, delta);
 
@@ -78,16 +74,12 @@ public class FastByteBuffer {
 	/**
 	 * 向快速缓冲加入数据
 	 * 
-	 * @param array
-	 *            数据
-	 * @param off
-	 *            偏移量
-	 * @param len
-	 *            字节数
+	 * @param array 数据
+	 * @param off 偏移量
+	 * @param len 字节数
 	 * @return 快速缓冲自身 @see FastByteBuffer
 	 */
 	public FastByteBuffer append(byte[] array, int off, int len) {
-
 		int end = off + len;
 		if ((off < 0) || (len < 0) || (end > array.length)) {
 			throw new IndexOutOfBoundsException();
@@ -126,25 +118,21 @@ public class FastByteBuffer {
 	/**
 	 * 向快速缓冲加入数据
 	 * 
-	 * @param array
-	 *            数据
+	 * @param array 数据
 	 * 
 	 * @return 快速缓冲自身 @see FastByteBuffer
 	 */
 	public FastByteBuffer append(byte[] array) {
-
 		return append(array, 0, array.length);
 	}
 
 	/**
 	 * 向快速缓冲加入一个字节
 	 * 
-	 * @param element
-	 *            一个字节的数据
+	 * @param element 一个字节的数据
 	 * @return 快速缓冲自身 @see FastByteBuffer
 	 */
 	public FastByteBuffer append(byte element) {
-
 		if ((currentBuffer == null) || (offset == currentBuffer.length)) {
 			needNewBuffer(size + 1);
 		}
@@ -159,12 +147,10 @@ public class FastByteBuffer {
 	/**
 	 * 将另一个快速缓冲加入到自身
 	 * 
-	 * @param buff
-	 *            快速缓冲
+	 * @param buff 快速缓冲
 	 * @return 快速缓冲自身 @see FastByteBuffer
 	 */
 	public FastByteBuffer append(FastByteBuffer buff) {
-
 		if (buff.size == 0) {
 			return this;
 		}
@@ -176,12 +162,10 @@ public class FastByteBuffer {
 	}
 
 	public int size() {
-
 		return size;
 	}
 
 	public boolean isEmpty() {
-
 		return size == 0;
 	}
 
@@ -191,29 +175,24 @@ public class FastByteBuffer {
 	 * @return {@link #currentBufferIndex}
 	 */
 	public int index() {
-
 		return currentBufferIndex;
 	}
 
 	public int offset() {
-
 		return offset;
 	}
 
 	/**
 	 * 根据索引位返回缓冲集中的缓冲
 	 * 
-	 * @param index
-	 *            索引位
+	 * @param index 索引位
 	 * @return 缓冲
 	 */
 	public byte[] array(int index) {
-
 		return buffers[index];
 	}
 
 	public void reset() {
-
 		size = 0;
 		offset = 0;
 		currentBufferIndex = -1;
@@ -227,7 +206,6 @@ public class FastByteBuffer {
 	 * @return 快速缓冲中的数据
 	 */
 	public byte[] toArray() {
-
 		int pos = 0;
 		byte[] array = new byte[size];
 
@@ -249,14 +227,11 @@ public class FastByteBuffer {
 	/**
 	 * 返回快速缓冲中的数据
 	 * 
-	 * @param start
-	 *            逻辑起始位置
-	 * @param len
-	 *            逻辑字节长
+	 * @param start 逻辑起始位置
+	 * @param len 逻辑字节长
 	 * @return 快速缓冲中的数据
 	 */
 	public byte[] toArray(int start, int len) {
-
 		int remaining = len;
 		int pos = 0;
 		byte[] array = new byte[len];
@@ -289,12 +264,10 @@ public class FastByteBuffer {
 	/**
 	 * 根据索引位返回一个字节
 	 * 
-	 * @param index
-	 *            索引位
+	 * @param index 索引位
 	 * @return 一个字节
 	 */
 	public byte get(int index) {
-
 		if ((index >= size) || (index < 0)) {
 			throw new IndexOutOfBoundsException();
 		}

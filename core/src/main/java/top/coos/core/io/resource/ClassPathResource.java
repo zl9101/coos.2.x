@@ -13,7 +13,7 @@ import top.coos.util.URLUtil;
  * 传入路径path必须为相对路径，如果传入绝对路径，Linux路径会去掉开头的“/”，而Windows路径会直接报错。<br>
  * 传入的path所指向的资源必须存在，否则报错
  * 
- 
+
  *
  */
 public class ClassPathResource extends UrlResource {

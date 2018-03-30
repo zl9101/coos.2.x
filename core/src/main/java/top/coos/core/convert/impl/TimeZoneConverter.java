@@ -6,12 +6,13 @@ import top.coos.core.convert.AbstractConverter;
 
 /**
  * TimeZone转换器
+
+ *
  */
-public class TimeZoneConverter extends AbstractConverter<TimeZone> {
+public class TimeZoneConverter extends AbstractConverter<TimeZone>{
 
 	@Override
 	protected TimeZone convertInternal(Object value) {
-
 		return TimeZone.getTimeZone(convertToStr(value));
 	}
 

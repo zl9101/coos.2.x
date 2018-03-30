@@ -18,30 +18,26 @@ import top.coos.util.StrUtil;
 /**
  * 包装java.util.Date
  * 
+
+ *
  */
 public class DateTime extends Date {
-
 	private static final long serialVersionUID = -5395712593979185936L;
 
 	/** 是否可变对象 */
 	private boolean mutable = true;
-	/**
-	 * 一周的第一天，默认是周一， 在设置或获得 WEEK_OF_MONTH 或 WEEK_OF_YEAR 字段时，Calendar
-	 * 必须确定一个月或一年的第一个星期，以此作为参考点。
-	 */
+	/** 一周的第一天，默认是周一， 在设置或获得 WEEK_OF_MONTH 或 WEEK_OF_YEAR 字段时，Calendar 必须确定一个月或一年的第一个星期，以此作为参考点。 */
 	private Week firstDayOfWeek = Week.MONDAY;
 
 	/**
 	 * 转换JDK date为 DateTime
 	 * 
-	 * @param date
-	 *            JDK Date
+	 * @param date JDK Date
 	 * @return DateTime
 	 */
 	public static DateTime of(Date date) {
-
-		if (date instanceof DateTime) {
-			return (DateTime) date;
+		if(date instanceof DateTime) {
+			return (DateTime)date;
 		}
 		return new DateTime(date);
 	}
@@ -49,12 +45,10 @@ public class DateTime extends Date {
 	/**
 	 * 转换 {@link Calendar} 为 DateTime
 	 * 
-	 * @param calendar
-	 *            {@link Calendar}
+	 * @param calendar {@link Calendar}
 	 * @return DateTime
 	 */
 	public static DateTime of(Calendar calendar) {
-
 		return new DateTime(calendar);
 	}
 
@@ -62,14 +56,11 @@ public class DateTime extends Date {
 	 * 构造
 	 * 
 	 * @see DatePattern
-	 * @param dateStr
-	 *            Date字符串
-	 * @param format
-	 *            格式
+	 * @param dateStr Date字符串
+	 * @param format 格式
 	 * @return {@link DateTime}
 	 */
 	public static DateTime of(String dateStr, String format) {
-
 		return new DateTime(dateStr, format);
 	}
 
@@ -79,50 +70,41 @@ public class DateTime extends Date {
 	 * @return 现在的时间
 	 */
 	public static DateTime now() {
-
 		return new DateTime();
 	}
 
-	// --------------------------------------------------------------------
-	// Constructor start
+	// -------------------------------------------------------------------- Constructor start
 	/**
 	 * 当前时间
 	 */
 	public DateTime() {
-
 		super();
 	}
 
 	/**
 	 * 给定日期的构造
 	 * 
-	 * @param date
-	 *            日期
+	 * @param date 日期
 	 */
 	public DateTime(Date date) {
-
 		this(date.getTime());
 	}
 
 	/**
 	 * 给定日期的构造
 	 * 
-	 * @param calendar
-	 *            {@link Calendar}
+	 * @param calendar {@link Calendar}
 	 */
 	public DateTime(Calendar calendar) {
-
 		this(calendar.getTime());
 	}
 
 	/**
 	 * 给定日期毫秒数的构造
 	 * 
-	 * @param timeMillis
-	 *            日期毫秒数
+	 * @param timeMillis 日期毫秒数
 	 */
 	public DateTime(long timeMillis) {
-
 		super(timeMillis);
 	}
 
@@ -130,13 +112,10 @@ public class DateTime extends Date {
 	 * 构造
 	 * 
 	 * @see DatePattern
-	 * @param dateStr
-	 *            Date字符串
-	 * @param format
-	 *            格式
+	 * @param dateStr Date字符串
+	 * @param format 格式
 	 */
 	public DateTime(String dateStr, String format) {
-
 		this(dateStr, new SimpleDateFormat(format));
 	}
 
@@ -144,13 +123,10 @@ public class DateTime extends Date {
 	 * 构造
 	 * 
 	 * @see DatePattern
-	 * @param dateStr
-	 *            Date字符串
-	 * @param dateFormat
-	 *            格式化器 {@link SimpleDateFormat}
+	 * @param dateStr Date字符串
+	 * @param dateFormat 格式化器 {@link SimpleDateFormat}
 	 */
 	public DateTime(String dateStr, DateFormat dateFormat) {
-
 		this(parse(dateStr, dateFormat));
 	}
 
@@ -158,33 +134,25 @@ public class DateTime extends Date {
 	 * 构造
 	 * 
 	 * @see DatePattern
-	 * @param dateStr
-	 *            Date字符串
-	 * @param dateParser
-	 *            格式化器 {@link DateParser}，可以使用 {@link FastDateFormat}
+	 * @param dateStr Date字符串
+	 * @param dateParser 格式化器 {@link DateParser}，可以使用 {@link FastDateFormat}
 	 */
 	public DateTime(String dateStr, DateParser dateParser) {
-
 		this(parse(dateStr, dateParser));
 	}
 
-	// --------------------------------------------------------------------
-	// Constructor end
+	// -------------------------------------------------------------------- Constructor end
 
-	// --------------------------------------------------------------------
-	// offset start
+	// -------------------------------------------------------------------- offset start
 	/**
 	 * 调整日期和时间<br>
 	 * 如果此对象为可变对象，返回自身，否则返回新对象，设置是否可变对象见{@link #setMutable(boolean)}
 	 * 
-	 * @param datePart
-	 *            调整的部分 {@link DateField}
-	 * @param offset
-	 *            偏移量，正数为向后偏移，负数为向前偏移
+	 * @param datePart 调整的部分 {@link DateField}
+	 * @param offset 偏移量，正数为向后偏移，负数为向前偏移
 	 * @return 如果此对象为可变对象，返回自身，否则返回新对象
 	 */
 	public DateTime offset(DateField datePart, int offset) {
-
 		final Calendar cal = toCalendar();
 		cal.add(datePart.getValue(), offset);
 
@@ -196,37 +164,29 @@ public class DateTime extends Date {
 	 * 调整日期和时间<br>
 	 * 返回调整后的新{@link DateTime}，不影响原对象
 	 * 
-	 * @param datePart
-	 *            调整的部分 {@link DateField}
-	 * @param offset
-	 *            偏移量，正数为向后偏移，负数为向前偏移
+	 * @param datePart 调整的部分 {@link DateField}
+	 * @param offset 偏移量，正数为向后偏移，负数为向前偏移
 	 * @return 如果此对象为可变对象，返回自身，否则返回新对象
 	 * @since 3.0.9
 	 */
 	public DateTime offsetNew(DateField datePart, int offset) {
-
 		final Calendar cal = toCalendar();
 		cal.add(datePart.getValue(), offset);
 
 		DateTime dt = ObjectUtil.clone(this);
 		return dt.setTimeInternal(cal.getTimeInMillis());
 	}
+	// -------------------------------------------------------------------- offset end
 
-	// --------------------------------------------------------------------
-	// offset end
-
-	// -------------------------------------------------------------------- Part
-	// of Date start
+	// -------------------------------------------------------------------- Part of Date start
 	/**
 	 * 获得日期的某个部分<br>
 	 * 例如获得年的部分，则使用 getField(DatePart.YEAR)
 	 * 
-	 * @param field
-	 *            表示日期的哪个部分的枚举 {@link DateField}
+	 * @param field 表示日期的哪个部分的枚举 {@link DateField}
 	 * @return 某个部分的值
 	 */
 	public int getField(DateField field) {
-
 		return getField(field.getValue());
 	}
 
@@ -234,12 +194,10 @@ public class DateTime extends Date {
 	 * 获得日期的某个部分<br>
 	 * 例如获得年的部分，则使用 getField(Calendar.YEAR)
 	 * 
-	 * @param field
-	 *            表示日期的哪个部分的int值 {@link Calendar}
+	 * @param field 表示日期的哪个部分的int值 {@link Calendar}
 	 * @return 某个部分的值
 	 */
 	public int getField(int field) {
-
 		return toCalendar().get(field);
 	}
 
@@ -247,14 +205,11 @@ public class DateTime extends Date {
 	 * 设置日期的某个部分<br>
 	 * 如果此对象为可变对象，返回自身，否则返回新对象，设置是否可变对象见{@link #setMutable(boolean)}
 	 * 
-	 * @param field
-	 *            表示日期的哪个部分的枚举 {@link DateField}
-	 * @param value
-	 *            值
+	 * @param field 表示日期的哪个部分的枚举 {@link DateField}
+	 * @param value 值
 	 * @return {@link DateTime}
 	 */
 	public DateTime setField(DateField field, int value) {
-
 		return setField(field.getValue(), value);
 	}
 
@@ -262,14 +217,11 @@ public class DateTime extends Date {
 	 * 设置日期的某个部分<br>
 	 * 如果此对象为可变对象，返回自身，否则返回新对象，设置是否可变对象见{@link #setMutable(boolean)}
 	 * 
-	 * @param field
-	 *            表示日期的哪个部分的int值 {@link Calendar}
-	 * @param value
-	 *            值
+	 * @param field 表示日期的哪个部分的int值 {@link Calendar}
+	 * @param value 值
 	 * @return {@link DateTime}
 	 */
 	public DateTime setField(int field, int value) {
-
 		Calendar calendar = toCalendar();
 		calendar.set(field, value);
 
@@ -282,7 +234,6 @@ public class DateTime extends Date {
 
 	@Override
 	public void setTime(long time) {
-
 		if (mutable) {
 			super.setTime(time);
 		} else {
@@ -296,7 +247,6 @@ public class DateTime extends Date {
 	 * @return 年的部分
 	 */
 	public int year() {
-
 		return getField(DateField.YEAR);
 	}
 
@@ -310,7 +260,6 @@ public class DateTime extends Date {
 	 * @return 第几个季度
 	 */
 	public int season() {
-
 		return monthStartFromOne() / 4 + 1;
 	}
 
@@ -320,7 +269,6 @@ public class DateTime extends Date {
 	 * @return 第几个季度 {@link Season}
 	 */
 	public Season seasonEnum() {
-
 		return Season.of(season());
 	}
 
@@ -330,7 +278,6 @@ public class DateTime extends Date {
 	 * @return 月份
 	 */
 	public int month() {
-
 		return getField(DateField.MONTH);
 	}
 
@@ -341,7 +288,6 @@ public class DateTime extends Date {
 	 * @return 月份
 	 */
 	public int monthStartFromOne() {
-
 		return month() + 1;
 	}
 
@@ -351,7 +297,6 @@ public class DateTime extends Date {
 	 * @return {@link Month}
 	 */
 	public Month monthEnum() {
-
 		return Month.of(month());
 	}
 
@@ -365,7 +310,6 @@ public class DateTime extends Date {
 	 * @see #setFirstDayOfWeek(Week)
 	 */
 	public int weekOfYear() {
-
 		return getField(DateField.WEEK_OF_YEAR);
 	}
 
@@ -379,7 +323,6 @@ public class DateTime extends Date {
 	 * @see #setFirstDayOfWeek(Week)
 	 */
 	public int weekOfMonth() {
-
 		return getField(DateField.WEEK_OF_MONTH);
 	}
 
@@ -389,7 +332,6 @@ public class DateTime extends Date {
 	 * @return 天
 	 */
 	public int dayOfMonth() {
-
 		return getField(DateField.DAY_OF_MONTH);
 	}
 
@@ -399,7 +341,6 @@ public class DateTime extends Date {
 	 * @return 星期几
 	 */
 	public int dayOfWeek() {
-
 		return getField(DateField.DAY_OF_WEEK);
 	}
 
@@ -409,7 +350,6 @@ public class DateTime extends Date {
 	 * @return 天
 	 */
 	public int dayOfWeekInMonth() {
-
 		return getField(DateField.DAY_OF_WEEK_IN_MONTH);
 	}
 
@@ -419,19 +359,16 @@ public class DateTime extends Date {
 	 * @return {@link Week}
 	 */
 	public Week dayOfWeekEnum() {
-
 		return Week.of(dayOfWeek());
 	}
 
 	/**
 	 * 获得指定日期的小时数部分<br>
 	 * 
-	 * @param is24HourClock
-	 *            是否24小时制
+	 * @param is24HourClock 是否24小时制
 	 * @return 小时数
 	 */
 	public int hour(boolean is24HourClock) {
-
 		return getField(is24HourClock ? DateField.HOUR_OF_DAY : DateField.HOUR);
 	}
 
@@ -442,7 +379,6 @@ public class DateTime extends Date {
 	 * @return 分钟数
 	 */
 	public int minute() {
-
 		return getField(DateField.MINUTE);
 	}
 
@@ -452,7 +388,6 @@ public class DateTime extends Date {
 	 * @return 秒数
 	 */
 	public int second() {
-
 		return getField(DateField.SECOND);
 	}
 
@@ -462,7 +397,6 @@ public class DateTime extends Date {
 	 * @return 毫秒数
 	 */
 	public int millsecond() {
-
 		return getField(DateField.MILLISECOND);
 	}
 
@@ -472,7 +406,6 @@ public class DateTime extends Date {
 	 * @return 是否为上午
 	 */
 	public boolean isAM() {
-
 		return Calendar.AM == getField(DateField.AM_PM);
 	}
 
@@ -482,12 +415,9 @@ public class DateTime extends Date {
 	 * @return 是否为下午
 	 */
 	public boolean isPM() {
-
 		return Calendar.PM == getField(DateField.AM_PM);
 	}
-
-	// -------------------------------------------------------------------- Part
-	// of Date end
+	// -------------------------------------------------------------------- Part of Date end
 
 	/**
 	 * 是否闰年
@@ -496,7 +426,6 @@ public class DateTime extends Date {
 	 * @return 是否闰年
 	 */
 	public boolean isLeapYear() {
-
 		return DateUtil.isLeapYear(year());
 	}
 
@@ -506,7 +435,6 @@ public class DateTime extends Date {
 	 * @return {@link Calendar}
 	 */
 	public Calendar toCalendar() {
-
 		final Calendar cal = Calendar.getInstance();
 		cal.setFirstDayOfWeek(firstDayOfWeek.getValue());
 		cal.setTime(this);
@@ -516,12 +444,10 @@ public class DateTime extends Date {
 	/**
 	 * 转换为Calendar
 	 * 
-	 * @param locale
-	 *            地域 {@link Locale}
+	 * @param locale 地域 {@link Locale}
 	 * @return {@link Calendar}
 	 */
 	public Calendar toCalendar(Locale locale) {
-
 		final Calendar cal = Calendar.getInstance(locale);
 		cal.setFirstDayOfWeek(firstDayOfWeek.getValue());
 		cal.setTime(this);
@@ -531,26 +457,21 @@ public class DateTime extends Date {
 	/**
 	 * 转换为Calendar
 	 * 
-	 * @param zone
-	 *            时区 {@link TimeZone}
+	 * @param zone 时区 {@link TimeZone}
 	 * @return {@link Calendar}
 	 */
 	public Calendar toCalendar(TimeZone zone) {
-
 		return toCalendar(zone, Locale.getDefault(Locale.Category.FORMAT));
 	}
 
 	/**
 	 * 转换为Calendar
 	 * 
-	 * @param zone
-	 *            时区 {@link TimeZone}
-	 * @param locale
-	 *            地域 {@link Locale}
+	 * @param zone 时区 {@link TimeZone}
+	 * @param locale 地域 {@link Locale}
 	 * @return {@link Calendar}
 	 */
 	public Calendar toCalendar(TimeZone zone, Locale locale) {
-
 		final Calendar cal = Calendar.getInstance(zone, locale);
 		cal.setFirstDayOfWeek(firstDayOfWeek.getValue());
 		cal.setTime(this);
@@ -565,7 +486,6 @@ public class DateTime extends Date {
 	 * @since 3.2.2
 	 */
 	public Date toJdkDate() {
-
 		return new Date(this.getTime());
 	}
 
@@ -575,7 +495,6 @@ public class DateTime extends Date {
 	 * @return {@link Timestamp}
 	 */
 	public Timestamp toTimestamp() {
-
 		return new Timestamp(this.getTime());
 	}
 
@@ -585,49 +504,39 @@ public class DateTime extends Date {
 	 * @return {@link java.sql.Date}
 	 */
 	public java.sql.Date toSqlDate() {
-
 		return new java.sql.Date(getTime());
 	}
 
 	/**
 	 * 计算相差时长
 	 * 
-	 * @param date
-	 *            对比的日期
+	 * @param date 对比的日期
 	 * @return {@link DateBetween}
 	 */
 	public DateBetween between(Date date) {
-
 		return new DateBetween(this, date);
 	}
 
 	/**
 	 * 计算相差时长
 	 * 
-	 * @param date
-	 *            对比的日期
-	 * @param unit
-	 *            单位 {@link DateUnit}
+	 * @param date 对比的日期
+	 * @param unit 单位 {@link DateUnit}
 	 * @return 相差时长
 	 */
 	public long between(Date date, DateUnit unit) {
-
 		return new DateBetween(this, date).between(unit);
 	}
 
 	/**
 	 * 计算相差时长
 	 * 
-	 * @param date
-	 *            对比的日期
-	 * @param unit
-	 *            单位 {@link DateUnit}
-	 * @param formatLevel
-	 *            格式化级别
+	 * @param date 对比的日期
+	 * @param unit 单位 {@link DateUnit}
+	 * @param formatLevel 格式化级别
 	 * @return 相差时长
 	 */
 	public String between(Date date, DateUnit unit, BetweenFormater.Level formatLevel) {
-
 		return new DateBetween(this, date).toString(formatLevel);
 	}
 
@@ -635,15 +544,12 @@ public class DateTime extends Date {
 	 * 当前日期是否在日期指定范围内<br>
 	 * 起始日期和结束日期可以互换
 	 * 
-	 * @param beginDate
-	 *            起始日期
-	 * @param endDate
-	 *            结束日期
+	 * @param beginDate 起始日期
+	 * @param endDate 结束日期
 	 * @return 是否在范围内
 	 * @since 3.0.8
 	 */
 	public boolean isIn(Date beginDate, Date endDate) {
-
 		long beginMills = beginDate.getTime();
 		long endMills = endDate.getTime();
 		long thisMills = this.getTime();
@@ -654,13 +560,11 @@ public class DateTime extends Date {
 	/**
 	 * 是否在给定日期之前或与给定日期相等
 	 * 
-	 * @param date
-	 *            日期
+	 * @param date 日期
 	 * @return 是否在给定日期之前或与给定日期相等
 	 * @since 3.0.9
 	 */
 	public boolean isBeforeOrEquals(Date date) {
-
 		if (null == date) {
 			throw new NullPointerException("Date to compare is null !");
 		}
@@ -670,13 +574,11 @@ public class DateTime extends Date {
 	/**
 	 * 是否在给定日期之后或与给定日期相等
 	 * 
-	 * @param date
-	 *            日期
+	 * @param date 日期
 	 * @return 是否在给定日期之后或与给定日期相等
 	 * @since 3.0.9
 	 */
 	public boolean isAfterOrEquals(Date date) {
-
 		if (null == date) {
 			throw new NullPointerException("Date to compare is null !");
 		}
@@ -696,7 +598,6 @@ public class DateTime extends Date {
 	 * @return 对象是否可变
 	 */
 	public boolean isMutable() {
-
 		return mutable;
 	}
 
@@ -709,12 +610,10 @@ public class DateTime extends Date {
 	 * </ul>
 	 * 如果为不可变对象，{@link DateTime#setTime(long)}将抛出异常
 	 * 
-	 * @param mutable
-	 *            是否可变
+	 * @param mutable 是否可变
 	 * @return this
 	 */
 	public DateTime setMutable(boolean mutable) {
-
 		this.mutable = mutable;
 		return this;
 	}
@@ -725,7 +624,6 @@ public class DateTime extends Date {
 	 * @return 一周的第一天
 	 */
 	public Week getFirstDayOfWeek() {
-
 		return firstDayOfWeek;
 	}
 
@@ -734,20 +632,17 @@ public class DateTime extends Date {
 	 * JDK的Calendar中默认一周的第一天是周日，Hutool中将此默认值设置为周一<br>
 	 * 设置一周的第一天主要影响{@link #weekOfMonth()}和{@link #weekOfYear()} 两个方法
 	 * 
-	 * @param firstDayOfWeek
-	 *            一周的第一天
+	 * @param firstDayOfWeek 一周的第一天
 	 * @return this
 	 * @see #weekOfMonth()
 	 * @see #weekOfYear()
 	 */
 	public DateTime setFirstDayOfWeek(Week firstDayOfWeek) {
-
 		this.firstDayOfWeek = firstDayOfWeek;
 		return this;
 	}
 
-	// --------------------------------------------------------------------
-	// toString start
+	// -------------------------------------------------------------------- toString start
 	/**
 	 * 转为"yyyy-MM-dd yyyy-MM-dd HH:mm:ss " 格式字符串
 	 * 
@@ -755,10 +650,9 @@ public class DateTime extends Date {
 	 */
 	@Override
 	public String toString() {
-
 		return toString(DatePattern.NORM_DATETIME_FORMAT);
 	}
-
+	
 	/**
 	 * 转为"yyyy-MM-dd " 格式字符串
 	 * 
@@ -766,43 +660,36 @@ public class DateTime extends Date {
 	 * @since 4.0.0
 	 */
 	public String toDateStr() {
-
 		return toString(DatePattern.NORM_DATE_PATTERN);
 	}
 
 	/**
 	 * 转为字符串
 	 * 
-	 * @param format
-	 *            日期格式，常用格式见： {@link DatePattern}
+	 * @param format 日期格式，常用格式见： {@link DatePattern}
 	 * @return String
 	 */
 	public String toString(String format) {
-
 		return toString(FastDateFormat.getInstance(format));
 	}
 
 	/**
 	 * 转为字符串
 	 * 
-	 * @param format
-	 *            {@link DatePrinter} 或 {@link FastDateFormat}
+	 * @param format {@link DatePrinter} 或 {@link FastDateFormat}
 	 * @return String
 	 */
 	public String toString(DatePrinter format) {
-
 		return format.format(this);
 	}
 
 	/**
 	 * 转为字符串
 	 * 
-	 * @param format
-	 *            {@link SimpleDateFormat}
+	 * @param format {@link SimpleDateFormat}
 	 * @return String
 	 */
 	public String toString(DateFormat format) {
-
 		return format.format(this);
 	}
 
@@ -810,24 +697,18 @@ public class DateTime extends Date {
 	 * @return 输出精确到毫秒的标准日期形式
 	 */
 	public String toMsStr() {
-
 		return toString(DatePattern.NORM_DATETIME_MS_FORMAT);
 	}
-
-	// --------------------------------------------------------------------
-	// toString end
+	// -------------------------------------------------------------------- toString end
 
 	/**
 	 * 转换字符串为Date
 	 * 
-	 * @param dateStr
-	 *            日期字符串
-	 * @param dateFormat
-	 *            {@link SimpleDateFormat}
+	 * @param dateStr 日期字符串
+	 * @param dateFormat {@link SimpleDateFormat}
 	 * @return {@link Date}
 	 */
 	private static Date parse(String dateStr, DateFormat dateFormat) {
-
 		try {
 			return dateFormat.parse(dateStr);
 		} catch (Exception e) {
@@ -844,14 +725,11 @@ public class DateTime extends Date {
 	/**
 	 * 转换字符串为Date
 	 * 
-	 * @param dateStr
-	 *            日期字符串
-	 * @param parser
-	 *            {@link FastDateFormat}
+	 * @param dateStr 日期字符串
+	 * @param parser {@link FastDateFormat}
 	 * @return {@link Date}
 	 */
 	private static Date parse(String dateStr, DateParser parser) {
-
 		Assert.notNull(parser, "Parser or DateFromat must be not null !");
 		Assert.notBlank(dateStr, "Date String must be not blank !");
 		try {
@@ -864,12 +742,10 @@ public class DateTime extends Date {
 	/**
 	 * 设置日期时间
 	 * 
-	 * @param time
-	 *            日期时间毫秒
+	 * @param time 日期时间毫秒
 	 * @return this
 	 */
 	private DateTime setTimeInternal(long time) {
-
 		super.setTime(time);
 		return this;
 	}

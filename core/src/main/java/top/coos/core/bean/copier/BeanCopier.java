@@ -11,54 +11,46 @@ import top.coos.core.bean.copier.provider.BeanValueProvider;
 import top.coos.core.bean.copier.provider.MapValueProvider;
 import top.coos.core.collection.CollectionUtil;
 import top.coos.core.convert.Convert;
+import top.coos.core.exceptions.UtilException;
 import top.coos.core.lang.copier.Copier;
 import top.coos.core.map.MapUtil;
-import top.coos.exceptions.UtilException;
 import top.coos.util.StrUtil;
 import top.coos.util.TypeUtil;
 
 /**
  * Bean拷贝
- *
- * @param <T>
- *            目标对象类型
- */
-public class BeanCopier<T> implements Copier<T> {
 
+ *
+ * @param <T> 目标对象类型
+ * @since 3.2.3
+ */
+public class BeanCopier<T> implements Copier<T>{
+	
 	private Object source;
 	private T dest;
 	private CopyOptions copyOptions;
-
+	
 	/**
 	 * 创建BeanCopier
 	 * 
-	 * @param <T>
-	 *            目标Bean类型
-	 * @param source
-	 *            来源对象，可以是Bean或者Map
-	 * @param dest
-	 *            目标Bean对象
-	 * @param copyOptions
-	 *            拷贝属性选项
+	 * @param <T> 目标Bean类型
+	 * @param source 来源对象，可以是Bean或者Map
+	 * @param dest 目标Bean对象
+	 * @param copyOptions 拷贝属性选项
 	 * @return BeanCopier
 	 */
-	public static <T> BeanCopier<T> create(Object source, T dest, CopyOptions copyOptions) {
-
+	public static <T> BeanCopier<T> create(Object source, T dest, CopyOptions copyOptions){
 		return new BeanCopier<>(source, dest, copyOptions);
 	}
-
+	
 	/**
 	 * 构造
 	 * 
-	 * @param source
-	 *            来源对象，可以是Bean或者Map
-	 * @param dest
-	 *            目标Bean对象
-	 * @param copyOptions
-	 *            拷贝属性选项
+	 * @param source 来源对象，可以是Bean或者Map
+	 * @param dest 目标Bean对象
+	 * @param copyOptions 拷贝属性选项
 	 */
 	public BeanCopier(Object source, T dest, CopyOptions copyOptions) {
-
 		this.source = source;
 		this.dest = dest;
 		this.copyOptions = copyOptions;
@@ -67,56 +59,43 @@ public class BeanCopier<T> implements Copier<T> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public T copy() {
-
-		if (null != this.source) {
-			if (this.source instanceof ValueProvider) {
-				valueProviderToBean((ValueProvider<String>) this.source, this.dest);
-			} else if (this.source instanceof Map) {
-				mapToBean((Map<?, ?>) this.source, this.dest);
-			} else {
+		if(null != this.source) {
+			if(this.source instanceof ValueProvider) {
+				valueProviderToBean((ValueProvider<String>)this.source, this.dest);
+			}else if(this.source instanceof Map) {
+				mapToBean((Map<?, ?>)this.source, this.dest);
+			}else {
 				beanToBean(this.source, this.dest);
 			}
 		}
 		return this.dest;
 	}
-
+	
 	/**
 	 * Bean和Bean之间属性拷贝
-	 * 
-	 * @param providerBean
-	 *            来源Bean
-	 * @param destBean
-	 *            目标Bean
+	 * @param providerBean 来源Bean
+	 * @param destBean 目标Bean
 	 */
 	private void beanToBean(Object providerBean, Object destBean) {
-
-		valueProviderToBean(new BeanValueProvider(providerBean, this.copyOptions.ignoreCase, this.copyOptions.ignoreError),
-				destBean);
+		valueProviderToBean(new BeanValueProvider(providerBean, this.copyOptions.ignoreCase, this.copyOptions.ignoreError), destBean);
 	}
-
+	
 	/**
 	 * Map转Bean属性拷贝
-	 * 
-	 * @param map
-	 *            Map
-	 * @param bean
-	 *            Bean
+	 * @param map Map
+	 * @param bean Bean
 	 */
 	private void mapToBean(Map<?, ?> map, Object bean) {
-
 		valueProviderToBean(new MapValueProvider(map, this.copyOptions.ignoreCase), bean);
 	}
-
+	
 	/**
 	 * 值提供器转Bean
 	 * 
-	 * @param valueProvider
-	 *            值提供器
-	 * @param bean
-	 *            Bean
+	 * @param valueProvider 值提供器
+	 * @param bean Bean
 	 */
 	private void valueProviderToBean(ValueProvider<String> valueProvider, Object bean) {
-
 		if (null == valueProvider) {
 			return;
 		}
@@ -125,15 +104,12 @@ public class BeanCopier<T> implements Copier<T> {
 		if (copyOptions.editable != null) {
 			// 检查限制类是否为target的父类或接口
 			if (false == copyOptions.editable.isInstance(bean)) {
-				throw new IllegalArgumentException(StrUtil.format("Target class [{}] not assignable to Editable class [{}]",
-						bean.getClass().getName(), copyOptions.editable.getName()));
+				throw new IllegalArgumentException(StrUtil.format("Target class [{}] not assignable to Editable class [{}]", bean.getClass().getName(), copyOptions.editable.getName()));
 			}
 			actualEditable = copyOptions.editable;
 		}
-		final HashSet<String> ignoreSet = null != (copyOptions.ignoreProperties) ? CollectionUtil
-				.newHashSet(copyOptions.ignoreProperties) : null;
-		final Map<String, String> fieldReverseMapping = (null != copyOptions.fieldMapping) ? MapUtil
-				.reverse(copyOptions.fieldMapping) : null;
+		final HashSet<String> ignoreSet = null != (copyOptions.ignoreProperties) ? CollectionUtil.newHashSet(copyOptions.ignoreProperties) : null;
+		final Map<String, String> fieldReverseMapping = (null != copyOptions.fieldMapping) ? MapUtil.reverse(copyOptions.fieldMapping) : null;
 
 		final Collection<PropDesc> props = BeanUtil.getBeanDesc(actualEditable).getProps();
 		String fieldName;
@@ -148,17 +124,17 @@ public class BeanCopier<T> implements Copier<T> {
 				continue;
 			}
 			setterMethod = prop.getSetter();
-			if (null == setterMethod) {
-				// Setter方法不存在跳过
+			if(null == setterMethod) {
+				//Setter方法不存在跳过
 				continue;
 			}
-
+			
 			// 此处对valueProvider传递的为Type对象，而非Class，因为Type中包含泛型类型信息
 			String providerKey = null;
-			if (null != fieldReverseMapping) {
+			if(null != fieldReverseMapping) {
 				providerKey = fieldReverseMapping.get(fieldName);
 			}
-			if (null == providerKey) {
+			if(null == providerKey) {
 				providerKey = fieldName;
 			}
 			value = valueProvider.value(providerKey, TypeUtil.getFirstParamType(setterMethod));
@@ -187,5 +163,5 @@ public class BeanCopier<T> implements Copier<T> {
 			}
 		}
 	}
-
+	
 }

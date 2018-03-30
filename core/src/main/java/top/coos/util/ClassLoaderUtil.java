@@ -7,14 +7,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import top.coos.core.convert.BasicType;
+import top.coos.core.exceptions.UtilException;
 import top.coos.core.lang.Assert;
 import top.coos.core.lang.SimpleCache;
-import top.coos.exceptions.UtilException;
 
 /**
  * {@link ClassLoader}工具类
  * 
- 
+
  * @since 3.0.9
  */
 public class ClassLoaderUtil {
@@ -60,7 +60,6 @@ public class ClassLoaderUtil {
 	 * @see Thread#getContextClassLoader()
 	 */
 	public static ClassLoader getContextClassLoader() {
-
 		return Thread.currentThread().getContextClassLoader();
 	}
 
@@ -77,7 +76,6 @@ public class ClassLoaderUtil {
 	 * @return 类加载器
 	 */
 	public static ClassLoader getClassLoader() {
-
 		ClassLoader classLoader = getContextClassLoader();
 		if (classLoader == null) {
 			classLoader = ClassLoaderUtil.class.getClassLoader();
@@ -88,8 +86,7 @@ public class ClassLoaderUtil {
 		return classLoader;
 	}
 
-	// -----------------------------------------------------------------------------------
-	// loadClass
+	// ----------------------------------------------------------------------------------- loadClass
 	/**
 	 * 加载类，通过传入类的字符串，返回其对应的类名，使用默认ClassLoader并初始化类（调用static模块内容和初始化static属性）<br>
 	 * 扩展{@link Class#forName(String, boolean, ClassLoader)}方法，支持以下几类类名的加载：
@@ -100,14 +97,11 @@ public class ClassLoaderUtil {
 	 * 3、内部类，例如：java.lang.Thread.State会被转为java.lang.Thread$State加载
 	 * </pre>
 	 * 
-	 * @param name
-	 *            类名
+	 * @param name 类名
 	 * @return 类名对应的类
-	 * @throws UtilException
-	 *             包装{@link ClassNotFoundException}，没有类名对应的类时抛出此异常
+	 * @throws UtilException 包装{@link ClassNotFoundException}，没有类名对应的类时抛出此异常
 	 */
 	public static Class<?> loadClass(String name) throws UtilException {
-
 		return loadClass(name, true);
 	}
 
@@ -121,16 +115,12 @@ public class ClassLoaderUtil {
 	 * 3、内部类，例如：java.lang.Thread.State会被转为java.lang.Thread$State加载
 	 * </pre>
 	 * 
-	 * @param name
-	 *            类名
-	 * @param isInitialized
-	 *            是否初始化类（调用static模块内容和初始化static属性）
+	 * @param name 类名
+	 * @param isInitialized 是否初始化类（调用static模块内容和初始化static属性）
 	 * @return 类名对应的类
-	 * @throws UtilException
-	 *             包装{@link ClassNotFoundException}，没有类名对应的类时抛出此异常
+	 * @throws UtilException 包装{@link ClassNotFoundException}，没有类名对应的类时抛出此异常
 	 */
 	public static Class<?> loadClass(String name, boolean isInitialized) throws UtilException {
-
 		return loadClass(name, null, isInitialized);
 	}
 
@@ -146,18 +136,13 @@ public class ClassLoaderUtil {
 	 * 3、内部类，例如：java.lang.Thread.State会被转为java.lang.Thread$State加载
 	 * </pre>
 	 * 
-	 * @param name
-	 *            类名
-	 * @param classLoader
-	 *            {@link ClassLoader}，{@code null} 则使用系统默认ClassLoader
-	 * @param isInitialized
-	 *            是否初始化类（调用static模块内容和初始化static属性）
+	 * @param name 类名
+	 * @param classLoader {@link ClassLoader}，{@code null} 则使用系统默认ClassLoader
+	 * @param isInitialized 是否初始化类（调用static模块内容和初始化static属性）
 	 * @return 类名对应的类
-	 * @throws UtilException
-	 *             包装{@link ClassNotFoundException}，没有类名对应的类时抛出此异常
+	 * @throws UtilException 包装{@link ClassNotFoundException}，没有类名对应的类时抛出此异常
 	 */
 	public static Class<?> loadClass(String name, ClassLoader classLoader, boolean isInitialized) throws UtilException {
-
 		Assert.notNull(name, "Name must not be null");
 
 		// 加载原始类型和缓存中的类
@@ -195,8 +180,7 @@ public class ClassLoaderUtil {
 				// 尝试获取内部类，例如java.lang.Thread.State =》java.lang.Thread$State
 				int lastDotIndex = name.lastIndexOf(PACKAGE_SEPARATOR);
 				if (lastDotIndex > 0) {// 类与内部类的分隔符不能在第一位，因此>0
-					final String innerClassName = name.substring(0, lastDotIndex) + INNER_CLASS_SEPARATOR
-							+ name.substring(lastDotIndex + 1);
+					final String innerClassName = name.substring(0, lastDotIndex) + INNER_CLASS_SEPARATOR + name.substring(lastDotIndex + 1);
 					try {
 						clazz = Class.forName(innerClassName, isInitialized, classLoader);
 					} catch (ClassNotFoundException ex2) {
@@ -214,12 +198,10 @@ public class ClassLoaderUtil {
 	/**
 	 * 加载原始类型的类。包括原始类型、原始类型数组和void
 	 * 
-	 * @param name
-	 *            原始类型名，比如 int
+	 * @param name 原始类型名，比如 int
 	 * @return 原始类型类
 	 */
 	public static Class<?> loadPrimitiveClass(String name) {
-
 		Class<?> result = null;
 		if (StrUtil.isNotBlank(name)) {
 			name = name.trim();
@@ -230,37 +212,29 @@ public class ClassLoaderUtil {
 		return result;
 	}
 
-	// -----------------------------------------------------------------------------------
-	// isPresent
+	// ----------------------------------------------------------------------------------- isPresent
 	/**
 	 * 指定类是否被提供，使用默认ClassLoader<br>
-	 * 通过调用{@link #loadClass(String, ClassLoader, boolean)}
-	 * 方法尝试加载指定类名的类，如果加载失败返回false<br>
+	 * 通过调用{@link #loadClass(String, ClassLoader, boolean)}方法尝试加载指定类名的类，如果加载失败返回false<br>
 	 * 加载失败的原因可能是此类不存在或其关联引用类不存在
 	 * 
-	 * @param className
-	 *            类名
+	 * @param className 类名
 	 * @return 是否被提供
 	 */
 	public static boolean isPresent(String className) {
-
 		return isPresent(className, null);
 	}
 
 	/**
 	 * 指定类是否被提供<br>
-	 * 通过调用{@link #loadClass(String, ClassLoader, boolean)}
-	 * 方法尝试加载指定类名的类，如果加载失败返回false<br>
+	 * 通过调用{@link #loadClass(String, ClassLoader, boolean)}方法尝试加载指定类名的类，如果加载失败返回false<br>
 	 * 加载失败的原因可能是此类不存在或其关联引用类不存在
 	 * 
-	 * @param className
-	 *            类名
-	 * @param classLoader
-	 *            {@link ClassLoader}
+	 * @param className 类名
+	 * @param classLoader {@link ClassLoader}
 	 * @return 是否被提供
 	 */
 	public static boolean isPresent(String className, ClassLoader classLoader) {
-
 		try {
 			loadClass(className, classLoader, false);
 			return true;

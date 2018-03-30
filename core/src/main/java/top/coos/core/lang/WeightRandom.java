@@ -24,13 +24,11 @@ import top.coos.util.RandomUtil;
  * 参考博客：https://www.cnblogs.com/waterystone/p/5708063.html
  * <p>
  * 
- * @param <T>
- *            权重随机获取的对象类型
- 
+ * @param <T> 权重随机获取的对象类型
+
  * @since 3.3.0
  */
 public class WeightRandom<T> implements Serializable {
-
 	private static final long serialVersionUID = -8244697995702786499L;
 
 	private TreeMap<Double, T> weightMap;
@@ -42,17 +40,14 @@ public class WeightRandom<T> implements Serializable {
 	 * @return {@link WeightRandom}
 	 */
 	public static <T> WeightRandom<T> create() {
-
 		return new WeightRandom<>();
 	}
 
-	// ----------------------------------------------------------------------------------
-	// Constructor start
+	// ---------------------------------------------------------------------------------- Constructor start
 	/**
 	 * 构造
 	 */
 	public WeightRandom() {
-
 		weightMap = new TreeMap<>();
 		random = RandomUtil.getRandom();
 	}
@@ -60,13 +55,11 @@ public class WeightRandom<T> implements Serializable {
 	/**
 	 * 构造
 	 * 
-	 * @param weightObj
-	 *            带有权重的对象
+	 * @param weightObj 带有权重的对象
 	 */
 	public WeightRandom(WeightObj<T> weightObj) {
-
 		this();
-		if (null != weightObj) {
+		if(null != weightObj) {
 			add(weightObj);
 		}
 	}
@@ -74,13 +67,11 @@ public class WeightRandom<T> implements Serializable {
 	/**
 	 * 构造
 	 * 
-	 * @param weightObjs
-	 *            带有权重的对象
+	 * @param weightObjs 带有权重的对象
 	 */
 	public WeightRandom(Iterable<WeightObj<T>> weightObjs) {
-
 		this();
-		if (CollUtil.isNotEmpty(weightObjs)) {
+		if(CollUtil.isNotEmpty(weightObjs)) {
 			for (WeightObj<T> weightObj : weightObjs) {
 				add(weightObj);
 			}
@@ -90,43 +81,34 @@ public class WeightRandom<T> implements Serializable {
 	/**
 	 * 构造
 	 * 
-	 * @param weightObjs
-	 *            带有权重的对象
+	 * @param weightObjs 带有权重的对象
 	 */
 	public WeightRandom(WeightObj<T>[] weightObjs) {
-
 		this();
 		for (WeightObj<T> weightObj : weightObjs) {
 			add(weightObj);
 		}
 	}
-
-	// ----------------------------------------------------------------------------------
-	// Constructor end
+	// ---------------------------------------------------------------------------------- Constructor end
 
 	/**
 	 * 增加对象
 	 * 
-	 * @param obj
-	 *            对象
-	 * @param weight
-	 *            权重
+	 * @param obj 对象
+	 * @param weight 权重
 	 * @return this
 	 */
 	public WeightRandom<T> add(T obj, double weight) {
-
 		return add(new WeightObj<T>(obj, weight));
 	}
 
 	/**
 	 * 增加对象权重
 	 * 
-	 * @param weightObj
-	 *            权重对象
+	 * @param weightObj 权重对象
 	 * @return this
 	 */
 	public WeightRandom<T> add(WeightObj<T> weightObj) {
-
 		double lastWeight = (this.weightMap.size() == 0) ? 0 : this.weightMap.lastKey();
 		this.weightMap.put(weightObj.getWeight() + lastWeight, weightObj.getObj());// 权重累加
 		return this;
@@ -138,8 +120,7 @@ public class WeightRandom<T> implements Serializable {
 	 * @return this
 	 */
 	public WeightRandom<T> clear() {
-
-		if (null != this.weightMap) {
+		if(null != this.weightMap) {
 			this.weightMap.clear();
 		}
 		return this;
@@ -151,8 +132,7 @@ public class WeightRandom<T> implements Serializable {
 	 * @return 随机对象
 	 */
 	public T next() {
-
-		if (MapUtil.isEmpty(this.weightMap)) {
+		if(MapUtil.isEmpty(this.weightMap)) {
 			return null;
 		}
 		double randomWeight = this.weightMap.lastKey() * random.nextDouble();
@@ -163,13 +143,11 @@ public class WeightRandom<T> implements Serializable {
 	/**
 	 * 带有权重的对象包装
 	 * 
-	 
+	
 	 *
-	 * @param <T>
-	 *            对象类型
+	 * @param <T> 对象类型
 	 */
 	public static class WeightObj<T> {
-
 		/** 对象 */
 		private T obj;
 		/** 权重 */
@@ -178,13 +156,10 @@ public class WeightRandom<T> implements Serializable {
 		/**
 		 * 构造
 		 * 
-		 * @param obj
-		 *            对象
-		 * @param weight
-		 *            权重
+		 * @param obj 对象
+		 * @param weight 权重
 		 */
 		public WeightObj(T obj, double weight) {
-
 			this.obj = obj;
 			this.weight = weight;
 		}
@@ -195,18 +170,15 @@ public class WeightRandom<T> implements Serializable {
 		 * @return 对象
 		 */
 		public T getObj() {
-
 			return obj;
 		}
 
 		/**
 		 * 设置对象
 		 * 
-		 * @param obj
-		 *            对象
+		 * @param obj 对象
 		 */
 		public void setObj(T obj) {
-
 			this.obj = obj;
 		}
 
@@ -216,13 +188,11 @@ public class WeightRandom<T> implements Serializable {
 		 * @return 权重
 		 */
 		public double getWeight() {
-
 			return weight;
 		}
 
 		@Override
 		public int hashCode() {
-
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + ((obj == null) ? 0 : obj.hashCode());
@@ -234,7 +204,6 @@ public class WeightRandom<T> implements Serializable {
 
 		@Override
 		public boolean equals(Object obj) {
-
 			if (this == obj) {
 				return true;
 			}
@@ -258,5 +227,5 @@ public class WeightRandom<T> implements Serializable {
 			return true;
 		}
 	}
-
+	
 }

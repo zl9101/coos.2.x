@@ -7,7 +7,7 @@ import top.coos.util.StrUtil;
 /**
  * 提供Unicode字符串和普通字符串之间的转换
  * 
- 
+
  * @since 4.0.0
  *
  */
@@ -17,12 +17,10 @@ public class UnicodeUtil {
 	 * Unicode字符串转为普通字符串<br>
 	 * Unicode字符串的表现方式为：\\uXXXX
 	 * 
-	 * @param unicode
-	 *            Unicode字符串
+	 * @param unicode Unicode字符串
 	 * @return 普通字符串
 	 */
 	public static String toString(String unicode) {
-
 		if (StrUtil.isBlank(unicode)) {
 			return unicode;
 		}
@@ -40,30 +38,25 @@ public class UnicodeUtil {
 		}
 		return sb.toString();
 	}
-
+	
 	/**
 	 * 字符串编码为Unicode形式
 	 * 
-	 * @param str
-	 *            被编码的字符串
+	 * @param str 被编码的字符串
 	 * @return Unicode字符串
 	 */
 	public static String toUnicode(String str) {
-
 		return toUnicode(str, true);
 	}
 
 	/**
 	 * 字符串编码为Unicode形式
 	 * 
-	 * @param str
-	 *            被编码的字符串
-	 * @param isSkipAscii
-	 *            是否跳过ASCII字符（只跳过可见字符）
+	 * @param str 被编码的字符串
+	 * @param isSkipAscii 是否跳过ASCII字符（只跳过可见字符）
 	 * @return Unicode字符串
 	 */
 	public static String toUnicode(String str, boolean isSkipAscii) {
-
 		if (StrUtil.isBlank(str)) {
 			return str;
 		}
@@ -73,9 +66,9 @@ public class UnicodeUtil {
 		char c;
 		for (int i = 0; i < len; i++) {
 			c = str.charAt(i);
-			if (isSkipAscii && CharUtil.isAsciiPrintable(c)) {
+			if(isSkipAscii && CharUtil.isAsciiPrintable(c) ) {
 				unicode.append(c);
-			} else {
+			}else {
 				unicode.append(HexUtil.toUnicodeHex(c));
 			}
 		}

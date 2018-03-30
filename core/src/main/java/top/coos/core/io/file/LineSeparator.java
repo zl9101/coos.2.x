@@ -12,7 +12,7 @@ package top.coos.core.io.file;
  * @see #MAC
  * @see #LINUX
  * @see #WINDOWS
- 
+
  * @since 3.1.0
  */
 public enum LineSeparator {

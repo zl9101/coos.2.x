@@ -3,7 +3,7 @@ package top.coos.util;
 /**
  * 分页工具类
  * 
- 
+
  * 
  */
 public class PageUtil {
@@ -16,14 +16,11 @@ public class PageUtil {
 	 * 页码：2，每页10 =》 [10, 20]<br>
 	 * 。。。<br>
 	 * 
-	 * @param pageNo
-	 *            页码（从1计数）
-	 * @param countPerPage
-	 *            每页条目数
+	 * @param pageNo 页码（从1计数）
+	 * @param countPerPage 每页条目数
 	 * @return 第一个数为开始位置，第二个数为结束位置
 	 */
 	public static int[] transToStartEnd(int pageNo, int countPerPage) {
-
 		if (pageNo < 1) {
 			pageNo = 1;
 		}
@@ -41,14 +38,11 @@ public class PageUtil {
 	/**
 	 * 根据总数计算总页数
 	 * 
-	 * @param totalCount
-	 *            总数
-	 * @param pageSize
-	 *            每页数
+	 * @param totalCount 总数
+	 * @param pageSize 每页数
 	 * @return 总页数
 	 */
 	public static int totalPage(int totalCount, int pageSize) {
-
 		if (pageSize == 0) {
 			return 0;
 		}
@@ -57,20 +51,15 @@ public class PageUtil {
 
 	/**
 	 * 分页彩虹算法<br>
-	 * 来自：https://github.com/iceroot/iceroot/blob/master/src/main/java/com/
-	 * icexxx/util/IceUtil.java<br>
+	 * 来自：https://github.com/iceroot/iceroot/blob/master/src/main/java/com/icexxx/util/IceUtil.java<br>
 	 * 通过传入的信息，生成一个分页列表显示
 	 * 
-	 * @param currentPage
-	 *            当前页
-	 * @param pageCount
-	 *            总页数
-	 * @param displayCount
-	 *            每屏展示的页数
+	 * @param currentPage 当前页
+	 * @param pageCount 总页数
+	 * @param displayCount 每屏展示的页数
 	 * @return 分页条
 	 */
 	public static int[] rainbow(int currentPage, int pageCount, int displayCount) {
-
 		boolean isEven = true;
 		isEven = displayCount % 2 == 0;
 		int left = displayCount / 2;
@@ -109,17 +98,13 @@ public class PageUtil {
 
 	/**
 	 * 分页彩虹算法(默认展示10页)<br>
-	 * 来自：https://github.com/iceroot/iceroot/blob/master/src/main/java/com/
-	 * icexxx/util/IceUtil.java
+	 * 来自：https://github.com/iceroot/iceroot/blob/master/src/main/java/com/icexxx/util/IceUtil.java
 	 * 
-	 * @param currentPage
-	 *            当前页
-	 * @param pageCount
-	 *            总页数
+	 * @param currentPage 当前页
+	 * @param pageCount 总页数
 	 * @return 分页条
 	 */
 	public static int[] rainbow(int currentPage, int pageCount) {
-
 		return rainbow(currentPage, pageCount, 10);
 	}
 }

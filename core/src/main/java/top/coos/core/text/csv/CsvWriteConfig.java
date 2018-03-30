@@ -7,7 +7,7 @@ import top.coos.util.CharUtil;
 /**
  * CSV写出配置项
  * 
- 
+
  *
  */
 public class CsvWriteConfig extends CsvConfig implements Serializable {

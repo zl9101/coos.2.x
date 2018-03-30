@@ -20,7 +20,7 @@ import top.coos.util.StrUtil;
 /**
  * CSV行解析器，参考：FastCSV
  *
- 
+
  */
 public final class CsvParser implements Closeable {
 

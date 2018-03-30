@@ -26,12 +26,14 @@ import top.coos.core.lang.Assert;
  * 		// do something with line
  * 	}
  * } finally {
- * 	it.close();
+ * 		it.close();
  * }
  * </pre>
  * 
  * 此类来自于Apache Commons io
  *
+
+ * @since 4.0.6
  */
 public class LineIterator implements Iterator<String>, Closeable {
 
@@ -41,48 +43,38 @@ public class LineIterator implements Iterator<String>, Closeable {
 	private String cachedLine;
 	/** A flag indicating if the iterator has been fully read. */
 	private boolean finished = false;
-
+	
 	/**
 	 * 构造
 	 *
-	 * @param in
-	 *            {@link InputStream}
-	 * @param charset
-	 *            编码
-	 * @throws IllegalArgumentException
-	 *             reader为null抛出此异常
+	 * @param in {@link InputStream}
+	 * @param charset 编码
+	 * @throws IllegalArgumentException reader为null抛出此异常
 	 */
 	public LineIterator(InputStream in, Charset charset) throws IllegalArgumentException {
-
 		this(IoUtil.getReader(in, charset));
 	}
 
 	/**
 	 * 构造
 	 *
-	 * @param reader
-	 *            {@link Reader}对象，不能为null
-	 * @throws IllegalArgumentException
-	 *             reader为null抛出此异常
+	 * @param reader {@link Reader}对象，不能为null
+	 * @throws IllegalArgumentException reader为null抛出此异常
 	 */
 	public LineIterator(Reader reader) throws IllegalArgumentException {
-
 		Assert.notNull(reader, "Reader must not be null");
 		this.bufferedReader = IoUtil.getReader(reader);
 	}
 
 	// -----------------------------------------------------------------------
 	/**
-	 * 判断{@link Reader}是否可以存在下一行。 If there is an <code>IOException</code> then
-	 * {@link #close()} will be called on this instance.
+	 * 判断{@link Reader}是否可以存在下一行。 If there is an <code>IOException</code> then {@link #close()} will be called on this instance.
 	 *
 	 * @return {@code true} 表示有更多行
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	@Override
 	public boolean hasNext() throws IORuntimeException {
-
 		if (cachedLine != null) {
 			return true;
 		} else if (finished) {
@@ -110,12 +102,10 @@ public class LineIterator implements Iterator<String>, Closeable {
 	 * 返回下一行内容
 	 *
 	 * @return 下一行内容
-	 * @throws NoSuchElementException
-	 *             没有新行
+	 * @throws NoSuchElementException 没有新行
 	 */
 	@Override
 	public String next() throws NoSuchElementException {
-
 		return nextLine();
 	}
 
@@ -123,11 +113,9 @@ public class LineIterator implements Iterator<String>, Closeable {
 	 * 返回下一行
 	 *
 	 * @return 下一行
-	 * @throws NoSuchElementException
-	 *             没有更多行
+	 * @throws NoSuchElementException 没有更多行
 	 */
 	public String nextLine() throws NoSuchElementException {
-
 		if (!hasNext()) {
 			throw new NoSuchElementException("No more lines");
 		}
@@ -141,7 +129,6 @@ public class LineIterator implements Iterator<String>, Closeable {
 	 */
 	@Override
 	public void close() {
-
 		finished = true;
 		IoUtil.close(bufferedReader);
 		cachedLine = null;
@@ -150,25 +137,20 @@ public class LineIterator implements Iterator<String>, Closeable {
 	/**
 	 * Unsupported.
 	 *
-	 * @throws UnsupportedOperationException
-	 *             always
+	 * @throws UnsupportedOperationException always
 	 */
 	@Override
 	public void remove() {
-
 		throw new UnsupportedOperationException("Remove unsupported on LineIterator");
 	}
 
 	/**
-	 * Overridable method to validate each line that is returned. This
-	 * implementation always returns true.
+	 * Overridable method to validate each line that is returned. This implementation always returns true.
 	 * 
-	 * @param line
-	 *            the line that is to be validated
+	 * @param line the line that is to be validated
 	 * @return true if valid, false to remove from the iterator
 	 */
 	protected boolean isValidLine(String line) {
-
 		return true;
 	}
 }

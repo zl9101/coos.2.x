@@ -22,7 +22,7 @@ import top.coos.util.StrUtil;
 
 /**
  * 文件写入器
- 
+
  *
  */
 public class FileWriter extends FileWrapper{

@@ -14,9 +14,10 @@ import top.coos.util.StrUtil;
  * 支持如：1.3.20.8，6.82.20160101，8.5a/8.5c等版本形式<br>
  * 参考：https://www.cnblogs.com/shihaiming/p/6286575.html
  * 
+
+ * @since 4.0.2
  */
 public class VersionComparator implements Comparator<String>, Serializable {
-
 	private static final long serialVersionUID = 8083701245147495562L;
 
 	/** 单例 */
@@ -26,14 +27,12 @@ public class VersionComparator implements Comparator<String>, Serializable {
 	 * 默认构造
 	 */
 	public VersionComparator() {
-
 	}
 
 	// -----------------------------------------------------------------------------------------------------
 	/**
 	 * 比较两个版本<br>
 	 * null版本排在最小：既：
-	 * 
 	 * <pre>
 	 * compare(null, "v1") &lt; 0
 	 * compare("v1", "v1")  = 0
@@ -45,15 +44,12 @@ public class VersionComparator implements Comparator<String>, Serializable {
 	 * compare("V0.0.20170102", "V0.0.20170101") &gt; 0
 	 * </pre>
 	 * 
-	 * @param version1
-	 *            版本1
-	 * @param version2
-	 *            版本2
+	 * @param version1 版本1
+	 * @param version2 版本2
 	 */
 	@Override
 	public int compare(String version1, String version2) {
-
-		if (version1 == version2) {
+		if(version1 == version2) {
 			return 0;
 		}
 		if (version1 == null && version2 == null) {
@@ -79,8 +75,8 @@ public class VersionComparator implements Comparator<String>, Serializable {
 			if (0 == diff) {
 				diff = v1.compareTo(v2);
 			}
-			if (diff != 0) {
-				// 已有结果，结束
+			if(diff != 0) {
+				//已有结果，结束
 				break;
 			}
 		}
@@ -91,7 +87,6 @@ public class VersionComparator implements Comparator<String>, Serializable {
 
 	@Override
 	public boolean equals(final Object object) {
-
 		if (this == object) {
 			return true;
 		}

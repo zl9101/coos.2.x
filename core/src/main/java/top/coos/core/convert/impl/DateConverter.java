@@ -10,6 +10,8 @@ import top.coos.util.StrUtil;
 
 /**
  * 日期转换器
+ * 
+
  *
  */
 public class DateConverter extends AbstractConverter<Date> {
@@ -19,12 +21,10 @@ public class DateConverter extends AbstractConverter<Date> {
 	private String format;
 
 	public DateConverter(Class<? extends java.util.Date> targetType) {
-
 		this.targetType = targetType;
 	}
 
 	public DateConverter(Class<? extends java.util.Date> targetType, String format) {
-
 		this.targetType = targetType;
 		this.format = format;
 	}
@@ -35,24 +35,20 @@ public class DateConverter extends AbstractConverter<Date> {
 	 * @return 设置日期格式
 	 */
 	public String getFormat() {
-
 		return format;
 	}
 
 	/**
 	 * 设置日期格式
 	 * 
-	 * @param format
-	 *            日期格式
+	 * @param format 日期格式
 	 */
 	public void setFormat(String format) {
-
 		this.format = format;
 	}
 
 	@Override
 	protected Date convertInternal(Object value) {
-
 		long mills = 0;
 		// Handle Calendar
 		if (value instanceof Calendar) {
@@ -67,8 +63,7 @@ public class DateConverter extends AbstractConverter<Date> {
 
 		final String valueStr = convertToStr(value);
 		try {
-			mills = StrUtil.isBlank(format) ? DateUtil.parse(valueStr).getTime() : DateUtil.parse(valueStr, format)
-					.getTime();
+			mills = StrUtil.isBlank(format) ? DateUtil.parse(valueStr).getTime() : DateUtil.parse(valueStr, format).getTime();
 		} catch (Exception e) {
 			// Ignore Exception
 		}

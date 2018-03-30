@@ -31,8 +31,8 @@ import java.nio.charset.Charset;
 import java.util.Collection;
 
 import top.coos.core.convert.Convert;
+import top.coos.core.exceptions.UtilException;
 import top.coos.core.lang.Assert;
-import top.coos.exceptions.UtilException;
 import top.coos.util.CharsetUtil;
 import top.coos.util.HexUtil;
 import top.coos.util.StrUtil;
@@ -41,7 +41,7 @@ import top.coos.util.StrUtil;
  * IO工具类<br>
  * IO工具类只是辅助流的读写，并不负责关闭流。原因是流可能被多次读写，读写关闭后容易造成问题。
  * 
- 
+
  *
  */
 public class IoUtil {
@@ -56,60 +56,43 @@ public class IoUtil {
 	/** 数据流末尾 */
 	public static final int EOF = -1;
 
-	// --------------------------------------------------------------------------------------
-	// Copy start
+	// -------------------------------------------------------------------------------------- Copy start
 	/**
 	 * 将Reader中的内容复制到Writer中 使用默认缓存大小
 	 * 
-	 * @param reader
-	 *            Reader
-	 * @param writer
-	 *            Writer
+	 * @param reader Reader
+	 * @param writer Writer
 	 * @return 拷贝的字节数
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static long copy(Reader reader, Writer writer) throws IORuntimeException {
-
 		return copy(reader, writer, DEFAULT_BUFFER_SIZE);
 	}
 
 	/**
 	 * 将Reader中的内容复制到Writer中
 	 * 
-	 * @param reader
-	 *            Reader
-	 * @param writer
-	 *            Writer
-	 * @param bufferSize
-	 *            缓存大小
+	 * @param reader Reader
+	 * @param writer Writer
+	 * @param bufferSize 缓存大小
 	 * @return 传输的byte数
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static long copy(Reader reader, Writer writer, int bufferSize) throws IORuntimeException {
-
 		return copy(reader, writer, bufferSize, null);
 	}
 
 	/**
 	 * 将Reader中的内容复制到Writer中
 	 * 
-	 * @param reader
-	 *            Reader
-	 * @param writer
-	 *            Writer
-	 * @param bufferSize
-	 *            缓存大小
-	 * @param streamProgress
-	 *            进度处理器
+	 * @param reader Reader
+	 * @param writer Writer
+	 * @param bufferSize 缓存大小
+	 * @param streamProgress 进度处理器
 	 * @return 传输的byte数
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
-	public static long copy(Reader reader, Writer writer, int bufferSize, StreamProgress streamProgress)
-			throws IORuntimeException {
-
+	public static long copy(Reader reader, Writer writer, int bufferSize, StreamProgress streamProgress) throws IORuntimeException {
 		char[] buffer = new char[bufferSize];
 		long size = 0;
 		int readSize;
@@ -137,55 +120,39 @@ public class IoUtil {
 	/**
 	 * 拷贝流，使用默认Buffer大小
 	 * 
-	 * @param in
-	 *            输入流
-	 * @param out
-	 *            输出流
+	 * @param in 输入流
+	 * @param out 输出流
 	 * @return 传输的byte数
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static long copy(InputStream in, OutputStream out) throws IORuntimeException {
-
 		return copy(in, out, DEFAULT_BUFFER_SIZE);
 	}
 
 	/**
 	 * 拷贝流
 	 * 
-	 * @param in
-	 *            输入流
-	 * @param out
-	 *            输出流
-	 * @param bufferSize
-	 *            缓存大小
+	 * @param in 输入流
+	 * @param out 输出流
+	 * @param bufferSize 缓存大小
 	 * @return 传输的byte数
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static long copy(InputStream in, OutputStream out, int bufferSize) throws IORuntimeException {
-
 		return copy(in, out, bufferSize, null);
 	}
 
 	/**
 	 * 拷贝流
 	 * 
-	 * @param in
-	 *            输入流
-	 * @param out
-	 *            输出流
-	 * @param bufferSize
-	 *            缓存大小
-	 * @param streamProgress
-	 *            进度条
+	 * @param in 输入流
+	 * @param out 输出流
+	 * @param bufferSize 缓存大小
+	 * @param streamProgress 进度条
 	 * @return 传输的byte数
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
-	public static long copy(InputStream in, OutputStream out, int bufferSize, StreamProgress streamProgress)
-			throws IORuntimeException {
-
+	public static long copy(InputStream in, OutputStream out, int bufferSize, StreamProgress streamProgress) throws IORuntimeException {
 		Assert.notNull(in, "InputStream is null !");
 		Assert.notNull(out, "OutputStream is null !");
 		if (bufferSize <= 0) {
@@ -216,42 +183,29 @@ public class IoUtil {
 	}
 
 	/**
-	 * 拷贝流 thanks to:
-	 * https://github.com/venusdrogon/feilong-io/blob/master/src/main
-	 * /java/com/feilong/io/IOWriteUtil.java<br>
+	 * 拷贝流 thanks to: https://github.com/venusdrogon/feilong-io/blob/master/src/main/java/com/feilong/io/IOWriteUtil.java<br>
 	 * 本方法不会关闭流
 	 * 
-	 * @param in
-	 *            输入流
-	 * @param out
-	 *            输出流
-	 * @param bufferSize
-	 *            缓存大小
-	 * @param streamProgress
-	 *            进度条
+	 * @param in 输入流
+	 * @param out 输出流
+	 * @param bufferSize 缓存大小
+	 * @param streamProgress 进度条
 	 * @return 传输的byte数
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
-	public static long copyByNIO(InputStream in, OutputStream out, int bufferSize, StreamProgress streamProgress)
-			throws IORuntimeException {
-
+	public static long copyByNIO(InputStream in, OutputStream out, int bufferSize, StreamProgress streamProgress) throws IORuntimeException {
 		return copy(Channels.newChannel(in), Channels.newChannel(out), bufferSize, streamProgress);
 	}
 
 	/**
 	 * 拷贝文件流，使用NIO
 	 * 
-	 * @param in
-	 *            输入
-	 * @param out
-	 *            输出
+	 * @param in 输入
+	 * @param out 输出
 	 * @return 拷贝的字节数
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static long copy(FileInputStream in, FileOutputStream out) throws IORuntimeException {
-
 		Assert.notNull(in, "FileInputStream is null!");
 		Assert.notNull(out, "FileOutputStream is null!");
 
@@ -268,21 +222,14 @@ public class IoUtil {
 	/**
 	 * 拷贝流，使用NIO，不会关闭流
 	 * 
-	 * @param in
-	 *            {@link ReadableByteChannel}
-	 * @param out
-	 *            {@link WritableByteChannel}
-	 * @param bufferSize
-	 *            缓冲大小，如果小于等于0，使用默认
-	 * @param streamProgress
-	 *            {@link StreamProgress}进度处理器
+	 * @param in {@link ReadableByteChannel}
+	 * @param out {@link WritableByteChannel}
+	 * @param bufferSize 缓冲大小，如果小于等于0，使用默认
+	 * @param streamProgress {@link StreamProgress}进度处理器
 	 * @return 拷贝的字节数
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
-	public static long copy(ReadableByteChannel in, WritableByteChannel out, int bufferSize, StreamProgress streamProgress)
-			throws IORuntimeException {
-
+	public static long copy(ReadableByteChannel in, WritableByteChannel out, int bufferSize, StreamProgress streamProgress) throws IORuntimeException {
 		Assert.notNull(in, "InputStream is null !");
 		Assert.notNull(out, "OutputStream is null !");
 
@@ -309,37 +256,28 @@ public class IoUtil {
 
 		return size;
 	}
+	// -------------------------------------------------------------------------------------- Copy end
 
-	// --------------------------------------------------------------------------------------
-	// Copy end
-
-	// --------------------------------------------------------------------------------------
-	// getReader and getWriter start
+	// -------------------------------------------------------------------------------------- getReader and getWriter start
 	/**
 	 * 获得一个文件读取器
 	 * 
-	 * @param in
-	 *            输入流
-	 * @param charsetName
-	 *            字符集名称
+	 * @param in 输入流
+	 * @param charsetName 字符集名称
 	 * @return BufferedReader对象
 	 */
 	public static BufferedReader getReader(InputStream in, String charsetName) {
-
 		return getReader(in, Charset.forName(charsetName));
 	}
 
 	/**
 	 * 获得一个Reader
 	 * 
-	 * @param in
-	 *            输入流
-	 * @param charset
-	 *            字符集
+	 * @param in 输入流
+	 * @param charset 字符集
 	 * @return BufferedReader对象
 	 */
 	public static BufferedReader getReader(InputStream in, Charset charset) {
-
 		if (null == in) {
 			return null;
 		}
@@ -358,13 +296,11 @@ public class IoUtil {
 	 * 获得{@link BufferedReader}<br>
 	 * 如果是{@link BufferedReader}强转返回，否则新建。如果提供的Reader为null返回null
 	 * 
-	 * @param reader
-	 *            普通Reader，如果为null返回null
+	 * @param reader 普通Reader，如果为null返回null
 	 * @return {@link BufferedReader} or null
 	 * @since 3.0.9
 	 */
 	public static BufferedReader getReader(Reader reader) {
-
 		if (null == reader) {
 			return null;
 		}
@@ -376,43 +312,34 @@ public class IoUtil {
 	 * 获得{@link PushbackReader}<br>
 	 * 如果是{@link PushbackReader}强转返回，否则新建
 	 * 
-	 * @param reader
-	 *            普通Reader
-	 * @param pushBackSize
-	 *            推后的byte数
+	 * @param reader 普通Reader
+	 * @param pushBackSize 推后的byte数
 	 * @return {@link PushbackReader}
 	 * @since 3.1.0
 	 */
 	public static PushbackReader getPushBackReader(Reader reader, int pushBackSize) {
-
 		return (reader instanceof PushbackReader) ? (PushbackReader) reader : new PushbackReader(reader, pushBackSize);
 	}
 
 	/**
 	 * 获得一个Writer
 	 * 
-	 * @param out
-	 *            输入流
-	 * @param charsetName
-	 *            字符集
+	 * @param out 输入流
+	 * @param charsetName 字符集
 	 * @return OutputStreamWriter对象
 	 */
 	public static OutputStreamWriter getWriter(OutputStream out, String charsetName) {
-
 		return getWriter(out, Charset.forName(charsetName));
 	}
 
 	/**
 	 * 获得一个Writer
 	 * 
-	 * @param out
-	 *            输入流
-	 * @param charset
-	 *            字符集
+	 * @param out 输入流
+	 * @param charset 字符集
 	 * @return OutputStreamWriter对象
 	 */
 	public static OutputStreamWriter getWriter(OutputStream out, Charset charset) {
-
 		if (null == out) {
 			return null;
 		}
@@ -423,25 +350,18 @@ public class IoUtil {
 			return new OutputStreamWriter(out, charset);
 		}
 	}
+	// -------------------------------------------------------------------------------------- getReader and getWriter end
 
-	// --------------------------------------------------------------------------------------
-	// getReader and getWriter end
-
-	// --------------------------------------------------------------------------------------
-	// read start
+	// -------------------------------------------------------------------------------------- read start
 	/**
 	 * 从流中读取内容
 	 * 
-	 * @param in
-	 *            输入流
-	 * @param charsetName
-	 *            字符集
+	 * @param in 输入流
+	 * @param charsetName 字符集
 	 * @return 内容
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static String read(InputStream in, String charsetName) throws IORuntimeException {
-
 		FastByteArrayOutputStream out = read(in);
 		return StrUtil.isBlank(charsetName) ? out.toString() : out.toString(charsetName);
 	}
@@ -449,16 +369,12 @@ public class IoUtil {
 	/**
 	 * 从流中读取内容，读取完毕后并不关闭流
 	 * 
-	 * @param in
-	 *            输入流，读取完毕后并不关闭流
-	 * @param charset
-	 *            字符集
+	 * @param in 输入流，读取完毕后并不关闭流
+	 * @param charset 字符集
 	 * @return 内容
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static String read(InputStream in, Charset charset) throws IORuntimeException {
-
 		FastByteArrayOutputStream out = read(in);
 		return null == charset ? out.toString() : out.toString(charset);
 	}
@@ -466,14 +382,11 @@ public class IoUtil {
 	/**
 	 * 从流中读取内容，读到输出流中
 	 * 
-	 * @param in
-	 *            输入流
+	 * @param in 输入流
 	 * @return 输出流
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static FastByteArrayOutputStream read(InputStream in) throws IORuntimeException {
-
 		final FastByteArrayOutputStream out = new FastByteArrayOutputStream();
 		copy(in, out);
 		return out;
@@ -482,14 +395,11 @@ public class IoUtil {
 	/**
 	 * 从Reader中读取String，读取完毕后并不关闭Reader
 	 * 
-	 * @param reader
-	 *            Reader
+	 * @param reader Reader
 	 * @return String
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static String read(Reader reader) throws IORuntimeException {
-
 		final StringBuilder builder = StrUtil.builder();
 		final CharBuffer buffer = CharBuffer.allocate(DEFAULT_BUFFER_SIZE);
 		try {
@@ -505,46 +415,35 @@ public class IoUtil {
 	/**
 	 * 从FileChannel中读取UTF-8编码内容
 	 * 
-	 * @param fileChannel
-	 *            文件管道
+	 * @param fileChannel 文件管道
 	 * @return 内容
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static String readUtf8(FileChannel fileChannel) throws IORuntimeException {
-
 		return read(fileChannel, CharsetUtil.CHARSET_UTF_8);
 	}
 
 	/**
 	 * 从FileChannel中读取内容，读取完毕后并不关闭Channel
 	 * 
-	 * @param fileChannel
-	 *            文件管道
-	 * @param charsetName
-	 *            字符集
+	 * @param fileChannel 文件管道
+	 * @param charsetName 字符集
 	 * @return 内容
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static String read(FileChannel fileChannel, String charsetName) throws IORuntimeException {
-
 		return read(fileChannel, CharsetUtil.charset(charsetName));
 	}
 
 	/**
 	 * 从FileChannel中读取内容
 	 * 
-	 * @param fileChannel
-	 *            文件管道
-	 * @param charset
-	 *            字符集
+	 * @param fileChannel 文件管道
+	 * @param charset 字符集
 	 * @return 内容
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static String read(FileChannel fileChannel, Charset charset) throws IORuntimeException {
-
 		MappedByteBuffer buffer;
 		try {
 			buffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, fileChannel.size()).load();
@@ -557,14 +456,11 @@ public class IoUtil {
 	/**
 	 * 从流中读取bytes
 	 * 
-	 * @param in
-	 *            {@link InputStream}
+	 * @param in {@link InputStream}
 	 * @return bytes
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static byte[] readBytes(InputStream in) throws IORuntimeException {
-
 		final FastByteArrayOutputStream out = new FastByteArrayOutputStream();
 		copy(in, out);
 		return out.toByteArray();
@@ -573,16 +469,12 @@ public class IoUtil {
 	/**
 	 * 读取指定长度的byte数组，不关闭流
 	 * 
-	 * @param in
-	 *            {@link InputStream}，为null返回null
-	 * @param length
-	 *            长度，小于等于0返回空byte数组
+	 * @param in {@link InputStream}，为null返回null
+	 * @param length 长度，小于等于0返回空byte数组
 	 * @return bytes
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static byte[] readBytes(InputStream in, int length) throws IORuntimeException {
-
 		if (null == in) {
 			return null;
 		}
@@ -609,72 +501,55 @@ public class IoUtil {
 	/**
 	 * 读取16进制字符串
 	 * 
-	 * @param in
-	 *            {@link InputStream}
-	 * @param length
-	 *            长度
-	 * @param toLowerCase
-	 *            true 传换成小写格式 ， false 传换成大写格式
+	 * @param in {@link InputStream}
+	 * @param length 长度
+	 * @param toLowerCase true 传换成小写格式 ， false 传换成大写格式
 	 * @return 16进制字符串
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static String readHex(InputStream in, int length, boolean toLowerCase) throws IORuntimeException {
-
 		return HexUtil.encodeHexStr(readBytes(in, length), toLowerCase);
 	}
 
 	/**
 	 * 从流中读取前28个byte并转换为16进制，字母部分使用大写
 	 * 
-	 * @param in
-	 *            {@link InputStream}
+	 * @param in {@link InputStream}
 	 * @return 16进制字符串
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static String readHex28Upper(InputStream in) throws IORuntimeException {
-
 		return readHex(in, 28, false);
 	}
 
 	/**
 	 * 从流中读取前28个byte并转换为16进制，字母部分使用小写
 	 * 
-	 * @param in
-	 *            {@link InputStream}
+	 * @param in {@link InputStream}
 	 * @return 16进制字符串
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static String readHex28Lower(InputStream in) throws IORuntimeException {
-
 		return readHex(in, 28, true);
 	}
 
 	/**
 	 * 从流中读取内容，读到输出流中
 	 * 
-	 * @param <T>
-	 *            读取对象的类型
-	 * @param in
-	 *            输入流
+	 * @param <T> 读取对象的类型
+	 * @param in 输入流
 	 * @return 输出流
-	 * @throws IORuntimeException
-	 *             IO异常
-	 * @throws UtilException
-	 *             ClassNotFoundException包装
+	 * @throws IORuntimeException IO异常
+	 * @throws UtilException ClassNotFoundException包装
 	 */
 	public static <T> T readObj(InputStream in) throws IORuntimeException, UtilException {
-
 		if (in == null) {
 			throw new IllegalArgumentException("The InputStream must not be null");
 		}
 		ObjectInputStream ois = null;
 		try {
 			ois = new ObjectInputStream(in);
-			@SuppressWarnings("unchecked")
-			// may fail with CCE if serialised form is incorrect
+			@SuppressWarnings("unchecked") // may fail with CCE if serialised form is incorrect
 			final T obj = (T) ois.readObject();
 			return obj;
 		} catch (IOException e) {
@@ -687,83 +562,57 @@ public class IoUtil {
 	/**
 	 * 从流中读取内容，使用UTF-8编码
 	 * 
-	 * @param <T>
-	 *            集合类型
-	 * @param in
-	 *            输入流
-	 * @param collection
-	 *            返回集合
+	 * @param <T> 集合类型
+	 * @param in 输入流
+	 * @param collection 返回集合
 	 * @return 内容
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static <T extends Collection<String>> T readUtf8Lines(InputStream in, T collection) throws IORuntimeException {
-
 		return readLines(in, CharsetUtil.CHARSET_UTF_8, collection);
 	}
 
 	/**
 	 * 从流中读取内容
 	 * 
-	 * @param <T>
-	 *            集合类型
-	 * @param in
-	 *            输入流
-	 * @param charsetName
-	 *            字符集
-	 * @param collection
-	 *            返回集合
+	 * @param <T> 集合类型
+	 * @param in 输入流
+	 * @param charsetName 字符集
+	 * @param collection 返回集合
 	 * @return 内容
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
-	public static <T extends Collection<String>> T readLines(InputStream in, String charsetName, T collection)
-			throws IORuntimeException {
-
+	public static <T extends Collection<String>> T readLines(InputStream in, String charsetName, T collection) throws IORuntimeException {
 		return readLines(in, CharsetUtil.charset(charsetName), collection);
 	}
 
 	/**
 	 * 从流中读取内容
 	 * 
-	 * @param <T>
-	 *            集合类型
-	 * @param in
-	 *            输入流
-	 * @param charset
-	 *            字符集
-	 * @param collection
-	 *            返回集合
+	 * @param <T> 集合类型
+	 * @param in 输入流
+	 * @param charset 字符集
+	 * @param collection 返回集合
 	 * @return 内容
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
-	public static <T extends Collection<String>> T readLines(InputStream in, Charset charset, T collection)
-			throws IORuntimeException {
-
+	public static <T extends Collection<String>> T readLines(InputStream in, Charset charset, T collection) throws IORuntimeException {
 		return readLines(getReader(in, charset), collection);
 	}
 
 	/**
 	 * 从Reader中读取内容
 	 * 
-	 * @param <T>
-	 *            集合类型
-	 * @param reader
-	 *            {@link Reader}
-	 * @param collection
-	 *            返回集合
+	 * @param <T> 集合类型
+	 * @param reader {@link Reader}
+	 * @param collection 返回集合
 	 * @return 内容
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 */
 	public static <T extends Collection<String>> T readLines(Reader reader, final T collection) throws IORuntimeException {
-
 		readLines(reader, new LineHandler() {
-
 			@Override
 			public void handle(String line) {
-
 				collection.add(line);
 			}
 		});
@@ -773,34 +622,25 @@ public class IoUtil {
 	/**
 	 * 按行读取UTF-8编码数据，针对每行的数据做处理
 	 * 
-	 * @param in
-	 *            {@link InputStream}
-	 * @param lineHandler
-	 *            行处理接口，实现handle方法用于编辑一行的数据后入到指定地方
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @param in {@link InputStream}
+	 * @param lineHandler 行处理接口，实现handle方法用于编辑一行的数据后入到指定地方
+	 * @throws IORuntimeException IO异常
 	 * @since 3.1.1
 	 */
 	public static void readUtf8Lines(InputStream in, LineHandler lineHandler) throws IORuntimeException {
-
 		readLines(in, CharsetUtil.CHARSET_UTF_8, lineHandler);
 	}
 
 	/**
 	 * 按行读取数据，针对每行的数据做处理
 	 * 
-	 * @param in
-	 *            {@link InputStream}
-	 * @param charset
-	 *            {@link Charset}编码
-	 * @param lineHandler
-	 *            行处理接口，实现handle方法用于编辑一行的数据后入到指定地方
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @param in {@link InputStream}
+	 * @param charset {@link Charset}编码
+	 * @param lineHandler 行处理接口，实现handle方法用于编辑一行的数据后入到指定地方
+	 * @throws IORuntimeException IO异常
 	 * @since 3.0.9
 	 */
 	public static void readLines(InputStream in, Charset charset, LineHandler lineHandler) throws IORuntimeException {
-
 		readLines(getReader(in, charset), lineHandler);
 	}
 
@@ -808,15 +648,11 @@ public class IoUtil {
 	 * 按行读取数据，针对每行的数据做处理<br>
 	 * {@link Reader}自带编码定义，因此读取数据的编码跟随其编码。
 	 * 
-	 * @param reader
-	 *            {@link Reader}
-	 * @param lineHandler
-	 *            行处理接口，实现handle方法用于编辑一行的数据后入到指定地方
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @param reader {@link Reader}
+	 * @param lineHandler 行处理接口，实现handle方法用于编辑一行的数据后入到指定地方
+	 * @throws IORuntimeException IO异常
 	 */
 	public static void readLines(Reader reader, LineHandler lineHandler) throws IORuntimeException {
-
 		Assert.notNull(reader);
 		Assert.notNull(lineHandler);
 
@@ -832,34 +668,27 @@ public class IoUtil {
 		}
 	}
 
-	// --------------------------------------------------------------------------------------
-	// read end
+	// -------------------------------------------------------------------------------------- read end
 
 	/**
 	 * String 转为流
 	 * 
-	 * @param content
-	 *            内容
-	 * @param charsetName
-	 *            编码
+	 * @param content 内容
+	 * @param charsetName 编码
 	 * @return 字节流
 	 */
 	public static ByteArrayInputStream toStream(String content, String charsetName) {
-
 		return toStream(content, CharsetUtil.charset(charsetName));
 	}
 
 	/**
 	 * String 转为流
 	 * 
-	 * @param content
-	 *            内容
-	 * @param charset
-	 *            编码
+	 * @param content 内容
+	 * @param charset 编码
 	 * @return 字节流
 	 */
 	public static ByteArrayInputStream toStream(String content, Charset charset) {
-
 		if (content == null) {
 			return null;
 		}
@@ -869,34 +698,30 @@ public class IoUtil {
 	/**
 	 * 文件转为流
 	 * 
-	 * @param file
-	 *            文件
+	 * @param file 文件
 	 * @return {@link FileInputStream}
 	 */
 	public static FileInputStream toStream(File file) {
-
 		try {
 			return new FileInputStream(file);
 		} catch (FileNotFoundException e) {
 			throw new IORuntimeException(e);
 		}
 	}
-
+	
 	/**
 	 * 将{@link InputStream}转换为支持mark标记的流<br>
 	 * 若原流支持mark标记，则返回原流，否则使用{@link BufferedInputStream} 包装之
 	 * 
-	 * @param in
-	 *            流
+	 * @param in 流
 	 * @return {@link InputStream}
 	 * @since 4.0.9
 	 */
 	public static InputStream toMarkSupportStream(InputStream in) {
-
-		if (null == in) {
+		if(null == in) {
 			return null;
 		}
-		if (false == in.markSupported()) {
+		if(false == in.markSupported()) {
 			return new BufferedInputStream(in);
 		}
 		return in;
@@ -906,32 +731,24 @@ public class IoUtil {
 	 * 转换为{@link PushbackInputStream}<br>
 	 * 如果传入的输入流已经是{@link PushbackInputStream}，强转返回，否则新建一个
 	 * 
-	 * @param in
-	 *            {@link InputStream}
-	 * @param pushBackSize
-	 *            推后的byte数
+	 * @param in {@link InputStream}
+	 * @param pushBackSize 推后的byte数
 	 * @return {@link PushbackInputStream}
 	 * @since 3.1.0
 	 */
 	public static PushbackInputStream toPushbackStream(InputStream in, int pushBackSize) {
-
 		return (in instanceof PushbackInputStream) ? (PushbackInputStream) in : new PushbackInputStream(in, pushBackSize);
 	}
 
 	/**
 	 * 将byte[]写到流中
 	 * 
-	 * @param out
-	 *            输出流
-	 * @param isCloseOut
-	 *            写入完毕是否关闭输出流
-	 * @param content
-	 *            写入的内容
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @param out 输出流
+	 * @param isCloseOut 写入完毕是否关闭输出流
+	 * @param content 写入的内容
+	 * @throws IORuntimeException IO异常
 	 */
 	public static void write(OutputStream out, boolean isCloseOut, byte[] content) throws IORuntimeException {
-
 		try {
 			out.write(content);
 		} catch (IOException e) {
@@ -946,59 +763,40 @@ public class IoUtil {
 	/**
 	 * 将多部分内容写到流中，自动转换为UTF-8字符串
 	 * 
-	 * @param out
-	 *            输出流
-	 * @param isCloseOut
-	 *            写入完毕是否关闭输出流
-	 * @param contents
-	 *            写入的内容，调用toString()方法，不包括不会自动换行
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @param out 输出流
+	 * @param isCloseOut 写入完毕是否关闭输出流
+	 * @param contents 写入的内容，调用toString()方法，不包括不会自动换行
+	 * @throws IORuntimeException IO异常
 	 * @since 3.1.1
 	 */
 	public static void writeUtf8(OutputStream out, boolean isCloseOut, Object... contents) throws IORuntimeException {
-
 		write(out, CharsetUtil.CHARSET_UTF_8, isCloseOut, contents);
 	}
 
 	/**
 	 * 将多部分内容写到流中，自动转换为字符串
 	 * 
-	 * @param out
-	 *            输出流
-	 * @param charsetName
-	 *            写出的内容的字符集
-	 * @param isCloseOut
-	 *            写入完毕是否关闭输出流
-	 * @param contents
-	 *            写入的内容，调用toString()方法，不包括不会自动换行
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @param out 输出流
+	 * @param charsetName 写出的内容的字符集
+	 * @param isCloseOut 写入完毕是否关闭输出流
+	 * @param contents 写入的内容，调用toString()方法，不包括不会自动换行
+	 * @throws IORuntimeException IO异常
 	 */
-	public static void write(OutputStream out, String charsetName, boolean isCloseOut, Object... contents)
-			throws IORuntimeException {
-
+	public static void write(OutputStream out, String charsetName, boolean isCloseOut, Object... contents) throws IORuntimeException {
 		write(out, CharsetUtil.charset(charsetName), isCloseOut, contents);
 	}
 
 	/**
 	 * 将多部分内容写到流中，自动转换为字符串
 	 * 
-	 * @param out
-	 *            输出流
-	 * @param charset
-	 *            写出的内容的字符集
-	 * @param isCloseOut
-	 *            写入完毕是否关闭输出流
-	 * @param contents
-	 *            写入的内容，调用toString()方法，不包括不会自动换行
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @param out 输出流
+	 * @param charset 写出的内容的字符集
+	 * @param isCloseOut 写入完毕是否关闭输出流
+	 * @param contents 写入的内容，调用toString()方法，不包括不会自动换行
+	 * @throws IORuntimeException IO异常
 	 * @since 3.0.9
 	 */
-	public static void write(OutputStream out, Charset charset, boolean isCloseOut, Object... contents)
-			throws IORuntimeException {
-
+	public static void write(OutputStream out, Charset charset, boolean isCloseOut, Object... contents) throws IORuntimeException {
 		OutputStreamWriter osw = null;
 		try {
 			osw = getWriter(out, charset);
@@ -1020,18 +818,12 @@ public class IoUtil {
 	/**
 	 * 将多部分内容写到流中
 	 * 
-	 * @param out
-	 *            输出流
-	 * @param isCloseOut
-	 *            写入完毕是否关闭输出流
-	 * @param contents
-	 *            写入的内容
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @param out 输出流
+	 * @param isCloseOut 写入完毕是否关闭输出流
+	 * @param contents 写入的内容
+	 * @throws IORuntimeException IO异常
 	 */
-	public static void writeObjects(OutputStream out, boolean isCloseOut, Serializable... contents)
-			throws IORuntimeException {
-
+	public static void writeObjects(OutputStream out, boolean isCloseOut, Serializable... contents) throws IORuntimeException {
 		ObjectOutputStream osw = null;
 		try {
 			osw = out instanceof ObjectOutputStream ? (ObjectOutputStream) out : new ObjectOutputStream(out);
@@ -1054,11 +846,9 @@ public class IoUtil {
 	 * 关闭<br>
 	 * 关闭失败不会抛出异常
 	 * 
-	 * @param closeable
-	 *            被关闭的对象
+	 * @param closeable 被关闭的对象
 	 */
 	public static void close(Closeable closeable) {
-
 		if (null != closeable) {
 			try {
 				closeable.close();
@@ -1072,11 +862,9 @@ public class IoUtil {
 	 * 关闭<br>
 	 * 关闭失败不会抛出异常
 	 * 
-	 * @param closeable
-	 *            被关闭的对象
+	 * @param closeable 被关闭的对象
 	 */
 	public static void close(AutoCloseable closeable) {
-
 		if (null != closeable) {
 			try {
 				closeable.close();
@@ -1090,17 +878,13 @@ public class IoUtil {
 	 * 对比两个流内容是否相同<br>
 	 * 内部会转换流为 {@link BufferedInputStream}
 	 *
-	 * @param input1
-	 *            第一个流
-	 * @param input2
-	 *            第二个流
+	 * @param input1 第一个流
+	 * @param input2 第二个流
 	 * @return 两个流的内容一致返回true，否则false
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 * @since 4.0.6
 	 */
 	public static boolean contentEquals(InputStream input1, InputStream input2) throws IORuntimeException {
-
 		if (false == (input1 instanceof BufferedInputStream)) {
 			input1 = new BufferedInputStream(input1);
 		}
@@ -1129,17 +913,13 @@ public class IoUtil {
 	 * 对比两个Reader的内容是否一致<br>
 	 * 内部会转换流为 {@link BufferedInputStream}
 	 *
-	 * @param input1
-	 *            第一个reader
-	 * @param input2
-	 *            第二个reader
+	 * @param input1 第一个reader
+	 * @param input2 第二个reader
 	 * @return 两个流的内容一致返回true，否则false
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 * @since 4.0.6
 	 */
 	public static boolean contentEquals(Reader input1, Reader input2) throws IORuntimeException {
-
 		input1 = getReader(input1);
 		input2 = getReader(input2);
 
@@ -1164,17 +944,13 @@ public class IoUtil {
 	 * 对比两个流内容是否相同，忽略EOL字符<br>
 	 * 内部会转换流为 {@link BufferedInputStream}
 	 *
-	 * @param input1
-	 *            第一个流
-	 * @param input2
-	 *            第二个流
+	 * @param input1 第一个流
+	 * @param input2 第二个流
 	 * @return 两个流的内容一致返回true，否则false
-	 * @throws IORuntimeException
-	 *             IO异常
+	 * @throws IORuntimeException IO异常
 	 * @since 4.0.6
 	 */
 	public static boolean contentEqualsIgnoreEOL(Reader input1, Reader input2) throws IORuntimeException {
-
 		final BufferedReader br1 = getReader(input1);
 		final BufferedReader br2 = getReader(input2);
 

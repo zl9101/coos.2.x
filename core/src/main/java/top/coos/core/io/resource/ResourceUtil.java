@@ -16,7 +16,7 @@ import top.coos.util.ClassLoaderUtil;
 /**
  * ClassPath资源工具类
  * 
- 
+
  *
  */
 public class ResourceUtil {

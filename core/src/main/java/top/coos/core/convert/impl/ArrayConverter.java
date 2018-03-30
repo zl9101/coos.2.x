@@ -14,6 +14,8 @@ import top.coos.util.StrUtil;
 
 /**
  * 数组转换器，包括原始类型数组
+ * 
+
  */
 public class ArrayConverter extends AbstractConverter<Object> {
 
@@ -24,11 +26,9 @@ public class ArrayConverter extends AbstractConverter<Object> {
 	/**
 	 * 构造
 	 * 
-	 * @param targetType
-	 *            目标数组类型
+	 * @param targetType 目标数组类型
 	 */
 	public ArrayConverter(Class<?> targetType) {
-
 		if (null == targetType) {
 			// 默认Object数组
 			targetType = Object[].class;
@@ -41,28 +41,23 @@ public class ArrayConverter extends AbstractConverter<Object> {
 
 	@Override
 	protected Object convertInternal(Object value) {
-
 		return value.getClass().isArray() ? convertArrayToArray(value) : convertObjectToArray(value);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Class getTargetType() {
-
 		return this.targetType;
 	}
 
-	// --------------------------------------------------------------------------------------
-	// Private method start
+	// -------------------------------------------------------------------------------------- Private method start
 	/**
 	 * 数组对数组转换
 	 * 
-	 * @param array
-	 *            被转换的数组值
+	 * @param array 被转换的数组值
 	 * @return 转换后的数组
 	 */
 	private Object convertArrayToArray(Object array) {
-
 		final Class<?> valueComponentType = ArrayUtil.getComponentType(array);
 
 		if (valueComponentType == targetComponentType) {
@@ -82,12 +77,10 @@ public class ArrayConverter extends AbstractConverter<Object> {
 	/**
 	 * 非数组对数组转换
 	 * 
-	 * @param value
-	 *            被转换值
+	 * @param value 被转换值
 	 * @return 转换后的数组
 	 */
 	private Object convertObjectToArray(Object value) {
-
 		if (value instanceof CharSequence) {
 			if (targetComponentType == char.class || targetComponentType == Character.class) {
 				return convertArrayToArray(value.toString().toCharArray());
@@ -142,16 +135,13 @@ public class ArrayConverter extends AbstractConverter<Object> {
 	/**
 	 * 单元素数组
 	 * 
-	 * @param value
-	 *            被转换的值
+	 * @param value 被转换的值
 	 * @return 数组，只包含一个元素
 	 */
 	private Object[] convertToSingleElementArray(Object value) {
-
 		final Object[] singleElementArray = ArrayUtil.newArray(targetComponentType, 1);
 		singleElementArray[0] = ConverterRegistry.getInstance().convert(targetComponentType, value);
 		return singleElementArray;
 	}
-	// --------------------------------------------------------------------------------------
-	// Private method end
+	// -------------------------------------------------------------------------------------- Private method end
 }

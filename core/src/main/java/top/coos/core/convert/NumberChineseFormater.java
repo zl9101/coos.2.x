@@ -5,13 +5,13 @@ import top.coos.util.StrUtil;
 /**
  * 数字转中文类<br>
  * 包括：
- * 
  * <pre>
  * 1. 数字转中文大写形式，比如一百二十一
  * 2. 数字转金额用的大写形式，比如：壹佰贰拾壹
  * 3. 转金额形式，比如：壹佰贰拾壹整
  * </pre>
  * 
+
  **/
 public class NumberChineseFormater {
 
@@ -24,34 +24,27 @@ public class NumberChineseFormater {
 	private static final String[] simpleUnits = { "", "十", "百", "千" };
 	/** 繁体中文单位 **/
 	private static final String[] traditionalUnits = { "", "拾", "佰", "仟" };
-
+	
 	/**
 	 * 阿拉伯数字转换成中文,小数点后四舍五入保留两位. 使用于整数、小数的转换.
 	 *
-	 * @param amount
-	 *            数字
-	 * @param isUseTraditional
-	 *            是否使用繁体
+	 * @param amount 数字
+	 * @param isUseTraditional 是否使用繁体
 	 * @return 中文
 	 */
 	public static String format(double amount, boolean isUseTraditional) {
-
 		return format(amount, isUseTraditional, false);
 	}
 
 	/**
 	 * 阿拉伯数字转换成中文,小数点后四舍五入保留两位. 使用于整数、小数的转换.
 	 *
-	 * @param amount
-	 *            数字
-	 * @param isUseTraditional
-	 *            是否使用繁体
-	 * @param isMoneyMode
-	 *            是否为金额模式
+	 * @param amount 数字
+	 * @param isUseTraditional 是否使用繁体
+	 * @param isMoneyMode 是否为金额模式
 	 * @return 中文
 	 */
 	public static String format(double amount, boolean isUseTraditional, boolean isMoneyMode) {
-
 		final String[] numArray = isUseTraditional ? traditionalDigits : simpleDigits;
 
 		if (amount > 99999999999999.99 || amount < -99999999999999.99) {
@@ -61,7 +54,7 @@ public class NumberChineseFormater {
 		boolean negative = false;
 		if (amount < 0) {
 			negative = true;
-			amount = -amount;
+			amount = - amount;
 		}
 
 		long temp = Math.round(amount * 100);
@@ -70,7 +63,7 @@ public class NumberChineseFormater {
 		int numJiao = (int) (temp % 10);
 		temp = temp / 10;
 
-		// 将数字以万为单位分为多份
+		//将数字以万为单位分为多份
 		int[] parts = new int[20];
 		int numParts = 0;
 		for (int i = 0; temp != 0; i++) {
@@ -122,12 +115,11 @@ public class NumberChineseFormater {
 				if (numJiao == 0) {
 					chineseStr += (isMoneyMode ? "元零" : "点零") + numArray[numFen] + (isMoneyMode ? "分" : "");
 				} else {
-					chineseStr += (isMoneyMode ? "元" : "点") + numArray[numJiao] + (isMoneyMode ? "角" : "")
-							+ numArray[numFen] + (isMoneyMode ? "分" : "");
+					chineseStr += (isMoneyMode ? "元" : "点") + numArray[numJiao] + (isMoneyMode ? "角" : "") + numArray[numFen] + (isMoneyMode ? "分" : "");
 				}
 			}
-		} else if (isMoneyMode) {
-			// 无小数部分的金额结尾
+		}else if(isMoneyMode) {
+			//无小数部分的金额结尾
 			chineseStr += "整";
 		}
 
@@ -138,17 +130,14 @@ public class NumberChineseFormater {
 	/**
 	 * 把一个 0~9999 之间的整数转换为汉字的字符串，如果是 0 则返回 ""
 	 *
-	 * @param amountPart
-	 *            数字部分
-	 * @param isUseTraditional
-	 *            是否使用繁体单位
+	 * @param amountPart 数字部分
+	 * @param isUseTraditional 是否使用繁体单位
 	 * @return 转换后的汉字
 	 */
 	private static String toChinese(int amountPart, boolean isUseTraditional) {
-
-		// if (amountPart < 0 || amountPart > 10000) {
-		// throw new IllegalArgumentException("Number must 0 < num < 10000！");
-		// }
+//		if (amountPart < 0 || amountPart > 10000) {
+//			throw new IllegalArgumentException("Number must 0 < num < 10000！");
+//		}
 
 		String[] numArray = isUseTraditional ? traditionalDigits : simpleDigits;
 		String[] units = isUseTraditional ? traditionalUnits : simpleUnits;

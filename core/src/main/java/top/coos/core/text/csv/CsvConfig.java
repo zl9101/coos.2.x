@@ -7,7 +7,7 @@ import top.coos.util.CharUtil;
 /**
  * CSV基础配置项
  * 
- 
+
  * @since 4.0.5
  */
 public class CsvConfig implements Serializable{

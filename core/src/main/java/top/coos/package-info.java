@@ -1,5 +1,5 @@
 /**
- * COOS工具包
+ * COOS工具集合包
  *
  */
 package top.coos;

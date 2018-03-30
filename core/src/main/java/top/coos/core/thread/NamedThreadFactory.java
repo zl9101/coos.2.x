@@ -14,7 +14,7 @@ import top.coos.util.StrUtil;
  * 2. 自定义是否守护线程
  * </pre>
  * 
- 
+
  * @since 4.0.0
  */
 public class NamedThreadFactory implements ThreadFactory {
@@ -33,45 +33,33 @@ public class NamedThreadFactory implements ThreadFactory {
 	/**
 	 * 构造
 	 * 
-	 * @param prefix
-	 *            线程名前缀
-	 * @param isDeamon
-	 *            是否守护线程
+	 * @param prefix 线程名前缀
+	 * @param isDeamon 是否守护线程
 	 */
 	public NamedThreadFactory(String prefix, boolean isDeamon) {
-
 		this(prefix, null, isDeamon);
 	}
-
+	
 	/**
 	 * 构造
 	 * 
-	 * @param prefix
-	 *            线程名前缀
-	 * @param threadGroup
-	 *            线程组，可以为null
-	 * @param isDeamon
-	 *            是否守护线程
+	 * @param prefix 线程名前缀
+	 * @param threadGroup 线程组，可以为null
+	 * @param isDeamon 是否守护线程
 	 */
 	public NamedThreadFactory(String prefix, ThreadGroup threadGroup, boolean isDeamon) {
-
 		this(prefix, threadGroup, isDeamon, null);
 	}
 
 	/**
 	 * 构造
 	 * 
-	 * @param prefix
-	 *            线程名前缀
-	 * @param threadGroup
-	 *            线程组，可以为null
-	 * @param isDeamon
-	 *            是否守护线程
-	 * @param handler
-	 *            未捕获异常处理
+	 * @param prefix 线程名前缀
+	 * @param threadGroup 线程组，可以为null
+	 * @param isDeamon 是否守护线程
+	 * @param handler 未捕获异常处理
 	 */
 	public NamedThreadFactory(String prefix, ThreadGroup threadGroup, boolean isDeamon, UncaughtExceptionHandler handler) {
-
 		this.prefix = StrUtil.isBlank(prefix) ? "Hutool" : prefix;
 		if (null == threadGroup) {
 			threadGroup = ThreadUtil.currentThreadGroup();
@@ -83,10 +71,9 @@ public class NamedThreadFactory implements ThreadFactory {
 
 	@Override
 	public Thread newThread(Runnable r) {
-
 		final Thread t = new Thread(this.group, r, StrUtil.format("{}-{}", prefix, threadNumber.getAndIncrement()));
-
-		// 守护线程
+		
+		//守护线程
 		if (false == t.isDaemon()) {
 			if (isDeamon) {
 				// 原线程为非守护则设置为守护
@@ -96,11 +83,11 @@ public class NamedThreadFactory implements ThreadFactory {
 			// 原线程为守护则还原为非守护
 			t.setDaemon(false);
 		}
-		// 异常处理
-		if (null != this.handler) {
+		//异常处理
+		if(null != this.handler) {
 			t.setUncaughtExceptionHandler(handler);
 		}
-		// 优先级
+		//优先级
 		if (Thread.NORM_PRIORITY != t.getPriority()) {
 			// 标准优先级
 			t.setPriority(Thread.NORM_PRIORITY);

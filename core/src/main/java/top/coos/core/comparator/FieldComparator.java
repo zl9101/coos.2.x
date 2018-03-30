@@ -12,11 +12,11 @@ import top.coos.util.StrUtil;
  * Bean字段排序器<br>
  * 参阅feilong-core中的PropertyComparator
  * 
- * @param <T>
- *            被比较的Bean
+
+ *
+ * @param <T> 被比较的Bean
  */
 public class FieldComparator<T> implements Comparator<T>, Serializable {
-
 	private static final long serialVersionUID = 9157326766723846313L;
 
 	private final Field field;
@@ -24,23 +24,18 @@ public class FieldComparator<T> implements Comparator<T>, Serializable {
 	/**
 	 * 构造
 	 * 
-	 * @param beanClass
-	 *            Bean类
-	 * @param fieldName
-	 *            字段名
+	 * @param beanClass Bean类
+	 * @param fieldName 字段名
 	 */
 	public FieldComparator(Class<T> beanClass, String fieldName) {
-
 		this.field = ClassUtil.getDeclaredField(beanClass, fieldName);
-		if (this.field == null) {
-			throw new IllegalArgumentException(StrUtil.format("Field [{}] not found in Class [{}]", fieldName,
-					beanClass.getName()));
+		if(this.field == null){
+			throw new IllegalArgumentException(StrUtil.format("Field [{}] not found in Class [{}]", fieldName, beanClass.getName()));
 		}
 	}
 
 	@Override
 	public int compare(T o1, T o2) {
-
 		if (o1 == o2) {
 			return 0;
 		} else if (null == o1) {// null 排在后面
@@ -63,10 +58,9 @@ public class FieldComparator<T> implements Comparator<T>, Serializable {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private int compare(T o1, T o2, Comparable fieldValue1, Comparable fieldValue2) {
-
 		int result = ObjectUtil.compare(fieldValue1, fieldValue2);
-		if (0 == result && ObjectUtil.notEqual(o1, o2)) {
-			// 避免TreeSet / TreeMap 过滤掉排序字段相同但是对象不相同的情况
+		if(0 == result && ObjectUtil.notEqual(o1, o2)){
+			//避免TreeSet / TreeMap 过滤掉排序字段相同但是对象不相同的情况
 			return 1;
 		}
 		return result;

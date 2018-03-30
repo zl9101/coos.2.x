@@ -9,18 +9,17 @@ import top.coos.util.StrUtil;
  * 抽象转换器，提供通用的转换逻辑，同时通过convertInternal实现对应类型的专属逻辑<br>
  * 转换器不会抛出转换异常，转换失败时会返回{@code null}
  * 
+
+ *
  */
 public abstract class AbstractConverter<T> implements Converter<T> {
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public T convert(Object value, T defaultValue) {
-
 		Class<T> targetType = getTargetType();
 		if (null == targetType && null == defaultValue) {
-			throw new NullPointerException(StrUtil.format(
-					"[type] and [defaultValue] are both null for Converter [{}], we can not know what type to convert !",
-					this.getClass().getName()));
+			throw new NullPointerException(StrUtil.format("[type] and [defaultValue] are both null for Converter [{}], we can not know what type to convert !", this.getClass().getName()));
 		}
 		if (null == targetType) {
 			targetType = (Class<T>) defaultValue.getClass();
@@ -42,8 +41,7 @@ public abstract class AbstractConverter<T> implements Converter<T> {
 			}
 			return ((null == result) ? defaultValue : result);
 		} else {
-			throw new IllegalArgumentException(StrUtil.format("Default value [{}] is not the instance of [{}]",
-					defaultValue, targetType));
+			throw new IllegalArgumentException(StrUtil.format("Default value [{}] is not the instance of [{}]", defaultValue, targetType));
 		}
 	}
 
@@ -56,8 +54,7 @@ public abstract class AbstractConverter<T> implements Converter<T> {
 	 * 2、抛出一个{@link RuntimeException}异常
 	 * </pre>
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 * @return 转换后的类型
 	 */
 	protected abstract T convertInternal(Object value);
@@ -72,12 +69,10 @@ public abstract class AbstractConverter<T> implements Converter<T> {
 	 * 3、其它类型将调用默认的toString()方法
 	 * </pre>
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 * @return String
 	 */
 	protected String convertToStr(Object value) {
-
 		if (null == value) {
 			return null;
 		}
@@ -85,9 +80,9 @@ public abstract class AbstractConverter<T> implements Converter<T> {
 			return (String) value;
 		} else if (ArrayUtil.isArray(value)) {
 			return ArrayUtil.toString(value);
-		} else if (CharUtil.isChar(value)) {
-			// 对于ASCII字符使用缓存加速转换，减少空间创建
-			return CharUtil.toString((char) value);
+		} else if(CharUtil.isChar(value)) {
+			//对于ASCII字符使用缓存加速转换，减少空间创建
+			return CharUtil.toString((char)value);
 		}
 		return value.toString();
 	}
@@ -99,7 +94,6 @@ public abstract class AbstractConverter<T> implements Converter<T> {
 	 */
 	@SuppressWarnings("unchecked")
 	public Class<T> getTargetType() {
-
 		return (Class<T>) ClassUtil.getTypeArgument(getClass());
 	}
 }

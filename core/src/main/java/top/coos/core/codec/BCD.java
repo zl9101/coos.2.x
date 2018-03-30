@@ -4,23 +4,19 @@ package top.coos.core.codec;
  * BCD码（Binary-Coded Decimal‎）亦称二进码十进数或二-十进制代码<br>
  * BCD码这种编码形式利用了四个位元来储存一个十进制的数码，使二进制和十进制之间的转换得以快捷的进行<br>
  * see http://cuisuqiang.iteye.com/blog/1429956
- * 
+
+ *
  */
 public final class BCD {
-
-	private BCD() {
-
-	}
-
+	
+	private BCD() {}
+	
 	/**
 	 * 字符串转BCD码
-	 * 
-	 * @param asc
-	 *            ASCII字符串
+	 * @param asc ASCII字符串
 	 * @return BCD
 	 */
 	public static byte[] strToBcd(String asc) {
-
 		int len = asc.length();
 		int mod = len % 2;
 		if (mod != 0) {
@@ -55,30 +51,23 @@ public final class BCD {
 		}
 		return bbt;
 	}
-
+	
 	/**
 	 * ASCII转BCD
-	 * 
-	 * @param ascii
-	 *            ASCII byte数组
+	 * @param ascii ASCII byte数组
 	 * @return BCD
 	 */
 	public static byte[] ascToBcd(byte[] ascii) {
-
 		return ascToBcd(ascii, ascii.length);
 	}
 
 	/**
 	 * ASCII转BCD
-	 * 
-	 * @param ascii
-	 *            ASCII byte数组
-	 * @param ascLength
-	 *            长度
+	 * @param ascii ASCII byte数组
+	 * @param ascLength 长度
 	 * @return BCD
 	 */
 	public static byte[] ascToBcd(byte[] ascii, int ascLength) {
-
 		byte[] bcd = new byte[ascLength / 2];
 		int j = 0;
 		for (int i = 0; i < (ascLength + 1) / 2; i++) {
@@ -90,13 +79,10 @@ public final class BCD {
 
 	/**
 	 * BCD转ASCII字符串
-	 * 
-	 * @param bytes
-	 *            BCD byte数组
+	 * @param bytes BCD byte数组
 	 * @return ASCII字符串
 	 */
 	public static String bcdToStr(byte[] bytes) {
-
 		char temp[] = new char[bytes.length * 2], val;
 
 		for (int i = 0; i < bytes.length; i++) {
@@ -108,31 +94,27 @@ public final class BCD {
 		}
 		return new String(temp);
 	}
-
-	// ----------------------------------------------------------------- Private
-	// method start
+	
+	
+	//----------------------------------------------------------------- Private method start
 	/**
 	 * 转换单个byte为BCD
-	 * 
-	 * @param asc
-	 *            ACSII
+	 * @param asc ACSII
 	 * @return BCD
 	 */
 	private static byte ascToBcd(byte asc) {
-
 		byte bcd;
 
 		if ((asc >= '0') && (asc <= '9')) {
 			bcd = (byte) (asc - '0');
-		} else if ((asc >= 'A') && (asc <= 'F')) {
+		}else if ((asc >= 'A') && (asc <= 'F')) {
 			bcd = (byte) (asc - 'A' + 10);
-		} else if ((asc >= 'a') && (asc <= 'f')) {
+		}else if ((asc >= 'a') && (asc <= 'f')) {
 			bcd = (byte) (asc - 'a' + 10);
-		} else {
+		}else {
 			bcd = (byte) (asc - 48);
 		}
 		return bcd;
 	}
-	// ----------------------------------------------------------------- Private
-	// method end
+	//----------------------------------------------------------------- Private method end
 }

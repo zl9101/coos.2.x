@@ -10,11 +10,10 @@ import top.coos.util.StrUtil;
 /**
  * 可复用的字符串生成器，非线程安全
  *
- 
+
  * @since 4.0.0
  */
 public class StrBuilder implements CharSequence, Appendable, Serializable {
-
 	private static final long serialVersionUID = 6341229705927508451L;
 
 	/** 默认容量 */
@@ -24,117 +23,94 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	private char[] value;
 	/** 当前指针位置，或者叫做已经加入的字符数，此位置总在最后一个字符之后 */
 	private int position;
-
+	
 	/**
 	 * 创建字符串构建器
-	 * 
 	 * @return {@link StrBuilder}
 	 */
 	public static StrBuilder create() {
-
 		return new StrBuilder();
 	}
-
+	
 	/**
 	 * 创建字符串构建器
-	 * 
-	 * @param initialCapacity
-	 *            初始容量
+	 * @param initialCapacity 初始容量
 	 * @return {@link StrBuilder}
 	 */
 	public static StrBuilder create(int initialCapacity) {
-
 		return new StrBuilder(initialCapacity);
 	}
-
+	
 	/**
 	 * 创建字符串构建器
-	 * 
-	 * @param strs
-	 *            初始字符串
+	 * @param strs 初始字符串
 	 * @return {@link StrBuilder}
 	 * @since 4.0.1
 	 */
 	public static StrBuilder create(CharSequence... strs) {
-
 		return new StrBuilder(strs);
 	}
 
-	// ------------------------------------------------------------------------------------
-	// Constructor start
+	// ------------------------------------------------------------------------------------ Constructor start
 	/**
 	 * 构造
 	 */
 	public StrBuilder() {
-
 		this(DEFAULT_CAPACITY);
 	}
 
 	/**
 	 * 构造
 	 *
-	 * @param initialCapacity
-	 *            初始容量
+	 * @param initialCapacity 初始容量
 	 */
 	public StrBuilder(int initialCapacity) {
-
 		value = new char[initialCapacity];
 	}
-
+	
 	/**
 	 * 构造
 	 *
-	 * @param strs
-	 *            初始字符串
+	 * @param strs 初始字符串
 	 * @since 4.0.1
 	 */
 	public StrBuilder(CharSequence... strs) {
-
 		this(ArrayUtil.isEmpty(strs) ? DEFAULT_CAPACITY : (totalLength(strs) + DEFAULT_CAPACITY));
-		for (int i = 0; i < strs.length; i++) {
+		for(int i = 0; i < strs.length; i++) {
 			append(strs[i]);
 		}
 	}
+	// ------------------------------------------------------------------------------------ Constructor end
 
-	// ------------------------------------------------------------------------------------
-	// Constructor end
-
-	// ------------------------------------------------------------------------------------
-	// Append
+	// ------------------------------------------------------------------------------------ Append
 	/**
 	 * 追加对象，对象会被转换为字符串
 	 * 
-	 * @param obj
-	 *            对象
+	 * @param obj 对象
 	 * @return this
 	 */
 	public StrBuilder append(Object obj) {
-
 		return insert(this.position, obj);
 	}
 
 	/**
 	 * 追加一个字符
 	 *
-	 * @param c
-	 *            字符
+	 * @param c 字符
 	 * @return this
 	 */
 	@Override
 	public StrBuilder append(char c) {
-
 		return insert(this.position, c);
 	}
 
 	/**
 	 * 追加一个字符数组
 	 * 
-	 * @param src
-	 *            字符数组
+	 * @param src 字符数组
 	 * @return this
 	 */
 	public StrBuilder append(char[] src) {
-
 		if (ArrayUtil.isEmpty(src)) {
 			return this;
 		}
@@ -144,42 +120,33 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	/**
 	 * 追加一个字符数组
 	 * 
-	 * @param src
-	 *            字符数组
-	 * @param srcPos
-	 *            开始位置（包括）
-	 * @param length
-	 *            长度
+	 * @param src 字符数组
+	 * @param srcPos 开始位置（包括）
+	 * @param length 长度
 	 * @return this
 	 */
 	public StrBuilder append(char[] src, int srcPos, int length) {
-
 		return insert(this.position, src, srcPos, length);
 	}
 
 	@Override
 	public StrBuilder append(CharSequence csq) {
-
 		return insert(this.position, csq);
 	}
 
 	@Override
 	public StrBuilder append(CharSequence csq, int start, int end) {
-
 		return insert(this.position, csq, start, end);
 	}
 
-	// ------------------------------------------------------------------------------------
-	// Insert
+	// ------------------------------------------------------------------------------------ Insert
 	/**
 	 * 追加对象，对象会被转换为字符串
 	 * 
-	 * @param obj
-	 *            对象
+	 * @param obj 对象
 	 * @return this
 	 */
 	public StrBuilder insert(int index, Object obj) {
-
 		if (obj instanceof CharSequence) {
 			return insert(index, (CharSequence) obj);
 		}
@@ -189,14 +156,11 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	/**
 	 * 插入指定字符
 	 * 
-	 * @param index
-	 *            位置
-	 * @param c
-	 *            字符
+	 * @param index 位置
+	 * @param c 字符
 	 * @return this
 	 */
 	public StrBuilder insert(int index, char c) {
-
 		moveDataAfterIndex(index, 1);
 		value[index] = c;
 		this.position = Math.max(this.position, index) + 1;
@@ -208,14 +172,11 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	 * 如果插入位置为当前位置，则定义为追加<br>
 	 * 如果插入位置大于当前位置，则中间部分补充空格
 	 * 
-	 * @param index
-	 *            插入位置
-	 * @param src
-	 *            源数组
+	 * @param index 插入位置
+	 * @param src 源数组
 	 * @return this
 	 */
 	public StrBuilder insert(int index, char[] src) {
-
 		if (ArrayUtil.isEmpty(src)) {
 			return this;
 		}
@@ -227,18 +188,13 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	 * 如果插入位置为当前位置，则定义为追加<br>
 	 * 如果插入位置大于当前位置，则中间部分补充空格
 	 * 
-	 * @param index
-	 *            插入位置
-	 * @param src
-	 *            源数组
-	 * @param srcPos
-	 *            位置
-	 * @param length
-	 *            长度
+	 * @param index 插入位置
+	 * @param src 源数组
+	 * @param srcPos 位置
+	 * @param length 长度
 	 * @return this
 	 */
 	public StrBuilder insert(int index, char[] src, int srcPos, int length) {
-
 		if (ArrayUtil.isEmpty(src) || srcPos > src.length || length <= 0) {
 			return this;
 		}
@@ -264,14 +220,11 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	 * 如果插入位置为当前位置，则定义为追加<br>
 	 * 如果插入位置大于当前位置，则中间部分补充空格
 	 * 
-	 * @param index
-	 *            位置
-	 * @param csq
-	 *            字符串
+	 * @param index 位置
+	 * @param csq 字符串
 	 * @return this
 	 */
 	public StrBuilder insert(int index, CharSequence csq) {
-
 		if (null == csq) {
 			csq = "null";
 		}
@@ -299,18 +252,13 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	 * 如果插入位置为当前位置，则定义为追加<br>
 	 * 如果插入位置大于当前位置，则中间部分补充空格
 	 * 
-	 * @param index
-	 *            位置
-	 * @param csq
-	 *            字符串
-	 * @param start
-	 *            字符串开始位置（包括）
-	 * @param end
-	 *            字符串结束位置（不包括）
+	 * @param index 位置
+	 * @param csq 字符串
+	 * @param start 字符串开始位置（包括）
+	 * @param end 字符串结束位置（不包括）
 	 * @return this
 	 */
 	public StrBuilder insert(int index, CharSequence csq, int start, int end) {
-
 		if (csq == null) {
 			csq = "null";
 		}
@@ -340,23 +288,17 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 		return this;
 	}
 
-	// ------------------------------------------------------------------------------------
-	// Others
+	// ------------------------------------------------------------------------------------ Others
 	/**
 	 * 将指定段的字符列表写出到目标字符数组中
 	 * 
-	 * @param srcBegin
-	 *            起始位置（包括）
-	 * @param srcEnd
-	 *            结束位置（不包括）
-	 * @param dst
-	 *            目标数组
-	 * @param dstBegin
-	 *            目标起始位置（包括）
+	 * @param srcBegin 起始位置（包括）
+	 * @param srcEnd 结束位置（不包括）
+	 * @param dst 目标数组
+	 * @param dstBegin 目标起始位置（包括）
 	 * @return this
 	 */
 	public StrBuilder getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin) {
-
 		if (srcBegin < 0) {
 			srcBegin = 0;
 		}
@@ -378,7 +320,6 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	 * @return 是否有内容
 	 */
 	public boolean hasContent() {
-
 		return position > 0;
 	}
 
@@ -388,17 +329,15 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	 * @return 是否为空
 	 */
 	public boolean isEmpty() {
-
 		return position > 0;
 	}
-
+	
 	/**
 	 * 删除全部字符，位置归零
 	 * 
 	 * @return this
 	 */
 	public StrBuilder clear() {
-
 		return reset();
 	}
 
@@ -408,7 +347,6 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	 * @return this
 	 */
 	public StrBuilder reset() {
-
 		this.position = 0;
 		return this;
 	}
@@ -417,12 +355,10 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	 * 删除到指定位置<br>
 	 * 如果新位置小于等于0，则删除全部
 	 * 
-	 * @param newPosition
-	 *            新的位置，不包括这个位置
+	 * @param newPosition 新的位置，不包括这个位置
 	 * @return this
 	 */
 	public StrBuilder delTo(int newPosition) {
-
 		if (newPosition < 0) {
 			this.reset();
 		} else if (newPosition < this.position) {
@@ -434,14 +370,11 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	/**
 	 * 删除指定长度的字符
 	 * 
-	 * @param start
-	 *            开始位置（包括）
-	 * @param end
-	 *            结束位置（不包括）
+	 * @param start 开始位置（包括）
+	 * @param end 结束位置（不包括）
 	 * @return this
 	 */
 	public StrBuilder del(int start, int end) {
-
 		if (start < 0) {
 			start = 0;
 		}
@@ -466,12 +399,10 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	/**
 	 * 生成字符串
 	 * 
-	 * @param isReset
-	 *            是否重置，重置后相当于空的构建器
+	 * @param isReset 是否重置，重置后相当于空的构建器
 	 * @return 生成的字符串
 	 */
 	public String toString(boolean isReset) {
-
 		if (position > 0) {
 			final String s = new String(value, 0, position);
 			if (isReset) {
@@ -488,7 +419,6 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	 * @return 字符串
 	 */
 	public String toStringAndReset() {
-
 		return toString(true);
 	}
 
@@ -497,19 +427,16 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	 */
 	@Override
 	public String toString() {
-
 		return toString(false);
 	}
 
 	@Override
 	public int length() {
-
 		return this.position;
 	}
 
 	@Override
 	public char charAt(int index) {
-
 		if ((index < 0) || (index > this.position)) {
 			throw new StringIndexOutOfBoundsException(index);
 		}
@@ -518,48 +445,38 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 
 	@Override
 	public CharSequence subSequence(int start, int end) {
-
 		return subString(start, end);
 	}
 
 	/**
 	 * 返回自定段的字符串
 	 * 
-	 * @param start
-	 *            开始位置（包括）
+	 * @param start 开始位置（包括）
 	 * @return this
 	 */
 	public String subString(int start) {
-
 		return subString(start, this.position);
 	}
 
 	/**
 	 * 返回自定段的字符串
 	 * 
-	 * @param start
-	 *            开始位置（包括）
-	 * @param end
-	 *            结束位置（不包括）
+	 * @param start 开始位置（包括）
+	 * @param end 结束位置（不包括）
 	 * @return this
 	 */
 	public String subString(int start, int end) {
-
 		return new String(this.value, start, end - start);
 	}
 
-	// ------------------------------------------------------------------------------------
-	// Private method start
+	// ------------------------------------------------------------------------------------ Private method start
 	/**
 	 * 指定位置之后的数据后移指定长度
 	 * 
-	 * @param index
-	 *            位置
-	 * @param length
-	 *            位移长度
+	 * @param index 位置
+	 * @param length 位移长度
 	 */
 	private void moveDataAfterIndex(int index, int length) {
-
 		ensureCapacity(Math.max(this.position, index) + length);
 		if (index < this.position) {
 			// 插入位置在已有数据范围内，后移插入位置之后的数据
@@ -574,11 +491,9 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	/**
 	 * 确认容量是否够用，不够用则扩展容量
 	 * 
-	 * @param minimumCapacity
-	 *            最小容量
+	 * @param minimumCapacity 最小容量
 	 */
 	private void ensureCapacity(int minimumCapacity) {
-
 		if (minimumCapacity > value.length) {
 			expandCapacity(minimumCapacity);
 		}
@@ -588,11 +503,9 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 	 * 扩展容量<br>
 	 * 首先对容量进行二倍扩展，如果小于最小容量，则扩展为最小容量
 	 * 
-	 * @param minimumCapacity
-	 *            需要扩展的最小容量
+	 * @param minimumCapacity 需要扩展的最小容量
 	 */
 	private void expandCapacity(int minimumCapacity) {
-
 		int newCapacity = value.length * 2 + 2;
 		if (newCapacity < minimumCapacity) {
 			newCapacity = minimumCapacity;
@@ -606,24 +519,21 @@ public class StrBuilder implements CharSequence, Appendable, Serializable {
 		}
 		value = Arrays.copyOf(value, newCapacity);
 	}
-
+	
 	/**
 	 * 给定字符串数组的总长度<br>
 	 * null字符长度定义为0
 	 * 
-	 * @param strs
-	 *            字符串数组
+	 * @param strs 字符串数组
 	 * @return 总长度
 	 * @since 4.0.1
 	 */
 	private static int totalLength(CharSequence... strs) {
-
 		int totalLength = 0;
-		for (int i = 0; i < strs.length; i++) {
+		for(int i = 0 ; i < strs.length; i++) {
 			totalLength += (null == strs[i] ? 4 : strs[i].length());
 		}
 		return totalLength;
 	}
-	// ------------------------------------------------------------------------------------
-	// Private method end
+	// ------------------------------------------------------------------------------------ Private method end
 }

@@ -17,7 +17,7 @@ import top.coos.core.thread.ThreadUtil;
  * 在监听目录或文件时，如果这个文件有修改操作，会多次触发modify方法。<br>
  * 此类通过维护一个Set将短时间内相同文件多次modify的事件合并处理触发，从而避免以上问题。
  * 
- 
+
  * @since 3.1.0
  */
 public class DelayWatcher implements Watcher {

@@ -7,6 +7,8 @@ import java.util.Locale;
 /**
  * 按照GBK拼音顺序对给定的汉字字符串排序
  * 
+
+ * @since 4.0.8
  */
 public class PinyinComparator implements Comparator<String> {
 
@@ -16,13 +18,11 @@ public class PinyinComparator implements Comparator<String> {
 	 * 构造
 	 */
 	public PinyinComparator() {
-
 		collator = Collator.getInstance(Locale.CHINESE);
 	}
 
 	@Override
 	public int compare(String o1, String o2) {
-
 		return collator.compare(o1, o2);
 	}
 

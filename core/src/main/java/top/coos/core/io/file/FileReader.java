@@ -21,7 +21,7 @@ import top.coos.util.StrUtil;
 /**
  * 文件读取器
  * 
- 
+
  *
  */
 public class FileReader extends FileWrapper {
@@ -268,7 +268,7 @@ public class FileReader extends FileWrapper {
 	/**
 	 * Reader处理接口
 	 * 
-	 
+	
 	 *
 	 * @param <T> Reader处理返回结果类型
 	 */

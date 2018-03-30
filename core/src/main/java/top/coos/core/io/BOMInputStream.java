@@ -22,12 +22,11 @@ import top.coos.util.CharsetUtil;
  * FileInputStream fis = new FileInputStream(file); <br>
  * BOMInputStream uin = new BOMInputStream(fis, enc); <br>
  * enc = uin.getCharset(); // check and skip possible BOM bytes
- * </code> <br>
- * <br>
+ * </code>
+ * <br><br>
  * 参考： http://akini.mbnet.fi/java/unicodereader/UnicodeInputStream.java.txt
  */
 public class BOMInputStream extends InputStream {
-
 	PushbackInputStream in;
 	boolean isInited = false;
 	String defaultCharset;
@@ -35,29 +34,22 @@ public class BOMInputStream extends InputStream {
 
 	private static final int BOM_SIZE = 4;
 
-	// -----------------------------------------------------------------
-	// Constructor start
+	// ----------------------------------------------------------------- Constructor start
 	public BOMInputStream(InputStream in) {
-
 		this(in, CharsetUtil.UTF_8);
 	}
 
 	public BOMInputStream(InputStream in, String defaultCharset) {
-
 		in = new PushbackInputStream(in, BOM_SIZE);
 		this.defaultCharset = defaultCharset;
 	}
-
-	// -----------------------------------------------------------------
-	// Constructor end
+	// ----------------------------------------------------------------- Constructor end
 
 	public String getDefaultCharset() {
-
 		return defaultCharset;
 	}
 
 	public String getCharset() {
-
 		if (!isInited) {
 			try {
 				init();
@@ -70,14 +62,12 @@ public class BOMInputStream extends InputStream {
 
 	@Override
 	public void close() throws IOException {
-
 		isInited = true;
 		in.close();
 	}
 
 	@Override
 	public int read() throws IOException {
-
 		isInited = true;
 		return in.read();
 	}
@@ -85,12 +75,9 @@ public class BOMInputStream extends InputStream {
 	/**
 	 * Read-ahead four bytes and check for BOM marks. <br>
 	 * Extra bytes are unread back to the stream, only BOM bytes are skipped.
-	 * 
-	 * @throws IOException
-	 *             读取引起的异常
+	 * @throws IOException 读取引起的异常
 	 */
 	protected void init() throws IOException {
-
 		if (isInited) {
 			return;
 		}

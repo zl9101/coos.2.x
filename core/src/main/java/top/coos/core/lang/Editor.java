@@ -9,17 +9,14 @@ package top.coos.core.lang;
  * 2、对对象做修改
  * </pre>
  * 
- * @param <T>
- *            被编辑对象类型
- 
+ * @param <T> 被编辑对象类型
+
  */
 public interface Editor<T> {
-
 	/**
 	 * 修改过滤后的结果
 	 * 
-	 * @param t
-	 *            被过滤的对象
+	 * @param t 被过滤的对象
 	 * @return 修改后的对象，如果被过滤返回<code>null</code>
 	 */
 	public T edit(T t);

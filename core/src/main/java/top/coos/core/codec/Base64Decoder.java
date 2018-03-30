@@ -8,6 +8,8 @@ import top.coos.util.StrUtil;
 
 /**
  * Base64解码实现
+ * 
+
  *
  */
 public class Base64Decoder {
@@ -28,110 +30,85 @@ public class Base64Decoder {
 			// 0 1 2 3 4 5 6 7 8 9 A B C D E F
 			-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 00-0f
 			-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 10-1f
-			-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, 62, -1, 63, // 20-2f
-																			// +
-																			// -
-																			// /
-			52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -2, -1, -1, // 30-3f
-																			// 0-9
+			-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, 62, -1, 63, // 20-2f + - /
+			52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -2, -1, -1, // 30-3f 0-9
 			-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, // 40-4f A-O
-			15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, 63, // 50-5f
-																			// P-Z
-																			// _
-			-1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, // 60-6f
-																			// a-o
+			15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, 63, // 50-5f P-Z _
+			-1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, // 60-6f a-o
 			41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51 // 70-7a p-z
 	};
 
 	/**
 	 * base64解码
 	 * 
-	 * @param source
-	 *            被解码的base64字符串
+	 * @param source 被解码的base64字符串
 	 * @return 被加密后的字符串
 	 */
 	public static String decodeStr(String source) {
-
 		return decodeStr(source, CharsetUtil.UTF_8);
 	}
 
 	/**
 	 * base64解码
 	 * 
-	 * @param source
-	 *            被解码的base64字符串
-	 * @param charset
-	 *            字符集
+	 * @param source 被解码的base64字符串
+	 * @param charset 字符集
 	 * @return 被加密后的字符串
 	 */
 	public static String decodeStr(String source, String charset) {
-
 		return StrUtil.str(decode(source, charset), charset);
 	}
 
 	/**
 	 * base64解码
 	 * 
-	 * @param source
-	 *            被解码的base64字符串
-	 * @param charset
-	 *            字符集
+	 * @param source 被解码的base64字符串
+	 * @param charset 字符集
 	 * @return 被加密后的字符串
 	 */
 	public static String decodeStr(String source, Charset charset) {
-
 		return StrUtil.str(decode(source, charset), charset);
 	}
 
 	/**
 	 * base64解码
 	 * 
-	 * @param source
-	 *            被解码的base64字符串
+	 * @param source 被解码的base64字符串
 	 * @return 被加密后的字符串
 	 */
 	public static byte[] decode(String source) {
-
 		return decode(source, CharsetUtil.UTF_8);
 	}
 
 	/**
 	 * base64解码
 	 * 
-	 * @param source
-	 *            被解码的base64字符串
-	 * @param charset
-	 *            字符集
+	 * @param source 被解码的base64字符串
+	 * @param charset 字符集
 	 * @return 被加密后的字符串
 	 */
 	public static byte[] decode(String source, String charset) {
-
 		return decode(StrUtil.bytes(source, charset));
 	}
 
 	/**
 	 * base64解码
 	 * 
-	 * @param source
-	 *            被解码的base64字符串
-	 * @param charset
-	 *            字符集
+	 * @param source 被解码的base64字符串
+	 * @param charset 字符集
 	 * @return 被加密后的字符串
 	 */
 	public static byte[] decode(String source, Charset charset) {
-
 		return decode(StrUtil.bytes(source, charset));
 	}
 
 	/**
 	 * 解码Base64
 	 * 
-	 * @param in
-	 *            输入
+	 * @param in 输入
 	 * @return 解码后的bytes
 	 */
 	public static byte[] decode(byte[] in) {
-
 		if (ArrayUtil.isEmpty(in)) {
 			return in;
 		}
@@ -141,16 +118,12 @@ public class Base64Decoder {
 	/**
 	 * 解码Base64
 	 * 
-	 * @param in
-	 *            输入
-	 * @param pos
-	 *            开始位置
-	 * @param length
-	 *            长度
+	 * @param in 输入
+	 * @param pos 开始位置
+	 * @param length 长度
 	 * @return 解码后的bytes
 	 */
 	public static byte[] decode(byte[] in, int pos, int length) {
-
 		if (ArrayUtil.isEmpty(in)) {
 			return in;
 		}
@@ -163,8 +136,7 @@ public class Base64Decoder {
 		byte sestet3;
 		int maxPos = pos + length - 1;
 		int octetId = 0;
-		byte[] octet = new byte[length * 3 / 4];// over-estimated if non-base64
-												// characters present
+		byte[] octet = new byte[length * 3 / 4];// over-estimated if non-base64 characters present
 		while (offset.value <= maxPos) {
 			sestet0 = getNextValidDecodeByte(in, offset, maxPos);
 			sestet1 = getNextValidDecodeByte(in, offset, maxPos);
@@ -190,21 +162,16 @@ public class Base64Decoder {
 		}
 	}
 
-	// -----------------------------------------------------------------------------------------------
-	// Private start
+	// ----------------------------------------------------------------------------------------------- Private start
 	/**
 	 * 获取下一个有效的byte字符
 	 * 
-	 * @param in
-	 *            输入
-	 * @param pos
-	 *            当前位置，调用此方法后此位置保持在有效字符的下一个位置
-	 * @param maxPos
-	 *            最大位置
+	 * @param in 输入
+	 * @param pos 当前位置，调用此方法后此位置保持在有效字符的下一个位置
+	 * @param maxPos 最大位置
 	 * @return 有效字符，如果达到末尾返回
 	 */
 	private static byte getNextValidDecodeByte(byte[] in, IntWrapper pos, int maxPos) {
-
 		byte base64Byte;
 		byte decodeByte;
 		while (pos.value <= maxPos) {
@@ -223,17 +190,15 @@ public class Base64Decoder {
 	/**
 	 * int包装，使之可变
 	 * 
+	
 	 *
 	 */
 	private static class IntWrapper {
-
 		int value;
 
 		IntWrapper(int value) {
-
 			this.value = value;
 		}
 	}
-	// -----------------------------------------------------------------------------------------------
-	// Private end
+	// ----------------------------------------------------------------------------------------------- Private end
 }

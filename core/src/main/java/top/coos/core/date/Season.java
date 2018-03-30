@@ -7,6 +7,8 @@ package top.coos.core.date;
  * @see #SUMMER
  * @see #AUTUMN
  * @see #WINTER
+ * 
+
  *
  */
 public enum Season {
@@ -19,17 +21,15 @@ public enum Season {
 	AUTUMN(3),
 	/** 冬季（第四季度） */
 	WINTER(4);
-
+	
 	// ---------------------------------------------------------------
 	private int value;
 
 	private Season(int value) {
-
 		this.value = value;
 	}
 
 	public int getValue() {
-
 		return this.value;
 	}
 
@@ -41,23 +41,21 @@ public enum Season {
 	 * @see #AUTUMN
 	 * @see #WINTER
 	 * 
-	 * @param intValue
-	 *            季度int表示
+	 * @param intValue 季度int表示
 	 * @return {@link Season}
 	 */
 	public static Season of(int intValue) {
-
 		switch (intValue) {
-		case 1:
-			return SPRING;
-		case 2:
-			return SUMMER;
-		case 3:
-			return AUTUMN;
-		case 4:
-			return WINTER;
-		default:
-			return null;
+			case 1:
+				return SPRING;
+			case 2:
+				return SUMMER;
+			case 3:
+				return AUTUMN;
+			case 4:
+				return WINTER;
+			default:
+				return null;
 		}
 	}
 }

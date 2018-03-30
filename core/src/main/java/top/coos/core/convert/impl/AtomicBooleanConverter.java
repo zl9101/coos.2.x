@@ -7,12 +7,13 @@ import top.coos.core.convert.AbstractConverter;
 /**
  * {@link AtomicBoolean}转换器
  * 
+
+ * @since 3.0.8
  */
 public class AtomicBooleanConverter extends AbstractConverter<AtomicBoolean> {
 
 	@Override
 	protected AtomicBoolean convertInternal(Object value) {
-
 		if (boolean.class == value.getClass()) {
 			return new AtomicBoolean((boolean) value);
 		}

@@ -13,6 +13,8 @@ import java.util.Calendar;
  * @see #THURSDAY
  * @see #FRIDAY
  * @see #SATURDAY
+ * 
+
  *
  */
 public enum Week {
@@ -39,11 +41,9 @@ public enum Week {
 	/**
 	 * 构造
 	 * 
-	 * @param value
-	 *            星期对应{@link Calendar} 中的Week值
+	 * @param value 星期对应{@link Calendar} 中的Week值
 	 */
 	private Week(int value) {
-
 		this.value = value;
 	}
 
@@ -53,7 +53,6 @@ public enum Week {
 	 * @return 星期对应{@link Calendar} 中的Week值
 	 */
 	public int getValue() {
-
 		return this.value;
 	}
 
@@ -64,7 +63,6 @@ public enum Week {
 	 * @since 3.3.0
 	 */
 	public String toChinese() {
-
 		switch (this) {
 		case SUNDAY:
 			return "星期日";
@@ -96,12 +94,10 @@ public enum Week {
 	 * @see #FRIDAY
 	 * @see #SATURDAY
 	 * 
-	 * @param calendarWeekIntValue
-	 *            Calendar中关于Week的int值
+	 * @param calendarWeekIntValue Calendar中关于Week的int值
 	 * @return {@link Week}
 	 */
 	public static Week of(int calendarWeekIntValue) {
-
 		switch (calendarWeekIntValue) {
 		case Calendar.SUNDAY:
 			return SUNDAY;

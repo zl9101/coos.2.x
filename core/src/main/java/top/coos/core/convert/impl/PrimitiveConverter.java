@@ -7,34 +7,32 @@ import top.coos.util.StrUtil;
  * 原始类型转换器<br>
  * 支持类型为：<br>
  * <ul>
- * <li><code>byte</code></li>
- * <li><code>short</code></li>
- * <li><code>int</code></li>
- * <li><code>long</code></li>
- * <li><code>float</code></li>
- * <li><code>double</code></li>
- * <li><code>char</code></li>
- * <li><code>boolean</code></li>
+ * 		<li><code>byte</code></li>
+ * 		<li><code>short</code></li>
+ *		 <li><code>int</code></li>
+ *		 <li><code>long</code></li>
+ * 		<li><code>float</code></li>
+ * 		<li><code>double</code></li>
+ * 		<li><code>char</code></li>
+ * 		<li><code>boolean</code></li>
  * </ul>
+ * 
+
  *
  */
 public class PrimitiveConverter extends AbstractConverter<Object> {
-
+	
 	private Class<?> targetType;
 
 	/**
 	 * 构造<br>
-	 * 
-	 * @param clazz
-	 *            需要转换的原始
-	 * @throws IllegalArgumentException
-	 *             传入的转换类型非原始类型时抛出
+	 * @param clazz 需要转换的原始
+	 * @throws IllegalArgumentException 传入的转换类型非原始类型时抛出
 	 */
 	public PrimitiveConverter(Class<?> clazz) {
-
-		if (null == clazz) {
+		if(null == clazz){
 			throw new NullPointerException("PrimitiveConverter not allow null target type!");
-		} else if (false == clazz.isPrimitive()) {
+		}else if(false == clazz.isPrimitive()){
 			throw new IllegalArgumentException("[" + clazz + "] is not a primitive class!");
 		}
 		this.targetType = clazz;
@@ -42,7 +40,6 @@ public class PrimitiveConverter extends AbstractConverter<Object> {
 
 	@Override
 	protected Object convertInternal(Object value) {
-
 		try {
 			if (byte.class == this.targetType) {
 				if (value instanceof Number) {
@@ -53,7 +50,7 @@ public class PrimitiveConverter extends AbstractConverter<Object> {
 					return 0;
 				}
 				return Byte.parseByte(valueStr);
-
+				
 			} else if (short.class == this.targetType) {
 				if (value instanceof Number) {
 					return ((Number) value).shortValue();
@@ -63,7 +60,7 @@ public class PrimitiveConverter extends AbstractConverter<Object> {
 					return 0;
 				}
 				return Short.parseShort(valueStr);
-
+				
 			} else if (int.class == this.targetType) {
 				if (value instanceof Number) {
 					return ((Number) value).intValue();
@@ -73,7 +70,7 @@ public class PrimitiveConverter extends AbstractConverter<Object> {
 					return 0;
 				}
 				return Integer.parseInt(valueStr);
-
+				
 			} else if (long.class == this.targetType) {
 				if (value instanceof Number) {
 					return ((Number) value).longValue();
@@ -83,7 +80,7 @@ public class PrimitiveConverter extends AbstractConverter<Object> {
 					return 0;
 				}
 				return Long.parseLong(valueStr);
-
+				
 			} else if (float.class == this.targetType) {
 				if (value instanceof Number) {
 					return ((Number) value).floatValue();
@@ -93,7 +90,7 @@ public class PrimitiveConverter extends AbstractConverter<Object> {
 					return 0;
 				}
 				return Float.parseFloat(valueStr);
-
+				
 			} else if (double.class == this.targetType) {
 				if (value instanceof Number) {
 					return ((Number) value).doubleValue();
@@ -103,10 +100,10 @@ public class PrimitiveConverter extends AbstractConverter<Object> {
 					return 0;
 				}
 				return Double.parseDouble(valueStr);
-
+				
 			} else if (char.class == this.targetType) {
-				if (value instanceof Character) {
-					return ((Character) value).charValue();
+				if(value instanceof Character){
+					return ((Character)value).charValue();
 				}
 				final String valueStr = convertToStr(value);
 				if (StrUtil.isBlank(valueStr)) {
@@ -114,8 +111,8 @@ public class PrimitiveConverter extends AbstractConverter<Object> {
 				}
 				return valueStr.charAt(0);
 			} else if (boolean.class == this.targetType) {
-				if (value instanceof Boolean) {
-					return ((Boolean) value).booleanValue();
+				if(value instanceof Boolean){
+					return ((Boolean)value).booleanValue();
 				}
 				String valueStr = convertToStr(value);
 				return parseBoolean(valueStr);
@@ -125,46 +122,42 @@ public class PrimitiveConverter extends AbstractConverter<Object> {
 		}
 		return 0;
 	}
-
+	
 	/**
 	 * 转换字符串为boolean值
-	 * 
-	 * @param valueStr
-	 *            字符串
+	 * @param valueStr 字符串
 	 * @return boolean值
 	 */
-	static boolean parseBoolean(String valueStr) {
-
+	static boolean parseBoolean(String valueStr){
 		if (StrUtil.isNotBlank(valueStr)) {
 			valueStr = valueStr.trim().toLowerCase();
 			switch (valueStr) {
-			case "true":
-				return true;
-			case "false":
-				return false;
-			case "yes":
-				return true;
-			case "y":
-				return true;
-			case "ok":
-				return true;
-			case "no":
-				return false;
-			case "n":
-				return false;
-			case "1":
-				return true;
-			case "0":
-				return false;
+				case "true":
+					return true;
+				case "false":
+					return false;
+				case "yes":
+					return true;
+				case "y":
+					return true;
+				case "ok":
+					return true;
+				case "no":
+					return false;
+				case "n":
+					return false;
+				case "1":
+					return true;
+				case "0":
+					return false;
 			}
 		}
 		return false;
 	}
-
+	
 	@Override
 	@SuppressWarnings("unchecked")
 	public Class<Object> getTargetType() {
-
 		return (Class<Object>) this.targetType;
 	}
 }
