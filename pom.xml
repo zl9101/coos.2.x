@@ -62,5 +62,6 @@
 	<modules>
 	<module>core</module>
 	<module>web</module>
+	<module>server</module>
 	</modules>
 </project>
