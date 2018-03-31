@@ -16,7 +16,4 @@ public class Coos implements Serializable, Cloneable {
 		}
 		return null;
 	}
-
-	
-
 }
