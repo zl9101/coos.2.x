@@ -4,7 +4,7 @@ import java.net.URL;
 
 import org.slf4j.Logger;
 
-import top.coos.log.LogFactory;
+import top.coos.logger.LogFactory;
 import top.coos.setting.Setting;
 import top.coos.util.URLUtil;
 

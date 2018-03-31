@@ -9,7 +9,7 @@ import top.coos.core.io.resource.NoResourceException;
 import top.coos.db.DbUtil;
 import top.coos.db.ds.dbcp.DbcpDSFactory;
 import top.coos.db.ds.pooled.PooledDSFactory;
-import top.coos.log.LogFactory;
+import top.coos.logger.LogFactory;
 import top.coos.setting.Setting;
 import top.coos.util.StrUtil;
 

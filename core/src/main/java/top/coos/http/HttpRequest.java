@@ -26,7 +26,7 @@ import top.coos.core.lang.Assert;
 import top.coos.core.map.MapUtil;
 import top.coos.http.ssl.SSLSocketFactoryBuilder;
 import top.coos.json.JSON;
-import top.coos.log.LogFactory;
+import top.coos.logger.LogFactory;
 import top.coos.util.ArrayUtil;
 import top.coos.util.ObjectUtil;
 import top.coos.util.RandomUtil;

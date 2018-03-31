@@ -15,7 +15,7 @@ import top.coos.db.DbRuntimeException;
 import top.coos.db.DbUtil;
 import top.coos.db.Entity;
 import top.coos.db.dialect.DialectName;
-import top.coos.log.LogFactory;
+import top.coos.logger.LogFactory;
 import top.coos.util.ArrayUtil;
 import top.coos.util.ObjectUtil;
 import top.coos.util.StrUtil;

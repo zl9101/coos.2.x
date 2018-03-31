@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 
 import top.coos.core.exceptions.NotInitedException;
 import top.coos.db.DbRuntimeException;
-import top.coos.log.LogFactory;
+import top.coos.logger.LogFactory;
 import top.coos.setting.Setting;
 import top.coos.util.NetUtil;
 import top.coos.util.StrUtil;

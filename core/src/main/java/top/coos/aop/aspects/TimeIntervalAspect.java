@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import org.slf4j.Logger;
 
 import top.coos.core.date.TimeInterval;
-import top.coos.log.LogFactory;
+import top.coos.logger.LogFactory;
 
 /**
  * 通过日志打印方法的执行时间的切面

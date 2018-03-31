@@ -26,7 +26,7 @@ import top.coos.core.lang.Validator;
 import top.coos.core.map.MapUtil;
 import top.coos.http.ssl.SSLSocketFactoryBuilder;
 import top.coos.http.ssl.TrustAnyHostnameVerifier;
-import top.coos.log.LogFactory;
+import top.coos.logger.LogFactory;
 import top.coos.util.ObjectUtil;
 import top.coos.util.StrUtil;
 import top.coos.util.URLUtil;

@@ -27,7 +27,7 @@ import top.coos.core.io.resource.UrlResource;
 import top.coos.core.io.watch.SimpleWatcher;
 import top.coos.core.io.watch.WatchMonitor;
 import top.coos.core.lang.Assert;
-import top.coos.log.LogFactory;
+import top.coos.logger.LogFactory;
 import top.coos.setting.AbsSetting;
 import top.coos.setting.Setting;
 import top.coos.setting.SettingLoader;

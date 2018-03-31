@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.slf4j.Logger;
 
-import top.coos.log.LogFactory;
+import top.coos.logger.LogFactory;
 import top.coos.server.web.ServerSetting;
 import top.coos.server.web.action.Action;
 import top.coos.server.web.action.ErrorAction;

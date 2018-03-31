@@ -13,7 +13,7 @@ import top.coos.core.lang.VoidFunc;
 import top.coos.db.dialect.DialectFactory;
 import top.coos.db.ds.DSFactory;
 import top.coos.db.sql.Wrapper;
-import top.coos.log.LogFactory;
+import top.coos.logger.LogFactory;
 import top.coos.util.StrUtil;
 
 /**

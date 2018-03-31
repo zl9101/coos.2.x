@@ -2,7 +2,7 @@ package top.coos.db.ds;
 
 import org.slf4j.Logger;
 
-import top.coos.log.LogFactory;
+import top.coos.logger.LogFactory;
 
 /**
  * 全局的数据源工厂<br>

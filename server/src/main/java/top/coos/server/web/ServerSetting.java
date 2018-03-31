@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 
 import top.coos.core.io.FileUtil;
-import top.coos.log.LogFactory;
+import top.coos.logger.LogFactory;
 import top.coos.server.web.context.Context;
 import top.coos.server.web.exception.ServerSettingException;
 import top.coos.util.StrUtil;

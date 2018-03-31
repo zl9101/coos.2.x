@@ -42,7 +42,7 @@ import top.coos.db.sql.Condition;
 import top.coos.db.sql.SqlBuilder;
 import top.coos.db.sql.SqlFormatter;
 import top.coos.db.sql.Condition.LikeType;
-import top.coos.log.LogFactory;
+import top.coos.logger.LogFactory;
 import top.coos.util.ArrayUtil;
 import top.coos.util.CharsetUtil;
 import top.coos.util.StrUtil;

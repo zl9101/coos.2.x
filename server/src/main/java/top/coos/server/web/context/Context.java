@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 
 import top.coos.core.lang.Singleton;
-import top.coos.log.LogFactory;
+import top.coos.logger.LogFactory;
 import top.coos.server.web.action.Action;
 import top.coos.server.web.annotation.Route;
 import top.coos.server.web.exception.ServerSettingException;

@@ -22,7 +22,7 @@ import top.coos.db.sql.Query;
 import top.coos.db.sql.SqlExecutor;
 import top.coos.db.sql.Wrapper;
 import top.coos.db.sql.Condition.LikeType;
-import top.coos.log.LogFactory;
+import top.coos.logger.LogFactory;
 import top.coos.util.ArrayUtil;
 import top.coos.util.StrUtil;
 
