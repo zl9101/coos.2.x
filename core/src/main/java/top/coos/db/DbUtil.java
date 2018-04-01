@@ -35,6 +35,7 @@ import top.coos.core.lang.Assert;
 import top.coos.db.dialect.Dialect;
 import top.coos.db.dialect.DialectFactory;
 import top.coos.db.ds.DSFactory;
+import top.coos.db.handler.GenerateSqlHandler;
 import top.coos.db.meta.Column;
 import top.coos.db.meta.Table;
 import top.coos.db.meta.TableType;
@@ -50,7 +51,7 @@ import top.coos.util.StrUtil;
 /**
  * 数据库操作工具类
  * 
-
+ * 
  * 
  */
 public final class DbUtil {
@@ -446,6 +447,30 @@ public final class DbUtil {
 		}
 
 		return table;
+	}
+
+	/**
+	 * 创建表
+	 * 
+	 * @param ds
+	 *            数据源
+	 * @param Table对象
+	 */
+	public static boolean createTable(DataSource ds, Table table) throws Exception {
+
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			Dialect dialect = DialectFactory.newDialect(ds);
+			GenerateSqlHandler generate = GenerateSqlHandler.create(dialect);
+			String sql = generate.createTable(table);
+			conn = ds.getConnection();
+			ps = conn.prepareStatement(sql);
+			return ps.execute();
+		} finally {
+			close(ps, conn);
+		}
+
 	}
 
 	/**
